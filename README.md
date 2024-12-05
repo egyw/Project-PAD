@@ -8,8 +8,8 @@
 - Aplikasi yang dirujuk menangani variasi jenis pembayaran (tidak hanya tunai)
 - Minimal memiliki 5 master dan 5 laporan
 - Pencatatan transaksi meliputi:
-   o Penjualan
-   o Void Penjualan
-   o Multi Payment (__sebagian dibayar dengan metode A, sebagian dibayar dengan metode B__)
-   o Terdapat history penjualan   
+    1. Penjualan
+    2. Void Penjualan
+    3. Multi Payment (__sebagian dibayar dengan metode A, sebagian dibayar dengan metode B__)
+    4. Terdapat history penjualan   
 - Produk yang dijual WAJIB dilengkapi dengan gambar yang dimunculkan sebagai thumbnail saat pencatatan penjualan
