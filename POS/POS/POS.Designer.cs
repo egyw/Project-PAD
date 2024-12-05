@@ -41,7 +41,7 @@ namespace POS
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(426, 44);
+            this.button1.Location = new System.Drawing.Point(387, 26);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(112, 92);
             this.button1.TabIndex = 1;
@@ -59,7 +59,7 @@ namespace POS
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(550, 26);
+            this.button2.Location = new System.Drawing.Point(522, 26);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(112, 92);
             this.button2.TabIndex = 3;
@@ -68,7 +68,7 @@ namespace POS
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(668, 26);
+            this.button3.Location = new System.Drawing.Point(659, 26);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(112, 92);
             this.button3.TabIndex = 4;
@@ -77,7 +77,7 @@ namespace POS
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(816, 44);
+            this.button4.Location = new System.Drawing.Point(799, 26);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(112, 92);
             this.button4.TabIndex = 5;
@@ -86,7 +86,7 @@ namespace POS
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(950, 44);
+            this.button5.Location = new System.Drawing.Point(940, 26);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(112, 92);
             this.button5.TabIndex = 6;
@@ -95,7 +95,7 @@ namespace POS
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(1107, 44);
+            this.button6.Location = new System.Drawing.Point(1078, 26);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(112, 92);
             this.button6.TabIndex = 7;
@@ -104,7 +104,7 @@ namespace POS
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(1248, 44);
+            this.button7.Location = new System.Drawing.Point(1217, 26);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(112, 92);
             this.button7.TabIndex = 8;

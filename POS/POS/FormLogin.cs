@@ -41,14 +41,14 @@ namespace POS
                     if (reader.HasRows)
                     {
                         reader.Read();
-                        string role = reader["role"].ToString(); // Mengambil role user
+                        string role = reader["role"].ToString(); 
+                        int id = Convert.ToInt32(reader["user_id"]);
 
-                        // Lakukan aksi setelah login berhasil (misalnya membuka form utama)
                         if (role == "admin")
                         {
                             this.Hide();
 
-                            FormAdmin form = new FormAdmin();
+                            FormAdmin form = new FormAdmin(id);
                             form.FormClosed += formClosed;
                             form.Show();
                         }
@@ -56,7 +56,7 @@ namespace POS
                         {
                             this.Hide();
 
-                            POS form = new POS();
+                            POS form = new POS(id);
                             form.FormClosed += formClosed;
                             form.Show();
                         }
