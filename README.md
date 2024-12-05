@@ -13,3 +13,7 @@
     3. Multi Payment (__sebagian dibayar dengan metode A, sebagian dibayar dengan metode B__)
     4. Terdapat history penjualan   
 - Produk yang dijual WAJIB dilengkapi dengan gambar yang dimunculkan sebagai thumbnail saat pencatatan penjualan
+
+
+### reference
+- [POS mcd](https://www.youtube.com/watch?v=48tGyhcVBzc&ab_channel=RiceEnterprisesTraining)
