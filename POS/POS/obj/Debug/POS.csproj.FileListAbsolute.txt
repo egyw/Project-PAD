@@ -20,7 +20,6 @@ G:\Kuliah\iSTTS\Semester 3\matkul\PAD\Project-PAD\POS\POS\bin\Debug\CrystalDecis
 G:\Kuliah\iSTTS\Semester 3\matkul\PAD\Project-PAD\POS\POS\bin\Debug\stdole.dll
 G:\Kuliah\iSTTS\Semester 3\matkul\PAD\Project-PAD\POS\POS\obj\Debug\POS.csproj.AssemblyReference.cache
 G:\Kuliah\iSTTS\Semester 3\matkul\PAD\Project-PAD\POS\POS\obj\Debug\POS.FormLogin.resources
-G:\Kuliah\iSTTS\Semester 3\matkul\PAD\Project-PAD\POS\POS\obj\Debug\POS.POS.resources
 G:\Kuliah\iSTTS\Semester 3\matkul\PAD\Project-PAD\POS\POS\obj\Debug\POS.Properties.Resources.resources
 G:\Kuliah\iSTTS\Semester 3\matkul\PAD\Project-PAD\POS\POS\obj\Debug\POS.csproj.GenerateResource.cache
 G:\Kuliah\iSTTS\Semester 3\matkul\PAD\Project-PAD\POS\POS\obj\Debug\POS.csproj.CoreCompileInputs.cache
@@ -31,3 +30,5 @@ G:\Kuliah\iSTTS\Semester 3\matkul\PAD\Project-PAD\POS\POS\bin\Debug\MySql.Data.d
 G:\Kuliah\iSTTS\Semester 3\matkul\PAD\Project-PAD\POS\POS\bin\Debug\System.Memory.dll
 G:\Kuliah\iSTTS\Semester 3\matkul\PAD\Project-PAD\POS\POS\bin\Debug\System.Numerics.Vectors.dll
 G:\Kuliah\iSTTS\Semester 3\matkul\PAD\Project-PAD\POS\POS\bin\Debug\System.Buffers.dll
+G:\Kuliah\iSTTS\Semester 3\matkul\PAD\Project-PAD\POS\POS\obj\Debug\POS.FormWelcome.resources
+G:\Kuliah\iSTTS\Semester 3\matkul\PAD\Project-PAD\POS\POS\obj\Debug\POS.FormMain.resources

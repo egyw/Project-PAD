@@ -16,11 +16,37 @@ namespace POS
         public FormLogin()
         {
             InitializeComponent();
+            tbUsername.Text = "Username";
+            tbUsername.ForeColor = Color.Gray;
+
+            tbPassword.Text = "Password";
+            tbPassword.ForeColor = Color.Gray;
+            tbPassword.UseSystemPasswordChar = false;
+
+            this.FormBorderStyle = FormBorderStyle.None;
+
+            int screenWidth = Screen.PrimaryScreen.WorkingArea.Width;
+            int screenHeight = Screen.PrimaryScreen.WorkingArea.Height;
+            this.MaximumSize = new Size(screenWidth, screenHeight);
+            this.MinimumSize = new Size(screenWidth, screenHeight);
+        }
+        private void FormLogin_Load(object sender, EventArgs e)
+        {
+            label1.Select();
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+
+            int panelWidth = panel1.Width;
+            int panelHeight = panel1.Height;
+
+            int formWidth = this.Width;
+            int formHeight = this.Height;
+
+            panel1.Location = new Point((formWidth - panelWidth) / 2, (formHeight - panelHeight) / 2);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonLogin_Click(object sender, EventArgs e)
         {
-            if (tbUsername.Text != "" && tbPassword.Text != "")
+            if (!string.IsNullOrWhiteSpace(tbUsername.Text) && !string.IsNullOrWhiteSpace(tbPassword.Text) && tbUsername.Text != "Username" && tbPassword.Text != "Password")
             {
                 try
                 {
@@ -41,35 +67,21 @@ namespace POS
                     if (reader.HasRows)
                     {
                         reader.Read();
-                        string role = reader["role"].ToString(); 
                         int id = Convert.ToInt32(reader["user_id"]);
 
-                        if (role == "admin")
-                        {
-                            this.Hide();
+                        
+                        FormWelcome form = new FormWelcome(id);
+                        form.Show();
 
-                            FormAdmin form = new FormAdmin(id);
-                            form.FormClosed += formClosed;
-                            form.Show();
-                        }
-                        else
-                        {
-                            this.Hide();
-
-                            POS form = new POS(id);
-                            form.FormClosed += formClosed;
-                            form.Show();
-                        }
+                        this.Hide();
                     }
                     else
                     {
-                        MessageBox.Show("Akun tidak ditemukan!");
+                        MessageBox.Show("Account is not found!");
                         clear();
                     }
-
                     clear();
                     reader.Close();
-
                 }
                 catch (Exception ex)
                 {
@@ -83,7 +95,7 @@ namespace POS
             }
             else
             {
-                MessageBox.Show("Inputan tidak boleh kosong!");
+                MessageBox.Show("The input cannot be empty!");
                 clear();
             }
         }
@@ -92,11 +104,55 @@ namespace POS
         {
             tbUsername.Clear();
             tbPassword.Clear();
+            tbUsername.Text = "Username";
+            tbUsername.ForeColor = Color.Gray;
+
+            tbPassword.Text = "Password";
+            tbPassword.ForeColor = Color.Gray;
+            tbPassword.UseSystemPasswordChar = false;
         }
 
-        private void formClosed(object sender, FormClosedEventArgs e)
+        private void tbUsername_Enter(object sender, EventArgs e)
         {
-            this.Show();
+            if (tbUsername.Text == "Username")
+            {
+                tbUsername.Text = "";
+                tbUsername.ForeColor = Color.Black;
+            }
+        }
+
+        private void tbUsername_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(tbUsername.Text))
+            {
+                tbUsername.Text = "Username"; 
+                tbUsername.ForeColor = Color.Gray; 
+            }
+        }
+
+        private void tbPassword_Enter(object sender, EventArgs e)
+        {
+            if (tbPassword.Text == "Password")
+            {
+                tbPassword.Text = "";
+                tbPassword.ForeColor = Color.Black;
+                tbPassword.UseSystemPasswordChar = true;
+            }
+        }
+
+        private void tbPassword_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(tbPassword.Text))
+            {
+                tbPassword.Text = "Password";
+                tbPassword.ForeColor = Color.Gray;
+                tbPassword.UseSystemPasswordChar = false;
+            }
+        }
+
+        private void FormLogin_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
