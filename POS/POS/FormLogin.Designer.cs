@@ -34,7 +34,12 @@ namespace POS
             this.tbPassword = new System.Windows.Forms.TextBox();
             this.btnLogin = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panelBelow = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
+            this.panelKeyboard = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
+            this.panelBelow.SuspendLayout();
+            this.panelKeyboard.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -93,14 +98,41 @@ namespace POS
             this.panel1.Size = new System.Drawing.Size(338, 343);
             this.panel1.TabIndex = 6;
             // 
+            // panelBelow
+            // 
+            this.panelBelow.Controls.Add(this.panelKeyboard);
+            this.panelBelow.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panelBelow.Location = new System.Drawing.Point(0, 492);
+            this.panelBelow.Name = "panelBelow";
+            this.panelBelow.Size = new System.Drawing.Size(1194, 250);
+            this.panelBelow.TabIndex = 7;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(28, 17);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(100, 86);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // panelKeyboard
+            // 
+            this.panelKeyboard.Controls.Add(this.button1);
+            this.panelKeyboard.Location = new System.Drawing.Point(3, 3);
+            this.panelKeyboard.Name = "panelKeyboard";
+            this.panelKeyboard.Size = new System.Drawing.Size(1188, 247);
+            this.panelKeyboard.TabIndex = 1;
+            // 
             // FormLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1077, 587);
+            this.ClientSize = new System.Drawing.Size(1194, 742);
+            this.Controls.Add(this.panelBelow);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "FormLogin";
             this.Text = "Login";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -108,6 +140,8 @@ namespace POS
             this.Load += new System.EventHandler(this.FormLogin_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panelBelow.ResumeLayout(false);
+            this.panelKeyboard.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -119,6 +153,9 @@ namespace POS
         private System.Windows.Forms.TextBox tbPassword;
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panelBelow;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Panel panelKeyboard;
     }
 }
 

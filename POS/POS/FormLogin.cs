@@ -41,7 +41,9 @@ namespace POS
             int formWidth = this.Width;
             int formHeight = this.Height;
 
-            panel1.Location = new Point((formWidth - panelWidth) / 2, (formHeight - panelHeight) / 2);
+            panel1.Location = new Point((formWidth - panelWidth) / 2, (formHeight - panelHeight) / 2 - 200);
+
+            panelBelow.Location = new Point((formWidth - panelWidth) / 2, panelBelow.Location.Y);
         }
 
         private void buttonLogin_Click(object sender, EventArgs e)
