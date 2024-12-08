@@ -21,7 +21,6 @@ CREATE TABLE users(
     lastName VARCHAR(50),
     username VARCHAR(50) UNIQUE,
     PASSWORD VARCHAR(50),
-    ROLE ENUM('admin', 'cashier', 'manager', 'kitchen_staff'),
     email VARCHAR(50),
     phone_number INT,
     isActive BOOLEAN DEFAULT TRUE
@@ -29,8 +28,7 @@ CREATE TABLE users(
 
 CREATE TABLE categories (
     category_id INT PRIMARY KEY AUTO_INCREMENT,
-    category_name VARCHAR(50),
-    DESCRIPTION TEXT
+    category_name VARCHAR(50)
 );
 
 CREATE TABLE products (
@@ -50,6 +48,8 @@ CREATE TABLE orders ( -- ini kayak h_trans
     grand_total DECIMAL(10, 2),
     payment_method ENUM('cash', 'card', 'digital_wallet'),
     order_status ENUM('pending', 'completed', 'cancelled'),
+    customer_name VARCHAR(50),
+    order_type ENUM('dine_in', 'take_away'),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
@@ -74,13 +74,6 @@ CREATE TABLE payments (
     FOREIGN KEY (order_id) REFERENCES orders(order_id)
 );
 
-CREATE TABLE inventory (
-    inventory_id INT PRIMARY KEY AUTO_INCREMENT,
-    product_name VARCHAR(100),
-    quantity INT,
-    unit VARCHAR(50), -- satuan pcs/kgs/dll
-    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
 
 CREATE TABLE sales_reports (
     report_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -89,10 +82,19 @@ CREATE TABLE sales_reports (
     total_transactions INT
 );
 
-
+CREATE TABLE discounts (
+    discount_id INT PRIMARY KEY AUTO_INCREMENT,
+    discount_code VARCHAR(50) UNIQUE,
+    DESCRIPTION TEXT,
+    discount_percentage DECIMAL(5, 2),  
+    start_date TIMESTAMP,
+    end_date TIMESTAMP NULL,
+    is_active BOOLEAN DEFAULT TRUE
+);
 
 
 -- ini ke bawah optional
+/*
 CREATE TABLE customers (
     customer_id INT PRIMARY KEY AUTO_INCREMENT,
     NAME VARCHAR(100),
@@ -111,14 +113,14 @@ CREATE TABLE reservations (
     FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
 );
 
-CREATE TABLE discounts (
-    discount_id INT PRIMARY KEY AUTO_INCREMENT,
-    discount_code VARCHAR(50) UNIQUE,
-    DESCRIPTION TEXT,
-    discount_percentage DECIMAL(5, 2),  
-    start_date TIMESTAMP,
-    end_date TIMESTAMP NULL,
-    is_active BOOLEAN DEFAULT TRUE
+CREATE TABLE inventory (
+    inventory_id INT PRIMARY KEY AUTO_INCREMENT,
+    product_name VARCHAR(100),
+    quantity INT,
+    unit VARCHAR(50), -- satuan pcs/kgs/dll
+    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+*/
+
 	
 	
