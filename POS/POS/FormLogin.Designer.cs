@@ -35,11 +35,9 @@ namespace POS
             this.btnLogin = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panelBelow = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
             this.panelKeyboard = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.panelBelow.SuspendLayout();
-            this.panelKeyboard.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -107,18 +105,8 @@ namespace POS
             this.panelBelow.Size = new System.Drawing.Size(1194, 250);
             this.panelBelow.TabIndex = 7;
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(28, 17);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(100, 86);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // panelKeyboard
             // 
-            this.panelKeyboard.Controls.Add(this.button1);
             this.panelKeyboard.Location = new System.Drawing.Point(3, 3);
             this.panelKeyboard.Name = "panelKeyboard";
             this.panelKeyboard.Size = new System.Drawing.Size(1188, 247);
@@ -141,7 +129,6 @@ namespace POS
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panelBelow.ResumeLayout(false);
-            this.panelKeyboard.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -154,7 +141,6 @@ namespace POS
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panelBelow;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Panel panelKeyboard;
     }
 }

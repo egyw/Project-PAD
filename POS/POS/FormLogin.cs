@@ -13,9 +13,13 @@ namespace POS
 {
     public partial class FormLogin : Form
     {
+        bool isUsername = false;
+        bool isPassword = false;
+
         public FormLogin()
         {
             InitializeComponent();
+            AddKeyboard();
             tbUsername.Text = "Username";
             tbUsername.ForeColor = Color.Gray;
 
@@ -155,6 +159,65 @@ namespace POS
         private void FormLogin_FormClosing(object sender, FormClosingEventArgs e)
         {
             Application.Exit();
+        }
+
+
+
+
+
+        private void AddKeyboard()
+        {
+            int buttonWidth = 40;
+            int buttonHeight = 40;
+            int offsetX = 10;
+            int offsetY = 10;
+
+            string[] buttonLabels = new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "A", "S", "D", "F", "G", "H", "J", "K", "L", "Z", "X", "C", "V", "B", "N", "M", "Back", "Clear" };
+
+            for (int i = 0; i < buttonLabels.Length; i++)
+            {
+                Button button = new Button();
+                button.Text = buttonLabels[i];
+                button.Size = new Size(buttonWidth, buttonHeight);
+                button.Location = new Point(offsetX + (i % 10) * (buttonWidth + 5), offsetY + (i / 10) * (buttonHeight + 5));
+                button.Click += new EventHandler(KeyboardButton_Click);
+                panelKeyboard.Controls.Add(button);
+            }
+        }
+
+        // Event handler untuk tombol keyboard
+        private void KeyboardButton_Click(object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
+            string buttonText = button.Text;
+
+            if (buttonText == "Back")
+            {
+                if (tbUsername.Focused)
+                {
+                    if (tbUsername.Text.Length > 0)
+                        tbUsername.Text = tbUsername.Text.Substring(0, tbUsername.Text.Length - 1);
+                }
+                else if (tbPassword.Focused)
+                {
+                    if (tbPassword.Text.Length > 0)
+                        tbPassword.Text = tbPassword.Text.Substring(0, tbPassword.Text.Length - 1);
+                }
+            }
+            else if (buttonText == "Clear")
+            {
+                if (tbUsername.Focused)
+                    tbUsername.Clear();
+                else if (tbPassword.Focused)
+                    tbPassword.Clear();
+            }
+            else
+            {
+                if (tbUsername.Focused)
+                    tbUsername.Text += buttonText;
+                else if (tbPassword.Focused)
+                    tbPassword.Text += buttonText;
+            }
         }
     }
 }
