@@ -1,16 +1,25 @@
+DELETE FROM order_items;
+DELETE FROM orders;
+DELETE FROM payments;
+DELETE FROM sales_reports;
+DELETE FROM products;
+DELETE FROM categories;
+DELETE FROM users;
+DELETE FROM discounts;
+
 -- Insert data into users table
-INSERT INTO users (firstName, lastName, username, PASSWORD, ROLE, email, phone_number, isActive) 
+INSERT INTO users (firstName, lastName, username, PASSWORD, email, phone_number, isActive) 
 VALUES 
-('John', 'Doe', 'johndoe', 'password123', 'admin', 'john.doe@example.com', 1234567890, TRUE),
-('Jane', 'Smith', 'janesmith', 'password123', 'cashier', 'jane.smith@example.com', 1234567891, TRUE),
-('Michael', 'Johnson', 'michaelj', 'password123', 'manager', 'michael.johnson@example.com', 1234567892, TRUE);
+('John', 'Doe', 'johndoe', 'password123', 'john.doe@example.com', 1234567890, TRUE),
+('Jane', 'Smith', 'janesmith', 'password123', 'jane.smith@example.com', 1234567891, TRUE),
+('Michael', 'Johnson', 'michaelj', 'password123', 'michael.johnson@example.com', 1234567892, TRUE);
 
 -- Insert data into categories table
-INSERT INTO categories (category_name, DESCRIPTION) 
+INSERT INTO categories (category_name) 
 VALUES 
-('Beverages', 'All types of drinks including soda, coffee, and juice'),
-('Snacks', 'Snacks and small eats like fries, nachos, etc.'),
-('Main Course', 'Main meal options like burgers, chicken, etc.');
+('Beverages'),
+('Snacks'),
+('Main Course');
 
 -- Insert data into products table
 INSERT INTO products (product_name, price, DESCRIPTION, is_active, category_id) 
@@ -41,11 +50,13 @@ VALUES
 (3, '2024-12-03 16:30:00', 12.47, 'digital_wallet', 'completed');
 
 -- Insert data into inventory table
+/*
 INSERT INTO inventory (product_name, quantity, unit, last_updated) 
 VALUES 
 ('Coca Cola', 100, 'pcs', '2024-12-01 12:00:00'),
 ('French Fries', 200, 'pcs', '2024-12-02 14:00:00'),
 ('Cheeseburger', 50, 'pcs', '2024-12-03 16:00:00');
+*/
 
 -- Insert data into sales_reports table
 INSERT INTO sales_reports (report_date, total_sales, total_transactions) 
@@ -55,18 +66,22 @@ VALUES
 ('2024-12-03', 300.00, 70);
 
 -- Insert data into customers table
+/*
 INSERT INTO customers (NAME, email, phone_number, address) 
 VALUES 
 ('Alice Brown', 'alice.brown@example.com', '0987654321', '123 Maple Street'),
 ('Bob White', 'bob.white@example.com', '0987654322', '456 Oak Avenue'),
 ('Charlie Green', 'charlie.green@example.com', '0987654323', '789 Pine Road');
+*/
 
 -- Insert data into reservations table
+/*
 INSERT INTO reservations (customer_id, reservation_date, party_size, special_request, STATUS) 
 VALUES 
 (1, '2024-12-05 19:00:00', 4, 'Window seat preferred', 'confirmed'),
 (2, '2024-12-06 20:00:00', 2, 'No special request', 'pending'),
 (3, '2024-12-07 18:00:00', 6, 'Birthday celebration', 'confirmed');
+*/
 
 -- Insert data into discounts table
 INSERT INTO discounts (discount_code, DESCRIPTION, discount_percentage, start_date, end_date, is_active) 
