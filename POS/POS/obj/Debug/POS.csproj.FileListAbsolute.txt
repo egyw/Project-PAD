@@ -64,3 +64,5 @@ C:\Users\Acer\Documents\GitHub\Proyek\Project-PAD\POS\POS\obj\Debug\POS.exe
 C:\Users\Acer\Documents\GitHub\Proyek\Project-PAD\POS\POS\obj\Debug\POS.pdb
 C:\Users\Acer\Documents\GitHub\Proyek\Project-PAD\POS\POS\obj\Debug\POS.FormPayment.resources
 G:\Kuliah\iSTTS\Semester 3\matkul\PAD\Project-PAD\POS\POS\obj\Debug\POS.FormPayment.resources
+C:\Users\Acer\Documents\GitHub\Proyek\Project-PAD\POS\POS\obj\Debug\POS.FormCardEntry.resources
+C:\Users\Acer\Documents\GitHub\Proyek\Project-PAD\POS\POS\obj\Debug\POS.FormCustomAllPayment.resources
