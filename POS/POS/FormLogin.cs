@@ -14,6 +14,8 @@ namespace POS
     public partial class FormLogin : Form
     {
         bool isKeyboardActive = false;
+        bool isTbUsernameActive = false;
+        bool isTbPasswordActive = false;
         int formWidth;
         int formHeight;
         int panelWidth;
@@ -123,6 +125,10 @@ namespace POS
             tbPassword.Text = "Password";
             tbPassword.ForeColor = Color.Gray;
             tbPassword.UseSystemPasswordChar = false;
+
+            isTbPasswordActive = false;
+            isTbUsernameActive = false;
+            isKeyboardActive = false;
         }
 
         private void tbUsername_Enter(object sender, EventArgs e)
@@ -133,20 +139,16 @@ namespace POS
                 tbUsername.ForeColor = Color.Black;
             }
 
-            if (isKeyboardActive)
-            {
-                tbUsername.Clear();
-            }
-
             Keyboard.clearKeyboard();
             addKeyboard(tbUsername);
 
-            isKeyboardActive = true;
+            isTbPasswordActive = false;
+            isTbUsernameActive = true;
         }
 
         private void tbUsername_Leave(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(tbUsername.Text) && !isKeyboardActive)
+            if (string.IsNullOrWhiteSpace(tbUsername.Text) && isKeyboardActive == false)
             {
                 tbUsername.Text = "Username"; 
                 tbUsername.ForeColor = Color.Gray;
@@ -159,15 +161,18 @@ namespace POS
             {
                 tbPassword.Text = "";
                 tbPassword.ForeColor = Color.Black;
-                //tbPassword.UseSystemPasswordChar = true;
+                tbPassword.UseSystemPasswordChar = true;
             }
             Keyboard.clearKeyboard();
             addKeyboard(tbPassword);
+
+            isTbPasswordActive = true;
+            isTbUsernameActive = false;
         }
 
         private void tbPassword_Leave(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(tbPassword.Text))
+            if (string.IsNullOrWhiteSpace(tbPassword.Text) && isKeyboardActive == false)
             {
                 tbPassword.Text = "Password";
                 tbPassword.ForeColor = Color.Gray;
@@ -194,6 +199,7 @@ namespace POS
             panelBelow.Height = 350;
             Keyboard.addKeyboard(this, panelKeyboard, textBox, panelBelow);
             panel1.Location = new Point((formWidth - panelWidth) / 2, (formHeight - panelHeight) / 2 - 200);
+            isKeyboardActive = true;
         }
 
         private void removeKeyboard()
@@ -202,6 +208,29 @@ namespace POS
             panel1.Location = new Point((formWidth - panelWidth) / 2, (formHeight - panelHeight) / 2);
             label1.Select();
             isKeyboardActive = false;
+
+            if (isTbUsernameActive)
+            {
+                if(tbUsername.Text == "")
+                {
+                    tbUsername.Text = "Username";
+                    tbUsername.ForeColor = Color.Gray;
+                }
+            }
+            else if (isTbPasswordActive)
+            {
+                if (tbPassword.Text == "")
+                {
+                    tbPassword.Text = "Password";
+                    tbPassword.ForeColor = Color.Gray;
+                    tbPassword.UseSystemPasswordChar = false;
+                }
+            }
+
+            isTbPasswordActive = false;
+            isTbUsernameActive = false;
+
+            panelBelow.Height = 0;
         }
     }
 }
