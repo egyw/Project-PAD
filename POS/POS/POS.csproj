@@ -56,12 +56,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection.cs" />
-    <Compile Include="FormCardEntry.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormCardEntry.Designer.cs">
-      <DependentUpon>FormCardEntry.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormCustomAllPayment.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,6 +67,12 @@
     </Compile>
     <Compile Include="FormLogin.Designer.cs">
       <DependentUpon>FormLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormModifier.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormModifier.Designer.cs">
+      <DependentUpon>FormModifier.cs</DependentUpon>
     </Compile>
     <Compile Include="FormWelcome.cs">
       <SubType>Form</SubType>
@@ -94,14 +94,14 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FormCardEntry.resx">
-      <DependentUpon>FormCardEntry.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FormCustomAllPayment.resx">
       <DependentUpon>FormCustomAllPayment.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormLogin.resx">
       <DependentUpon>FormLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormModifier.resx">
+      <DependentUpon>FormModifier.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormWelcome.resx">
       <DependentUpon>FormWelcome.cs</DependentUpon>
