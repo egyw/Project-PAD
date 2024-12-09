@@ -30,8 +30,8 @@ namespace POS
 
         public void CenterPanel()
         {
-            panel4.Left = (this.Size.Width - panel4.Width) / 2;
-            panel4.Top = ((this.Size.Height - panel4.Height) / 2) + this.Size.Height / 6;
+            panel4.Left = (this.Size.Width - panel4.Width) / 2 - 20;
+            panel4.Top = ((this.Size.Height - panel4.Height) / 2) + this.Size.Height / 7;
 
         }
 
@@ -69,6 +69,7 @@ namespace POS
 
         private void buttonOvo_Click(object sender, EventArgs e)
         {
+            MessageBox.Show("Masuk");
             otherPayment = "ovo";
             imgCustom = "otherPayment";
             FormCustomAllPayment fcpa = new FormCustomAllPayment();
@@ -91,7 +92,7 @@ namespace POS
             fcpa.ShowDialog();
         }
 
-        private void panel4_Paint(object sender, PaintEventArgs e)
+        private void buttonCard_Click(object sender, EventArgs e)
         {
 
         }

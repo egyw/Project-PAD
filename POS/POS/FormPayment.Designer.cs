@@ -109,15 +109,13 @@ namespace POS
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(1007, 974);
             this.panel4.TabIndex = 3;
-            this.panel4.Paint += new System.Windows.Forms.PaintEventHandler(this.panel4_Paint);
             // 
             // buttonGopay
             // 
             this.buttonGopay.BackgroundImage = global::POS.Properties.Resources.Gopay;
             this.buttonGopay.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.buttonGopay.Enabled = false;
             this.buttonGopay.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonGopay.Location = new System.Drawing.Point(387, 496);
+            this.buttonGopay.Location = new System.Drawing.Point(412, 496);
             this.buttonGopay.Name = "buttonGopay";
             this.buttonGopay.Size = new System.Drawing.Size(120, 102);
             this.buttonGopay.TabIndex = 26;
@@ -127,7 +125,7 @@ namespace POS
             // button13
             // 
             this.button13.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button13.Location = new System.Drawing.Point(807, 243);
+            this.button13.Location = new System.Drawing.Point(808, 275);
             this.button13.Name = "button13";
             this.button13.Size = new System.Drawing.Size(145, 58);
             this.button13.TabIndex = 23;
@@ -137,7 +135,7 @@ namespace POS
             // buttonCash5
             // 
             this.buttonCash5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonCash5.Location = new System.Drawing.Point(656, 243);
+            this.buttonCash5.Location = new System.Drawing.Point(657, 275);
             this.buttonCash5.Name = "buttonCash5";
             this.buttonCash5.Size = new System.Drawing.Size(145, 58);
             this.buttonCash5.TabIndex = 22;
@@ -147,32 +145,34 @@ namespace POS
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(61, 14);
+            this.label2.Cursor = System.Windows.Forms.Cursors.Default;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(85, 34);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(59, 25);
+            this.label2.Size = new System.Drawing.Size(80, 32);
             this.label2.TabIndex = 3;
             this.label2.Text = "Card";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(0, 64);
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(18, 83);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(286, 25);
+            this.label3.Size = new System.Drawing.Size(354, 29);
             this.label3.TabIndex = 5;
             this.label3.Text = "Insert or swipe card on the right ";
             // 
             // buttonCard
             // 
             this.buttonCard.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonCard.Location = new System.Drawing.Point(5, 98);
+            this.buttonCard.Location = new System.Drawing.Point(14, 119);
             this.buttonCard.Name = "buttonCard";
             this.buttonCard.Size = new System.Drawing.Size(469, 58);
             this.buttonCard.TabIndex = 6;
             this.buttonCard.Text = "Total ###";
             this.buttonCard.UseVisualStyleBackColor = true;
+            this.buttonCard.Click += new System.EventHandler(this.buttonCard_Click);
             // 
             // label6
             // 
@@ -189,7 +189,7 @@ namespace POS
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.Blue;
-            this.label4.Location = new System.Drawing.Point(489, 119);
+            this.label4.Location = new System.Drawing.Point(502, 140);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(192, 20);
             this.label4.TabIndex = 9;
@@ -200,7 +200,7 @@ namespace POS
             // 
             this.button14.Enabled = false;
             this.button14.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button14.Location = new System.Drawing.Point(201, 307);
+            this.button14.Location = new System.Drawing.Point(202, 339);
             this.button14.Name = "button14";
             this.button14.Size = new System.Drawing.Size(591, 58);
             this.button14.TabIndex = 17;
@@ -210,17 +210,17 @@ namespace POS
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(63, 207);
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(94, 227);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(63, 25);
+            this.label5.Size = new System.Drawing.Size(85, 32);
             this.label5.TabIndex = 10;
             this.label5.Text = "Cash";
             // 
             // buttonCash4
             // 
             this.buttonCash4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonCash4.Location = new System.Drawing.Point(505, 243);
+            this.buttonCash4.Location = new System.Drawing.Point(506, 275);
             this.buttonCash4.Name = "buttonCash4";
             this.buttonCash4.Size = new System.Drawing.Size(145, 58);
             this.buttonCash4.TabIndex = 16;
@@ -230,7 +230,7 @@ namespace POS
             // buttonCash3
             // 
             this.buttonCash3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonCash3.Location = new System.Drawing.Point(354, 243);
+            this.buttonCash3.Location = new System.Drawing.Point(355, 275);
             this.buttonCash3.Name = "buttonCash3";
             this.buttonCash3.Size = new System.Drawing.Size(145, 58);
             this.buttonCash3.TabIndex = 15;
@@ -240,7 +240,7 @@ namespace POS
             // buttonCash1
             // 
             this.buttonCash1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonCash1.Location = new System.Drawing.Point(2, 243);
+            this.buttonCash1.Location = new System.Drawing.Point(3, 275);
             this.buttonCash1.Name = "buttonCash1";
             this.buttonCash1.Size = new System.Drawing.Size(193, 58);
             this.buttonCash1.TabIndex = 12;
@@ -250,7 +250,7 @@ namespace POS
             // buttonCash2
             // 
             this.buttonCash2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonCash2.Location = new System.Drawing.Point(203, 243);
+            this.buttonCash2.Location = new System.Drawing.Point(204, 275);
             this.buttonCash2.Name = "buttonCash2";
             this.buttonCash2.Size = new System.Drawing.Size(145, 58);
             this.buttonCash2.TabIndex = 14;
@@ -260,7 +260,7 @@ namespace POS
             // buttonCashCustom
             // 
             this.buttonCashCustom.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonCashCustom.Location = new System.Drawing.Point(2, 307);
+            this.buttonCashCustom.Location = new System.Drawing.Point(3, 339);
             this.buttonCashCustom.Name = "buttonCashCustom";
             this.buttonCashCustom.Size = new System.Drawing.Size(193, 58);
             this.buttonCashCustom.TabIndex = 13;
@@ -291,9 +291,8 @@ namespace POS
             // 
             this.buttonDana.BackgroundImage = global::POS.Properties.Resources.Dana;
             this.buttonDana.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.buttonDana.Enabled = false;
             this.buttonDana.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonDana.Location = new System.Drawing.Point(261, 496);
+            this.buttonDana.Location = new System.Drawing.Point(286, 496);
             this.buttonDana.Name = "buttonDana";
             this.buttonDana.Size = new System.Drawing.Size(120, 102);
             this.buttonDana.TabIndex = 25;
@@ -304,9 +303,8 @@ namespace POS
             // 
             this.buttonOvo.BackgroundImage = global::POS.Properties.Resources.Ovo;
             this.buttonOvo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.buttonOvo.Enabled = false;
             this.buttonOvo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonOvo.Location = new System.Drawing.Point(135, 496);
+            this.buttonOvo.Location = new System.Drawing.Point(160, 496);
             this.buttonOvo.Name = "buttonOvo";
             this.buttonOvo.Size = new System.Drawing.Size(120, 102);
             this.buttonOvo.TabIndex = 24;
@@ -316,9 +314,9 @@ namespace POS
             // pictureBox1
             // 
             this.pictureBox1.Image = global::POS.Properties.Resources.atm_card;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox1.Location = new System.Drawing.Point(14, 17);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(52, 36);
+            this.pictureBox1.Size = new System.Drawing.Size(65, 58);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
@@ -327,11 +325,10 @@ namespace POS
             // 
             this.buttonShopee.BackgroundImage = global::POS.Properties.Resources.Shopee;
             this.buttonShopee.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.buttonShopee.Enabled = false;
             this.buttonShopee.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonShopee.Location = new System.Drawing.Point(9, 496);
             this.buttonShopee.Name = "buttonShopee";
-            this.buttonShopee.Size = new System.Drawing.Size(120, 102);
+            this.buttonShopee.Size = new System.Drawing.Size(145, 102);
             this.buttonShopee.TabIndex = 20;
             this.buttonShopee.UseVisualStyleBackColor = true;
             this.buttonShopee.Click += new System.EventHandler(this.buttonShopee_Click);
@@ -349,9 +346,9 @@ namespace POS
             // pictureBox2
             // 
             this.pictureBox2.Image = global::POS.Properties.Resources.money;
-            this.pictureBox2.Location = new System.Drawing.Point(5, 201);
+            this.pictureBox2.Location = new System.Drawing.Point(14, 211);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(52, 36);
+            this.pictureBox2.Size = new System.Drawing.Size(74, 58);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 11;
             this.pictureBox2.TabStop = false;
