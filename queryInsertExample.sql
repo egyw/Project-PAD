@@ -1,28 +1,18 @@
--- Delete all records from the tables first (reset tables)
-DELETE FROM payments;
-DELETE FROM order_items;
-DELETE FROM orders;
-DELETE FROM products;
-DELETE FROM categories;
-DELETE FROM payment_details;
-DELETE FROM payment_method;
-DELETE FROM users;
-DELETE FROM discounts;
+-- Insert data into users table
+INSERT INTO users (firstName, lastName, username, PASSWORD, ROLE, email, phone_number, isActive) 
+VALUES 
+('John', 'Doe', 'johndoe', 'password123', 'admin', 'john.doe@example.com', 1234567890, TRUE),
+('Jane', 'Smith', 'janesmith', 'password123', 'cashier', 'jane.smith@example.com', 1234567891, TRUE),
+('Michael', 'Johnson', 'michaelj', 'password123', 'manager', 'michael.johnson@example.com', 1234567892, TRUE);
 
-INSERT INTO users (firstName, lastName, username, PASSWORD, ROLE, email, phone_number) VALUES
-('Egbert', 'Wangarry', 'eggy', '123', 'cashier', 'eggy@example.com', 1234567890),
-('Given', 'Lee', 'given', '123', 'cashier', 'given@example.com', 9876543210),
-('Christophani', 'Wonges', 'yoshi', '123', 'cashier', 'yoshi@example.com', 1122334455),
-('Winston', 'Gatau', 'winston', '123', 'cashier', 'winston@example.com', 1122334455),
-('admin', 'admin', 'admin', '123', 'admin', 'admin@example.com', 1122334455);
+-- Insert data into categories table
+INSERT INTO categories (category_name, DESCRIPTION) 
+VALUES 
+('Beverages', 'All types of drinks including soda, coffee, and juice'),
+('Snacks', 'Snacks and small eats like fries, nachos, etc.'),
+('Main Course', 'Main meal options like burgers, chicken, etc.');
 
-INSERT INTO categories (category_name) VALUES 
-('Beverages'),
-('Food'),
-('Snacks'),
-('Desserts'),
-('Paket');
-
+-- Insert data into products table
 INSERT INTO products (product_name, price, DESCRIPTION, category_id) VALUES
 -- Beverage
 ('Root beer', 13500, '', 1),
@@ -83,43 +73,58 @@ INSERT INTO products (product_name, price, DESCRIPTION, category_id) VALUES
 ('Mountain Sundae', 24000, '', 4),
 ('Milkshake (Strawberry/Vanilla/Chocolate)', 26000, '', 4);
 
+-- Insert data into orders table
+INSERT INTO orders (user_id, order_date, grand_total, payment_method, order_status) 
+VALUES 
+(1, '2024-12-01 12:00:00', 9.47, 'cash', 'completed'),
+(2, '2024-12-02 14:00:00', 7.98, 'card', 'pending'),
+(3, '2024-12-03 16:00:00', 12.47, 'digital_wallet', 'completed');
 
-INSERT INTO payment_method (NAME) 
-VALUES
-('cash'),
-('card'),
-('digital wallet');
-
-INSERT INTO payment_details (payment_method_id, NAME) 
-VALUES
-(1, 'Cash Payment'),
-(2, 'Mandiri Card'),
-(2, 'BCA Card'),
-(2, 'BNI Card'),
-(3, 'OVO'),
-(3, 'ShopeePay'),
-(3, 'GoPay');
-
-INSERT INTO orders (user_id, grand_total, order_status, customer_name, order_type) 
-VALUES
-(1, 10.50, 'completed', 'Alice Brown', 'dine_in'),
-(2, 15.75, 'pending', 'Bob White', 'take_away'),
-(3, 22.00, 'cancelled', 'Charlie Green', 'dine_in');
-
+-- Insert data into order_items table
 INSERT INTO order_items (order_id, product_id, quantity, price, total) 
-VALUES
-(1, 1, 1, 2.50, 2.50),
-(1, 2, 2, 1.00, 2.00),
-(2, 3, 1, 3.00, 3.00);
+VALUES 
+(1, 1, 2, 1.99, 3.98),
+(1, 2, 1, 2.49, 2.49),
+(2, 3, 1, 4.99, 4.99);
 
-INSERT INTO payments (order_id, amount, payment_detail, payment_status) 
-VALUES
-(1, 10.50, 1, 'completed'),
-(2, 15.75, 2, 'pending'),
-(3, 22.00, 3, 'failed');
+-- Insert data into payments table
+INSERT INTO payments (order_id, payment_date, amount, payment_method, payment_status) 
+VALUES 
+(1, '2024-12-01 12:30:00', 9.47, 'cash', 'completed'),
+(2, '2024-12-02 14:30:00', 7.98, 'card', 'pending'),
+(3, '2024-12-03 16:30:00', 12.47, 'digital_wallet', 'completed');
 
-INSERT INTO discounts (discount_code, DESCRIPTION, discount_percentage, start_date, end_date) 
-VALUES
-('SUMMER21', 'Summer Sale Discount', 10.00, '2021-06-01', '2021-08-31'),
-('WINTER21', 'Winter Sale Discount', 15.00, '2021-12-01', '2021-12-31'),
-('BLACKFRIDAY', 'Black Friday Special', 20.00, '2021-11-26', '2021-11-29');
+-- Insert data into inventory table
+INSERT INTO inventory (product_name, quantity, unit, last_updated) 
+VALUES 
+('Coca Cola', 100, 'pcs', '2024-12-01 12:00:00'),
+('French Fries', 200, 'pcs', '2024-12-02 14:00:00'),
+('Cheeseburger', 50, 'pcs', '2024-12-03 16:00:00');
+
+-- Insert data into sales_reports table
+INSERT INTO sales_reports (report_date, total_sales, total_transactions) 
+VALUES 
+('2024-12-01', 200.00, 50),
+('2024-12-02', 150.00, 40),
+('2024-12-03', 300.00, 70);
+
+-- Insert data into customers table
+INSERT INTO customers (NAME, email, phone_number, address) 
+VALUES 
+('Alice Brown', 'alice.brown@example.com', '0987654321', '123 Maple Street'),
+('Bob White', 'bob.white@example.com', '0987654322', '456 Oak Avenue'),
+('Charlie Green', 'charlie.green@example.com', '0987654323', '789 Pine Road');
+
+-- Insert data into reservations table
+INSERT INTO reservations (customer_id, reservation_date, party_size, special_request, STATUS) 
+VALUES 
+(1, '2024-12-05 19:00:00', 4, 'Window seat preferred', 'confirmed'),
+(2, '2024-12-06 20:00:00', 2, 'No special request', 'pending'),
+(3, '2024-12-07 18:00:00', 6, 'Birthday celebration', 'confirmed');
+
+-- Insert data into discounts table
+INSERT INTO discounts (discount_code, DESCRIPTION, discount_percentage, start_date, end_date, is_active) 
+VALUES 
+('SUMMER10', '10% off for Summer promotion', 10.00, '2024-06-01', '2024-08-31', TRUE),
+('HOLIDAY15', '15% off for Holiday Season', 15.00, '2024-12-01', '2024-12-31', TRUE),
+('WINTER5', '5% off for Winter promotion', 5.00, '2024-12-01', '2025-02-28', TRUE);
