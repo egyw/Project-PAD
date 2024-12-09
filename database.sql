@@ -58,7 +58,6 @@ CREATE TABLE orders ( -- ini kayak h_trans
     user_id INT, -- fk
     order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     grand_total DECIMAL(10, 2),
-    payment_method ENUM('cash', 'card', 'digital_wallet'),
     order_status ENUM('pending', 'completed', 'cancelled'),
     customer_name VARCHAR(50),
     order_type ENUM('dine_in', 'take_away'),
