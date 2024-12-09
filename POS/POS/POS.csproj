@@ -147,5 +147,17 @@
   <ItemGroup>
     <None Include="Resources\dot.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Shopee.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Ovo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Gopay.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Dana.jpeg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

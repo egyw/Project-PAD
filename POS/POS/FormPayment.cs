@@ -31,7 +31,7 @@ namespace POS
         public void CenterPanel()
         {
             panel4.Left = (this.Size.Width - panel4.Width) / 2;
-            panel4.Top = ((this.Size.Height - panel4.Height) / 2);
+            panel4.Top = ((this.Size.Height - panel4.Height) / 2) + this.Size.Height / 6;
 
         }
 
@@ -89,6 +89,11 @@ namespace POS
             imgCustom = "otherPayment";
             FormCustomAllPayment fcpa = new FormCustomAllPayment();
             fcpa.ShowDialog();
+        }
+
+        private void panel4_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
