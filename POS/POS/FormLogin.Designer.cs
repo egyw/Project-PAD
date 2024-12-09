@@ -95,6 +95,7 @@ namespace POS
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(338, 343);
             this.panel1.TabIndex = 6;
+            this.panel1.Click += new System.EventHandler(this.panel1_Click);
             // 
             // panelBelow
             // 
@@ -126,6 +127,7 @@ namespace POS
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormLogin_FormClosing);
             this.Load += new System.EventHandler(this.FormLogin_Load);
+            this.Click += new System.EventHandler(this.FormLogin_Click);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panelBelow.ResumeLayout(false);

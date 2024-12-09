@@ -92,6 +92,7 @@
     <Compile Include="FormPayment.Designer.cs">
       <DependentUpon>FormPayment.cs</DependentUpon>
     </Compile>
+    <Compile Include="Keyboard.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormCustomAllPayment.resx">
