@@ -101,23 +101,23 @@ namespace POS
             // 
             this.panelBelow.Controls.Add(this.panelKeyboard);
             this.panelBelow.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelBelow.Location = new System.Drawing.Point(0, 492);
+            this.panelBelow.Location = new System.Drawing.Point(0, 801);
             this.panelBelow.Name = "panelBelow";
-            this.panelBelow.Size = new System.Drawing.Size(1194, 250);
+            this.panelBelow.Size = new System.Drawing.Size(1194, 350);
             this.panelBelow.TabIndex = 7;
             // 
             // panelKeyboard
             // 
             this.panelKeyboard.Location = new System.Drawing.Point(3, 3);
             this.panelKeyboard.Name = "panelKeyboard";
-            this.panelKeyboard.Size = new System.Drawing.Size(1188, 247);
+            this.panelKeyboard.Size = new System.Drawing.Size(1188, 344);
             this.panelKeyboard.TabIndex = 1;
             // 
             // FormLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1194, 742);
+            this.ClientSize = new System.Drawing.Size(1194, 1151);
             this.Controls.Add(this.panelBelow);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

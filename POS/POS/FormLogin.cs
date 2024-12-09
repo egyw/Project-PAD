@@ -13,6 +13,11 @@ namespace POS
 {
     public partial class FormLogin : Form
     {
+        bool isKeyboardActive = false;
+        int formWidth;
+        int formHeight;
+        int panelWidth;
+        int panelHeight;
         public FormLogin()
         {
             InitializeComponent();
@@ -29,19 +34,22 @@ namespace POS
             int screenHeight = Screen.PrimaryScreen.WorkingArea.Height;
             this.MaximumSize = new Size(screenWidth, screenHeight);
             this.MinimumSize = new Size(screenWidth, screenHeight);
+
+            panelKeyboard.Width = panelBelow.Width;
+            panelKeyboard.Height = panelBelow.Height;
         }
         private void FormLogin_Load(object sender, EventArgs e)
         {
             label1.Select();
             this.FormBorderStyle = FormBorderStyle.Sizable;
 
-            int panelWidth = panel1.Width;
-            int panelHeight = panel1.Height;
+            panelWidth = panel1.Width;
+            panelHeight = panel1.Height;
 
-            int formWidth = this.Width;
-            int formHeight = this.Height;
+            formWidth = this.Width;
+            formHeight = this.Height;
 
-            panel1.Location = new Point((formWidth - panelWidth) / 2, (formHeight - panelHeight) / 2 - 200);
+            panel1.Location = new Point((formWidth - panelWidth) / 2, (formHeight - panelHeight) / 2);
 
             panelBelow.Location = new Point((formWidth - panelWidth) / 2, panelBelow.Location.Y);
         }
@@ -100,8 +108,7 @@ namespace POS
                 MessageBox.Show("The input cannot be empty!");
                 clear();
             }
-            Keyboard.clearKeyboard();
-            label1.Select();
+            removeKeyboard();
         }
 
         private void clear()
@@ -123,16 +130,24 @@ namespace POS
                 tbUsername.Text = "";
                 tbUsername.ForeColor = Color.Black;
             }
+
+            if (isKeyboardActive)
+            {
+                tbUsername.Clear();
+            }
+
             Keyboard.clearKeyboard();
-            Keyboard.addKeyboard(this, panelKeyboard, tbUsername);
+            addKeyboard(tbUsername);
+
+            isKeyboardActive = true;
         }
 
         private void tbUsername_Leave(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(tbUsername.Text))
+            if (string.IsNullOrWhiteSpace(tbUsername.Text) && !isKeyboardActive)
             {
                 tbUsername.Text = "Username"; 
-                tbUsername.ForeColor = Color.Gray; 
+                tbUsername.ForeColor = Color.Gray;
             }
         }
 
@@ -142,10 +157,10 @@ namespace POS
             {
                 tbPassword.Text = "";
                 tbPassword.ForeColor = Color.Black;
-                tbPassword.UseSystemPasswordChar = true;
+                //tbPassword.UseSystemPasswordChar = true;
             }
             Keyboard.clearKeyboard();
-            Keyboard.addKeyboard(this, panelKeyboard, tbPassword);
+            addKeyboard(tbPassword);
         }
 
         private void tbPassword_Leave(object sender, EventArgs e)
@@ -154,7 +169,6 @@ namespace POS
             {
                 tbPassword.Text = "Password";
                 tbPassword.ForeColor = Color.Gray;
-                tbPassword.UseSystemPasswordChar = false;
             }
         }
 
@@ -165,14 +179,26 @@ namespace POS
 
         private void FormLogin_Click(object sender, EventArgs e)
         {
-            Keyboard.clearKeyboard();
-            label1.Select();
+            removeKeyboard();
         }
 
         private void panel1_Click(object sender, EventArgs e)
         {
+            removeKeyboard();
+        }
+
+        private void addKeyboard(TextBox textBox)
+        {
+            Keyboard.addKeyboard(this, panelKeyboard, textBox, panelBelow);
+            panel1.Location = new Point((formWidth - panelWidth) / 2, (formHeight - panelHeight) / 2 - 200);
+        }
+
+        private void removeKeyboard()
+        {
             Keyboard.clearKeyboard();
+            panel1.Location = new Point((formWidth - panelWidth) / 2, (formHeight - panelHeight) / 2);
             label1.Select();
+            isKeyboardActive = false;
         }
     }
 }
