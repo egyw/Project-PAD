@@ -37,6 +37,8 @@ namespace POS
 
             panelKeyboard.Width = panelBelow.Width;
             panelKeyboard.Height = panelBelow.Height;
+
+            panelBelow.Height = 0;
         }
         private void FormLogin_Load(object sender, EventArgs e)
         {
@@ -189,6 +191,7 @@ namespace POS
 
         private void addKeyboard(TextBox textBox)
         {
+            panelBelow.Height = 350;
             Keyboard.addKeyboard(this, panelKeyboard, textBox, panelBelow);
             panel1.Location = new Point((formWidth - panelWidth) / 2, (formHeight - panelHeight) / 2 - 200);
         }

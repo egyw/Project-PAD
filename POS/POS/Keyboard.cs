@@ -23,13 +23,13 @@ namespace POS
             int x = 0;
             int y = 0;
 
-            int[] buttonsPerRow = new int[] { 14, 14, 13, 12, 1 };
+            int[] buttonsPerRow = new int[] { 14, 14, 12, 11, 1 };
 
             string[] buttonLabels = new string[] {
                 "`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "Backspace",
-                "Tab", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "[", "]", "\\",
-                "Caps", "A", "S", "D", "F", "G", "H", "J", "K", "L", ";", "'", "Enter",
-                "Shift", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "/", "Clear",
+                "Shift", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\",
+                 "a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "'", "Close",
+                 "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", "Clear",
                 "Space"
             };
 
@@ -43,13 +43,17 @@ namespace POS
                     button.Text = buttonLabels[index];
                     button.Tag = buttonLabels[index];
 
-                    if (button.Text == "Shift" || button.Text == "Caps" || button.Text == "Tab" || button.Text == "Backspace" || button.Text == "Enter")
+                    if  (button.Text == "Caps" || button.Text == "Tab" || button.Text == "Backspace" || button.Text == "Close")
                     {
                         button.Size = new Size(buttonWidth * 2, buttonHeight); 
                     }
                     else if (button.Text == "Clear")
                     {
                         button.Size = new Size(buttonWidth * 3, buttonHeight);
+                    }
+                    else if(button.Text == "Shift")
+                    {
+                        button.Size = new Size(buttonWidth * 2, buttonHeight * 3);
                     }
                     else if (button.Text == "Space")
                     {
@@ -60,7 +64,14 @@ namespace POS
                         button.Size = new Size(buttonWidth, buttonHeight);
                     }
 
-                    button.Location = new Point(x, y);
+                    if (i == 2 || i == 3)
+                    {
+                        button.Location = new Point(x + (buttonWidth * 2), y);
+                    }
+                    else
+                    {
+                        button.Location = new Point(x, y);
+                    }
                     button.Click += new EventHandler(keyboardButton_Click);
                     keyboardPanel.Controls.Add(button);
                     x += button.Width;
@@ -96,9 +107,9 @@ namespace POS
             {
                 activeTextBox.Clear();
             }
-            else if (buttonText == "Space")
+            else if (buttonText == "Close")
             {
-                activeTextBox.Text += " ";
+                clearKeyboard();
             }
             else
             {
@@ -123,6 +134,10 @@ namespace POS
                 if (isShiftActive)
                 {
                     if ("1234567890".Contains(originalText))
+                    {
+                        button.Text = GetShiftSymbol(originalText);
+                    }
+                    else if (new[] { "`", "[", "]", "\\", ";", "'", ",", ".", "/" , "-", "="}.Contains(originalText)) 
                     {
                         button.Text = GetShiftSymbol(originalText);
                     }
@@ -169,6 +184,15 @@ namespace POS
                 case "0": return ")";
                 case "-": return "_";
                 case "=": return "+";
+                case "`": return "~";
+                case "[": return "{"; 
+                case "]": return "}"; 
+                case "\\": return "|";
+                case ";": return ":"; 
+                case "'": return "\""; 
+                case ",": return "<"; 
+                case ".": return ">"; 
+                case "/": return "?"; 
                 default: return number;
             }
         }
