@@ -33,7 +33,9 @@ namespace POS
             this.panelTop = new System.Windows.Forms.Panel();
             this.btnOrders = new System.Windows.Forms.Button();
             this.panelTopMiddle = new System.Windows.Forms.Panel();
+            this.pictureRefresh = new System.Windows.Forms.PictureBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panelLeft = new System.Windows.Forms.Panel();
             this.panel_order = new System.Windows.Forms.Panel();
             this.label8 = new System.Windows.Forms.Label();
@@ -45,20 +47,18 @@ namespace POS
             this.button3 = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.panelRight = new System.Windows.Forms.Panel();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureRefresh = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panelTop.SuspendLayout();
             this.panelTopMiddle.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureRefresh)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelLeft.SuspendLayout();
             this.panel_order.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureRefresh)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panelTop
@@ -90,6 +90,17 @@ namespace POS
             this.panelTopMiddle.Size = new System.Drawing.Size(350, 47);
             this.panelTopMiddle.TabIndex = 0;
             // 
+            // pictureRefresh
+            // 
+            this.pictureRefresh.Image = ((System.Drawing.Image)(resources.GetObject("pictureRefresh.Image")));
+            this.pictureRefresh.Location = new System.Drawing.Point(322, 13);
+            this.pictureRefresh.Name = "pictureRefresh";
+            this.pictureRefresh.Size = new System.Drawing.Size(25, 25);
+            this.pictureRefresh.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureRefresh.TabIndex = 1;
+            this.pictureRefresh.TabStop = false;
+            this.pictureRefresh.Click += new System.EventHandler(this.pictureRefresh_Click);
+            // 
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(39, 11);
@@ -97,6 +108,16 @@ namespace POS
             this.textBox1.Size = new System.Drawing.Size(265, 34);
             this.textBox1.TabIndex = 1;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(8, 13);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // panelLeft
             // 
@@ -220,6 +241,16 @@ namespace POS
             this.label2.TabIndex = 3;
             this.label2.Text = "Dine In";
             // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(363, 28);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(22, 29);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 2;
+            this.pictureBox2.TabStop = false;
+            // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(25, 154);
@@ -258,37 +289,6 @@ namespace POS
             this.panelRight.Size = new System.Drawing.Size(1035, 640);
             this.panelRight.TabIndex = 2;
             // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(363, 28);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(22, 29);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 2;
-            this.pictureBox2.TabStop = false;
-            // 
-            // pictureRefresh
-            // 
-            this.pictureRefresh.Image = ((System.Drawing.Image)(resources.GetObject("pictureRefresh.Image")));
-            this.pictureRefresh.Location = new System.Drawing.Point(322, 13);
-            this.pictureRefresh.Name = "pictureRefresh";
-            this.pictureRefresh.Size = new System.Drawing.Size(25, 25);
-            this.pictureRefresh.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureRefresh.TabIndex = 1;
-            this.pictureRefresh.TabStop = false;
-            this.pictureRefresh.Click += new System.EventHandler(this.pictureRefresh_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(8, 13);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 29F);
@@ -306,13 +306,13 @@ namespace POS
             this.panelTop.ResumeLayout(false);
             this.panelTopMiddle.ResumeLayout(false);
             this.panelTopMiddle.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureRefresh)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panelLeft.ResumeLayout(false);
             this.panelLeft.PerformLayout();
             this.panel_order.ResumeLayout(false);
             this.panel_order.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureRefresh)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }

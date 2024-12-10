@@ -42,6 +42,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.0\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
@@ -55,6 +58,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnimationLoadingPayment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AnimationLoadingPayment.Designer.cs">
+      <DependentUpon>AnimationLoadingPayment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Connection.cs" />
     <Compile Include="FormCustomAllPayment.cs">
       <SubType>Form</SubType>
@@ -95,6 +104,9 @@
     <Compile Include="Keyboard.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AnimationLoadingPayment.resx">
+      <DependentUpon>AnimationLoadingPayment.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormCustomAllPayment.resx">
       <DependentUpon>FormCustomAllPayment.cs</DependentUpon>
     </EmbeddedResource>
@@ -123,6 +135,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -159,6 +172,27 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Dana.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\A&amp;W_Bg.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\download.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\miss-you.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\verified.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\check-mark-verified.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hedge-pay-hpay.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

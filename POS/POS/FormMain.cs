@@ -334,6 +334,11 @@ namespace POS
             }
         }
 
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
             take = true;

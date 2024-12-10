@@ -101,3 +101,7 @@ C:\Users\lenovo\OneDrive\Documents\GitHub\Project-PAD\POS\POS\obj\Debug\POS.pdb
 G:\Kuliah\iSTTS\Semester 3\matkul\PAD\Project-PAD\POS\POS\obj\Debug\POS.FormCustomAllPayment.resources
 C:\Users\Acer\Documents\GitHub\Proyek\Project-PAD\POS\POS\obj\Debug\POS.FormModifier.resources
 G:\Kuliah\iSTTS\Semester 3\matkul\PAD\Project-PAD\POS\POS\obj\Debug\POS.FormModifier.resources
+C:\Users\Acer\Documents\GitHub\Proyek\Project-PAD\POS\POS\obj\Debug\POS.AnimationLoadingPayment.resources
+C:\Users\Acer\Documents\GitHub\Proyek\Project-PAD\POS\POS\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Acer\Documents\GitHub\Proyek\Project-PAD\POS\POS\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\Acer\Documents\GitHub\Proyek\Project-PAD\POS\POS\obj\Debug\POS.exe.config

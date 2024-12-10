@@ -7,12 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
 
 namespace POS
 {
     public partial class FormCustomAllPayment : Form
     {
-
+        bool cekTransaction = false;
         public FormCustomAllPayment()
         {
             InitializeComponent();
@@ -24,18 +25,44 @@ namespace POS
             if(FormPayment.imgCustom == "cash")
             {
                 button10.Visible = true;
+                pictureBox1.Height = 180;
+                pictureBox1.Location = new Point(40, 0);
                 pictureBox1.Image = Properties.Resources.money;
             }
             else if(FormPayment.imgCustom == "card")
             {
                 button10.Visible = false;
-                textBox1.PasswordChar = '*';
+                pictureBox1.Height = 190;
+                pictureBox1.Location = new Point(40, -20);
                 pictureBox1.Image = Properties.Resources.atm_card;
             }
             else
             {
                 button10.Visible = false;
-                pictureBox1.Image = Properties.Resources.payment_options;
+                if(FormPayment.otherPayment == "shopee")
+                {
+                    pictureBox1.Image = Properties.Resources.Shopee;
+                    pictureBox1.Location = new Point(40, pictureBox1.Location.Y);
+                }
+                else if(FormPayment.otherPayment == "ovo")
+                {
+                    pictureBox1.Image = Properties.Resources.Ovo;
+                    pictureBox1.Width = 165;
+                    pictureBox1.Location = new Point(110,pictureBox1.Location.Y);
+                }
+                else if (FormPayment.otherPayment == "dana")
+                {
+                    pictureBox1.Image = Properties.Resources.Dana;
+                    pictureBox1.Width = 165;
+                    pictureBox1.Location = new Point(110, pictureBox1.Location.Y);
+                }
+                else
+                {
+                    pictureBox1.Image = Properties.Resources.Gopay;
+                    pictureBox1.Width = 165;
+                    pictureBox1.Location = new Point(110, pictureBox1.Location.Y);
+                }
+               
             }
             button0.Click += button0_Click;
             button1.Click += button1_Click;
@@ -48,8 +75,6 @@ namespace POS
             button8.Click += button8_Click;
             button9.Click += button9_Click;
             button10.Click += button10_Click;
-            buttonEnter.Click += buttonEnter_Click;
-            buttonClear.Click += buttonClear_Click;
 
         }
         public void CenterPanel()
@@ -60,7 +85,7 @@ namespace POS
         }
         public void cekLength()
         {
-            if (FormPayment.imgCustom == "cash")
+            if (FormPayment.imgCustom == "cash" || FormPayment.imgCustom == "otherPayment")
             {
                 string input = textBox1.Text.Replace(".", "");
                 string reversedInput = ReverseString(input);
@@ -82,18 +107,20 @@ namespace POS
             }
             else if(FormPayment.imgCustom == "card")
             {
-               if(textBox1.Text.Length > 3)
+
+               if(textBox1.Text.Length > 16)
                {
-                    textBox1.Text.ToString().Substring(textBox1.Text.Length-1);
+                    textBox1.Text = textBox1.Text.ToString().Substring(0,textBox1.Text.Length-1);
+ 
                }
             }
             else
             {
-                // misal ada 9 no telepon
-                if(textBox1.Text.Length > 9)
-                {
-                    textBox1.Text.ToString().Substring(textBox1.Text.Length - 1);
-                }
+                //// misal ada 9 no telepon
+                //if(textBox1.Text.Length > 9)
+                //{
+                //    textBox1.Text = textBox1.Text.ToString().Substring(textBox1.Text.Length - 1);
+                //}
             }
         }
 
@@ -180,26 +207,71 @@ namespace POS
         {
             if(FormPayment.imgCustom == "otherPayment")
             {
-                int price = FormPayment.price;
+                int money = FormPayment.price;
+                double price = FormPayment.grandTotal;
+                int myMoney = int.Parse(textBox1.Text.ToString().Replace(".",""));
+                price = paymentDiscount(price);
+                MessageBox.Show(price + " " + FormPayment.grandTotal + " " + money);
+
+                if((myMoney - price) < 0)
+                {
+                    MessageBox.Show("Pembayaran Kurang!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 // pengecekan no telepon
 
                 //kalau berhasil masuk kesini yah anggap aja no telepon pasti benar
-                DialogResult dr =  MessageBox.Show("Anda yakin ingin membayar sebesar Rp. " + price + " ?", "Confirmation Payment", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
-                if(dr == DialogResult.OK)
+                payOrder();
+                if (cekTransaction)
                 {
-                    // Pengecekan menggunakan transaction disini beserta sql nya dll
-
-                    //jika berhasil
-                    MessageBox.Show("Anda Berhasil Membayar Sebesar Rp. " + price , "Information Payment", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Close();
+                    AnimationLoadingPayment alp = new AnimationLoadingPayment();
+                    alp.ShowDialog();
+                    MessageBox.Show("Transaction Sucess!", "Information Payment", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    this.Close();
+                    MessageBox.Show("Transaction Fail!", "Information Payment", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+                this.Close();
+            }
+            else if(FormPayment.imgCustom == "card")
+            {
+                FormPayment.entryCard = Int64.Parse(textBox1.Text);
+                double price = FormPayment.grandTotal;
+                if (textBox1.Text.Length < 16)
+                {
+                    MessageBox.Show("Card Entry Minimal 16 digit?", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+
+                }
+                payOrder();
+                if (cekTransaction)
+                {
+                    AnimationLoadingPayment alp = new AnimationLoadingPayment();
+                    alp.ShowDialog();
+                    MessageBox.Show("Anda Berhasil Membayar Sebesar Rp. " + price, "Information Payment", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    FormPayment.entryCard = 0;
+                    MessageBox.Show("Transaction Fail!", "Information Payment", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                this.Close();
             }
             else
             {
+                payOrder();
+                double price = FormPayment.grandTotal;
+                if (cekTransaction)
+                {
+                    AnimationLoadingPayment alp = new AnimationLoadingPayment();
+                    alp.ShowDialog();
+                    MessageBox.Show("Anda Berhasil Membayar Sebesar Rp. " + price, "Information Payment", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Transaction Fail!", "Information Payment", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
                 this.Close();
             }
  
@@ -208,6 +280,55 @@ namespace POS
         private void FormCustomAllPayment_Resize(object sender, EventArgs e)
         {
             CenterPanel();
+        }
+
+        public void payOrder()
+        {
+            Connection.open();
+            MySqlTransaction transaction = Connection.conn.BeginTransaction();
+            try
+            {
+    
+                MySqlCommand cmd = new MySqlCommand("UPDATE payments SET payment_status = 'Completed' " +
+                    "WHERE order_id = @1",Connection.conn,transaction);
+                cmd.Parameters.AddWithValue("@1", FormPayment.orderId);
+                cmd.ExecuteNonQuery();
+
+                transaction.Commit();
+                cekTransaction = true;
+            }
+            catch(Exception ex)
+            {
+                transaction.Rollback();
+                cekTransaction = false;
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                Connection.close();
+            }
+        }
+
+        public double paymentDiscount(double price)
+        {
+            if (FormPayment.otherPayment == "shopee")
+            {
+                price -= price * 0.05; // Diskon 5%
+            }
+            else if (FormPayment.otherPayment == "ovo")
+            {
+                price -= price * 0.10; // Diskon 10%
+            }
+            else if (FormPayment.otherPayment == "gopay")
+            {
+                price -= price * 0.15; // Diskon 15%
+            }
+            else if (FormPayment.otherPayment == "dana")
+            {
+                price -= price * 0.20; // Diskon 20%
+            }
+            price = Math.Ceiling(price);
+            return price;
         }
     }
 }
