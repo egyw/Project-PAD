@@ -339,6 +339,16 @@ namespace POS
 
         }
 
+        private void panelRight_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panelTop_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
             take = true;

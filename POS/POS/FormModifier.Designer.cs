@@ -29,103 +29,142 @@ namespace POS
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormModifier));
             this.panelTop = new System.Windows.Forms.Panel();
-            this.pictureRefresh = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.panelTopMiddle = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.panelTop.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureRefresh)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.panelTopMiddle.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelTop
             // 
-            this.panelTop.Controls.Add(this.button1);
-            this.panelTop.Controls.Add(this.panelTopMiddle);
+            this.panelTop.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.panelTop.Controls.Add(this.label1);
+            this.panelTop.Controls.Add(this.panel1);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(1902, 80);
+            this.panelTop.Size = new System.Drawing.Size(1506, 43);
             this.panelTop.TabIndex = 1;
             // 
-            // pictureRefresh
+            // label1
             // 
-            this.pictureRefresh.Image = ((System.Drawing.Image)(resources.GetObject("pictureRefresh.Image")));
-            this.pictureRefresh.Location = new System.Drawing.Point(310, 13);
-            this.pictureRefresh.Name = "pictureRefresh";
-            this.pictureRefresh.Size = new System.Drawing.Size(25, 25);
-            this.pictureRefresh.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureRefresh.TabIndex = 1;
-            this.pictureRefresh.TabStop = false;
-            this.pictureRefresh.Click += new System.EventHandler(this.pictureRefresh_Click);
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(21, 20);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "X";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
-            // pictureBox1
+            // panel1
             // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(8, 13);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.panel1.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.panel1.Location = new System.Drawing.Point(0, 37);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1506, 10);
+            this.panel1.TabIndex = 2;
             // 
-            // textBox1
+            // panel2
             // 
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(39, 11);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(265, 27);
-            this.textBox1.TabIndex = 1;
+            this.panel2.BackColor = System.Drawing.Color.Gainsboro;
+            this.panel2.Controls.Add(this.button1);
+            this.panel2.Controls.Add(this.richTextBox1);
+            this.panel2.Location = new System.Drawing.Point(0, 40);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(442, 829);
+            this.panel2.TabIndex = 2;
             // 
-            // panelTopMiddle
+            // richTextBox1
             // 
-            this.panelTopMiddle.Controls.Add(this.pictureRefresh);
-            this.panelTopMiddle.Controls.Add(this.textBox1);
-            this.panelTopMiddle.Controls.Add(this.pictureBox1);
-            this.panelTopMiddle.Location = new System.Drawing.Point(616, 0);
-            this.panelTopMiddle.Name = "panelTopMiddle";
-            this.panelTopMiddle.Size = new System.Drawing.Size(350, 55);
-            this.panelTopMiddle.TabIndex = 0;
+            this.richTextBox1.Location = new System.Drawing.Point(3, 9);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(436, 649);
+            this.richTextBox1.TabIndex = 0;
+            this.richTextBox1.Text = "";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1061, 14);
+            this.button1.BackColor = System.Drawing.Color.YellowGreen;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(144, 688);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(154, 54);
             this.button1.TabIndex = 1;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Text = "Pay";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(448, 50);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(290, 20);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Tap modifiers to add/remove to this item";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(448, 79);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(87, 20);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Modifiers:";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(559, 79);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(47, 20);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "None";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // FormModifier
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1902, 1055);
+            this.ClientSize = new System.Drawing.Size(1506, 870);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.panelTop);
+            this.Controls.Add(this.panel2);
             this.Name = "FormModifier";
             this.Text = "FormModifier";
             this.Load += new System.EventHandler(this.FormModifier_Load);
             this.panelTop.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureRefresh)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.panelTopMiddle.ResumeLayout(false);
-            this.panelTopMiddle.PerformLayout();
+            this.panelTop.PerformLayout();
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Panel panelTop;
-        private System.Windows.Forms.PictureBox pictureRefresh;
-        private System.Windows.Forms.Panel panelTopMiddle;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
     }
 }
