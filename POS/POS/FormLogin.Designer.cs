@@ -29,14 +29,19 @@ namespace POS
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLogin));
             this.label1 = new System.Windows.Forms.Label();
             this.tbUsername = new System.Windows.Forms.TextBox();
             this.tbPassword = new System.Windows.Forms.TextBox();
             this.btnLogin = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBoxUnshow = new System.Windows.Forms.PictureBox();
+            this.pictureBoxShow = new System.Windows.Forms.PictureBox();
             this.panelBelow = new System.Windows.Forms.Panel();
             this.panelKeyboard = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUnshow)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxShow)).BeginInit();
             this.panelBelow.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -86,6 +91,8 @@ namespace POS
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.pictureBoxUnshow);
+            this.panel1.Controls.Add(this.pictureBoxShow);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.btnLogin);
             this.panel1.Controls.Add(this.tbPassword);
@@ -96,6 +103,29 @@ namespace POS
             this.panel1.Size = new System.Drawing.Size(338, 343);
             this.panel1.TabIndex = 6;
             this.panel1.Click += new System.EventHandler(this.panel1_Click);
+            // 
+            // pictureBoxUnshow
+            // 
+            this.pictureBoxUnshow.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxUnshow.Image")));
+            this.pictureBoxUnshow.Location = new System.Drawing.Point(280, 178);
+            this.pictureBoxUnshow.Name = "pictureBoxUnshow";
+            this.pictureBoxUnshow.Size = new System.Drawing.Size(23, 28);
+            this.pictureBoxUnshow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxUnshow.TabIndex = 9;
+            this.pictureBoxUnshow.TabStop = false;
+            this.pictureBoxUnshow.Visible = false;
+            this.pictureBoxUnshow.Click += new System.EventHandler(this.pictureBoxUnshow_Click);
+            // 
+            // pictureBoxShow
+            // 
+            this.pictureBoxShow.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxShow.Image")));
+            this.pictureBoxShow.Location = new System.Drawing.Point(280, 178);
+            this.pictureBoxShow.Name = "pictureBoxShow";
+            this.pictureBoxShow.Size = new System.Drawing.Size(23, 28);
+            this.pictureBoxShow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxShow.TabIndex = 8;
+            this.pictureBoxShow.TabStop = false;
+            this.pictureBoxShow.Click += new System.EventHandler(this.pictureBoxShow_Click);
             // 
             // panelBelow
             // 
@@ -130,6 +160,8 @@ namespace POS
             this.Click += new System.EventHandler(this.FormLogin_Click);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxUnshow)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxShow)).EndInit();
             this.panelBelow.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -144,6 +176,8 @@ namespace POS
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panelBelow;
         private System.Windows.Forms.Panel panelKeyboard;
+        private System.Windows.Forms.PictureBox pictureBoxShow;
+        private System.Windows.Forms.PictureBox pictureBoxUnshow;
     }
 }
 

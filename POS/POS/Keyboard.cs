@@ -13,12 +13,13 @@ namespace POS
         private static Panel keyboardPanel;
         private static TextBox activeTextBox;
         private static bool isShiftActive = false;
-        public static void addKeyboard(Form form, Panel panel, TextBox textBox, Panel container)
+        public static event Action OnKeyboardClosed;
+        public static void addKeyboard(Form form, Panel panel, TextBox textBox, Panel container, int screenWidth)
         {
             keyboardPanel = panel;
             activeTextBox = textBox;
 
-            int buttonWidth = Screen.PrimaryScreen.WorkingArea.Width / 15;
+            int buttonWidth = screenWidth / 15;
             int buttonHeight = 90;
             int x = 0;
             int y = 0;
@@ -110,6 +111,7 @@ namespace POS
             else if (buttonText == "Close")
             {
                 clearKeyboard();
+                OnKeyboardClosed?.Invoke();
             }
             else
             {

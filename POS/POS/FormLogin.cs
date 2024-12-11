@@ -13,7 +13,7 @@ namespace POS
 {
     public partial class FormLogin : Form
     {
-        bool isKeyboardActive = false;
+        public static bool isKeyboardActive = false;
         bool isTbUsernameActive = false;
         bool isTbPasswordActive = false;
         int formWidth;
@@ -83,7 +83,7 @@ namespace POS
                         reader.Read();
                         int id = Convert.ToInt32(reader["user_id"]);
 
-                        
+
                         FormWelcome form = new FormWelcome(id);
                         form.Show();
 
@@ -133,6 +133,7 @@ namespace POS
 
         private void tbUsername_Enter(object sender, EventArgs e)
         {
+            replaceTextbox();
             if (tbUsername.Text == "Username")
             {
                 tbUsername.Text = "";
@@ -150,13 +151,14 @@ namespace POS
         {
             if (string.IsNullOrWhiteSpace(tbUsername.Text) && isKeyboardActive == false)
             {
-                tbUsername.Text = "Username"; 
+                tbUsername.Text = "Username";
                 tbUsername.ForeColor = Color.Gray;
             }
         }
 
         private void tbPassword_Enter(object sender, EventArgs e)
         {
+            replaceTextbox();
             if (tbPassword.Text == "Password")
             {
                 tbPassword.Text = "";
@@ -197,9 +199,11 @@ namespace POS
         private void addKeyboard(TextBox textBox)
         {
             panelBelow.Height = 350;
-            Keyboard.addKeyboard(this, panelKeyboard, textBox, panelBelow);
+            Keyboard.addKeyboard(this, panelKeyboard, textBox, panelBelow, Screen.PrimaryScreen.WorkingArea.Width);
             panel1.Location = new Point((formWidth - panelWidth) / 2, (formHeight - panelHeight) / 2 - 200);
             isKeyboardActive = true;
+
+            Keyboard.OnKeyboardClosed += closeButtonPressed;
         }
 
         private void removeKeyboard()
@@ -209,9 +213,43 @@ namespace POS
             label1.Select();
             isKeyboardActive = false;
 
+            replaceTextbox();
+
+            isTbPasswordActive = false;
+            isTbUsernameActive = false;
+
+            panelBelow.Height = 0;
+
+            Keyboard.OnKeyboardClosed -= closeButtonPressed;
+        }
+
+        private void pictureBoxShow_Click(object sender, EventArgs e)
+        {
+            pictureBoxShow.Visible = false;
+            pictureBoxUnshow.Visible = true;
+            tbPassword.UseSystemPasswordChar = false;
+        }
+
+        private void pictureBoxUnshow_Click(object sender, EventArgs e)
+        {
+            pictureBoxShow.Visible = true;
+            pictureBoxUnshow.Visible = false;
+            tbPassword.UseSystemPasswordChar = true;
+        }
+
+        private void closeButtonPressed()
+        {
+            panelBelow.Height = 0;
+            panel1.Location = new Point((formWidth - panelWidth) / 2, (formHeight - panelHeight) / 2);
+            replaceTextbox();
+            isKeyboardActive = false;
+        }
+
+        public void replaceTextbox()
+        {
             if (isTbUsernameActive)
             {
-                if(tbUsername.Text == "")
+                if (string.IsNullOrWhiteSpace(tbUsername.Text))
                 {
                     tbUsername.Text = "Username";
                     tbUsername.ForeColor = Color.Gray;
@@ -219,18 +257,13 @@ namespace POS
             }
             else if (isTbPasswordActive)
             {
-                if (tbPassword.Text == "")
+                if (string.IsNullOrWhiteSpace(tbPassword.Text))
                 {
                     tbPassword.Text = "Password";
                     tbPassword.ForeColor = Color.Gray;
                     tbPassword.UseSystemPasswordChar = false;
                 }
             }
-
-            isTbPasswordActive = false;
-            isTbUsernameActive = false;
-
-            panelBelow.Height = 0;
         }
     }
 }

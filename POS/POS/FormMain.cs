@@ -17,10 +17,17 @@ namespace POS
         DataTable dt;
         DataTable td;
         Boolean dine = false, take = false;
+        DataTable tableUser;
+        public static bool isKeyboardActive = false;
         public FormMain(int id)
         {
             InitializeComponent();
+            
+            richTextBox1.Height = panel_order.Height - 10;
             this.idUser = id;
+            getCashier();
+            labelCashier.Text = tableUser.Rows[0]["firstName"].ToString();
+            labelCashier.Location = new Point(this.ClientSize.Width - labelCashier.Width, panelBottom.Height - labelCashier.Height - 10);
 
             this.FormBorderStyle = FormBorderStyle.None;
 
@@ -28,14 +35,15 @@ namespace POS
             int screenHeight = Screen.PrimaryScreen.WorkingArea.Height;
             this.MaximumSize = new Size(screenWidth, screenHeight);
             this.MinimumSize = new Size(screenWidth, screenHeight);
+
             try
             {
                 Connection.open();
                 dt = new DataTable();
 
                 string command = "select * from products";
-               
-               MySqlDataAdapter adp = new MySqlDataAdapter(command, Connection.conn);
+
+                MySqlDataAdapter adp = new MySqlDataAdapter(command, Connection.conn);
 
                 adp.Fill(dt);
             }
@@ -61,8 +69,8 @@ namespace POS
 
             panelTopMiddle.Location = new Point(centerX, panelTopMiddle.Location.Y);
 
-            int buttonX = this.ClientSize.Width - btnOrders.Width - 4;  
-            int buttonY = 4;  
+            int buttonX = this.ClientSize.Width - btnOrders.Width - 4;
+            int buttonY = 4;
 
             btnOrders.Location = new Point(buttonX, buttonY);
 
@@ -71,15 +79,15 @@ namespace POS
                 if (args.Button == MouseButtons.Left)
                 {
                     ContextMenuStrip contextMenu = new ContextMenuStrip();
-                    contextMenu.Items.Add("Dine in", null, (s, ev) => 
-                    { 
-                        dine = true; 
+                    contextMenu.Items.Add("Dine in", null, (s, ev) =>
+                    {
+                        dine = true;
                         take = false;
                         label2.Text = "Dine in";
                     });
-                    contextMenu.Items.Add("Take out", null, (s, ev) => 
-                    { 
-                        dine = false; 
+                    contextMenu.Items.Add("Take out", null, (s, ev) =>
+                    {
+                        dine = false;
                         take = true;
                         label2.Text = "Take away";
                     });
@@ -101,6 +109,27 @@ namespace POS
             loadMenu("");
         }
 
+        private void getCashier()
+        {
+            try
+            {
+                Connection.open();
+                MySqlDataAdapter data = new MySqlDataAdapter("SELECT * FROM users WHERE user_id = @id", Connection.conn);
+                data.SelectCommand.Parameters.AddWithValue("@id", idUser);
+
+                tableUser = new DataTable();
+                data.Fill(tableUser);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Connection.close();
+            }
+        }
+
         public void loadMenu(string nama)
         {
             try
@@ -108,15 +137,15 @@ namespace POS
                 Connection.open();
                 td = new DataTable();
                 string command = "";
-                if (string.IsNullOrWhiteSpace(nama)) 
+                if (string.IsNullOrWhiteSpace(nama))
                 {
                     command = "select * from products";
                 }
-                else 
+                else
                 {
                     command = "select * from products where product_name like @1";
                 }
-                MySqlCommand cmd = new MySqlCommand(command,Connection.conn);
+                MySqlCommand cmd = new MySqlCommand(command, Connection.conn);
                 cmd.Parameters.AddWithValue("@1", "%" + nama + "%");
 
                 MySqlDataReader reader = cmd.ExecuteReader();
@@ -125,50 +154,50 @@ namespace POS
 
                 panelRight.Controls.Clear();
 
-                int x = 22;
-                int y = 26;
+                int buttonsPerRow = 5;
+                int btnWidth = panelRight.Width / 6; 
+
+                int spacing = (panelRight.Width - (buttonsPerRow * btnWidth)) / (buttonsPerRow + 1);
+
+                int x = spacing;
+                int y = 26; // posisi vertical baris pertama
+
                 int count = 0;
 
                 foreach (DataRow row in td.Rows)
                 {
                     string productName = row["product_name"].ToString();
                     bool isActive = Convert.ToBoolean(row["is_active"]);
+
                     Button btn = new Button
                     {
                         Text = productName,
-                        Size = new Size(212, 46),
+                        Size = new Size(btnWidth, 70),
                         Location = new Point(x, y),
                         BackColor = Color.White,
                         FlatStyle = FlatStyle.Flat
                     };
 
                     btn.Click += btn_click;
-
-                    if (isActive)
-                    {
-                        btn.FlatAppearance.BorderColor = Color.Green;
-                    }
-                    else
-                    {
-                        btn.FlatAppearance.BorderColor = Color.Red;
-                    }
                     btn.FlatAppearance.BorderSize = 2;
+                    btn.FlatAppearance.BorderColor = isActive ? Color.Green : Color.Red;
 
                     panelRight.Controls.Add(btn);
 
                     count++;
-                    if (count % 4 == 0)
+                    if (count % buttonsPerRow == 0)
                     {
-                        x = 22; 
-                        y += 68; 
+                        y += btn.Height + 22;
+                        x = spacing;
                     }
                     else
                     {
-                        x += 233;
+                        x += btnWidth + spacing;
                     }
                 }
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -205,13 +234,13 @@ namespace POS
             }
 
             string nama = btn.Text;
-            string hargaString = $"{harga:N2}"; 
+            string hargaString = $"{harga:N2}";
             bool itemExists = false;
             string[] lines = richTextBox1.Lines;
 
             for (int i = 0; i < lines.Length; i++)
             {
-                if (lines[i].Trim().StartsWith(nama)) 
+                if (lines[i].Trim().StartsWith(nama))
                 {
                     itemExists = true;
 
@@ -221,9 +250,9 @@ namespace POS
                         string quantityPart = lines[i].Substring(xIndex + 1).Split(' ')[0].Trim();
                         if (int.TryParse(quantityPart, out int count))
                         {
-                            count += 1; 
+                            count += 1;
 
-                            decimal totalHarga = harga * count; 
+                            decimal totalHarga = harga * count;
                             string totalHargaString = $"{totalHarga:N2}";
 
                             lines[i] = $"{nama} x{count}".PadRight(40) + $"$ {totalHargaString}";
@@ -252,7 +281,11 @@ namespace POS
 
         private void pictureRefresh_Click(object sender, EventArgs e)
         {
-
+            textBox1.Clear();
+            Keyboard.clearKeyboard();
+            buttonClosePressed();
+            labelCashier.Select();
+            panelBottom.Height = 39;
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -278,8 +311,8 @@ namespace POS
             {
                 if (line.Contains("$"))
                 {
-                    int xIndex = line.IndexOf('x'); 
-                    int lastSpaceIndex = line.LastIndexOf(' '); 
+                    int xIndex = line.IndexOf('x');
+                    int lastSpaceIndex = line.LastIndexOf(' ');
 
                     if (xIndex > 0 && lastSpaceIndex > xIndex)
                     {
@@ -303,13 +336,13 @@ namespace POS
                 }
             }
 
-            tax = subtotal / 10; 
+            tax = subtotal / 10;
             total = subtotal + tax;
 
-            label6.Text = $"$. {subtotal:N2}".Replace(".", ","); 
-            label7.Text = $"$. {tax:N2}".Replace(".", ",");
-            label8.Text = $"$. {total:N2}".Replace(".", ",");
-
+            labelSubtotal.Text = $"$. {subtotal:N2}".Replace(".", ",");
+            labelTax.Text = $"$. {tax:N2}".Replace(".", ",");
+            labelTotal.Text = $"$. {total:N2}".Replace(".", ",");
+            getLabelLocation();
         }
 
         private void richTextBox1_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -328,7 +361,7 @@ namespace POS
                     if (index >= startIndex && index <= endIndex)
                     {
                         richTextBox1.Text = richTextBox1.Text.Remove(startIndex, line.Length + 1);
-                        break; 
+                        break;
                     }
                 }
             }
@@ -349,6 +382,22 @@ namespace POS
 
         }
 
+        private void textBox1_Enter(object sender, EventArgs e)
+        {
+            addKeyboard(textBox1);
+            labelCashier.Text = "";
+        }
+
+        private void textBox1_Leave(object sender, EventArgs e)
+        {
+            if (isKeyboardActive == false)
+            {
+                panelBottom.Height = 100;
+                panelKeyboard.Height = 0;
+                labelCashier.Text = tableUser.Rows[0]["firstName"].ToString();
+            }
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
             take = true;
@@ -356,6 +405,30 @@ namespace POS
             panel_order.Enabled = true;
             panel_order.Visible = true;
             label2.Text = "Take Away";
+        }
+
+        private void addKeyboard(TextBox textBox)
+        {
+            Keyboard.OnKeyboardClosed += buttonClosePressed;
+            panelBottom.Height = 350;
+            panelKeyboard.Height = 350;
+            Keyboard.addKeyboard(this, panelKeyboard, textBox, panelBottom, panelBottom.Width);
+            isKeyboardActive = true;
+        }
+
+        private void getLabelLocation()
+        {
+            labelSubtotal.Location = new Point(panelPay.Width - labelSubtotal.Width, labelSubtotal.Location.Y);
+            labelTax.Location = new Point(panelPay.Width - labelTax.Width, labelTax.Location.Y);
+            labelTotal.Location = new Point(panelPay.Width - labelTotal.Width, labelTotal.Location.Y);
+        }
+
+        private void buttonClosePressed()
+        {
+            panelBottom.Height = 39;
+            labelCashier.Text = tableUser.Rows[0]["firstName"].ToString();
+            isKeyboardActive = false;
+            Keyboard.OnKeyboardClosed -= buttonClosePressed;
         }
     }
 }
