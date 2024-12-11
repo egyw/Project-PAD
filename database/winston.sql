@@ -168,10 +168,76 @@ INSERT INTO discounts (discount_code, DESCRIPTION, discount_percentage, start_da
 -- iki bikino ada modifier apa ae yg mungkin cth extra sauce, double meat, strawyberry icecream pokoe kabeh liaten ae di aw gofood apa ae yg mungkin
 INSERT INTO modifiers (modifier_name, modifier_price) VALUES
 ('Golden Aroma', 0),
-('Spicy Aroma', 0);
+('Spicy Aroma', 0),
+('Extra Cheese', 2000),
+('Extra Sauce', 2000),
+('Double Meat', 5000),
+('No Cheese', 0),
+('No Sauce', 0),
+('No Meat', 0),
+('No Vegetables', 0),
+('Extra Vegetable', 1000),
+('Large Size', 3000),
+('Small Size', 0), -- Burger
+('No Ice', 0),
+('Extra Ice', 1000),
+('No Float', 0),
+('Extra Float', 2000), 
+('Large Size', 2000), 
+('Small Size', 0), -- Minuman
+('Breast', 0),
+('Wing', 0),
+('Drumstick', 0),
+('Extra Rice', 1500), -- Ayam
+('Extra Strawberry Topping', 3000),
+('Extra Chocolate Topping', 3000),
+('No Topping', 0),
+('Large Size', 2000), 
+('Small Size', 1000), -- Ice Cream
+('Large Size', 2000), -- Soup
+('Small Size', 1000),
+('Extra Sauce', 1000), -- Snack
+('Golden Aroma', 0),
+('Spicy Aroma', 0),
+('Extra Rice', 1500),
+('Extra Egg', 2000); -- general
+ 
 
 -- jadi iki liaten seng product iku di field paling akhir onok type e jadi misale burger, modifier e apa ae seng cocok cocokin ama yang modifiers e 
 INSERT INTO product_type_modifiers (product_type, modifier_id) VALUES
 ('burger', 1),  -- Golden Aroma
-('burger', 2);  -- Spicy Aroma
+('burger', 2),  -- Spicy Aroma
+('burger', 3),  -- Extra Cheese
+('burger', 4),  -- Extra Sauce
+('burger', 5),  -- Double Meat
+('burger', 6),  -- No Cheese
+('burger', 7),  -- No Sauce
+('burger', 8),  -- No Meat
+('burger', 9),  -- No Vegetables
+('burger', 10), -- Extra Vegetable
+('burger', 11), -- Large Size
+('burger', 12), -- Small Size
+('minuman', 13),  -- No Ice
+('minuman', 14),  -- Extra Ice
+('minuman', 15),  -- No Float
+('minuman', 16),  -- Extra Float
+('minuman', 17),  -- Large Size
+('minuman', 18),  -- Small Size
+('ayam', 19), -- Breast
+('ayam', 20), -- Wing
+('ayam', 21), -- Drumstick
+('ayam', 22), -- Rice
+('icecream', 23), -- Extra Strawberry Topping
+('icecream', 24), -- Extra Chocolate Topping
+('icecream', 25), -- No Topping
+('icecream', 26), -- Large Size
+('icecream', 27), -- Small Size
+('soup', 28), -- Large Size
+('soup', 29), -- Small Size
+('snack', 30), -- Extra Sauce
+('general', 31), -- Golden Aroma
+('general', 32), -- Spicy Aroma
+('general', 33), -- Extra Rice
+('general', 34); -- Extra Egg
+
 

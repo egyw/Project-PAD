@@ -351,19 +351,42 @@ namespace POS
             {
                 int index = richTextBox1.GetCharIndexFromPosition(e.Location);
 
-                string[] lines = richTextBox1.Text.Split(new[] { '\n' }, StringSplitOptions.None);
+                int lineIndex = richTextBox1.GetLineFromCharIndex(index);
+                string namamenu = richTextBox1.Lines[lineIndex];
 
-                foreach (string line in lines)
+                string menuName = namamenu.Split('x')[0].Trim();
+
+                string tipeproduk = "";
+
+                try
                 {
-                    int startIndex = richTextBox1.Text.IndexOf(line);
-                    int endIndex = startIndex + line.Length;
+                    Connection.open();
+                    string query = "SELECT product_type FROM products WHERE product_name = @productName";
 
-                    if (index >= startIndex && index <= endIndex)
+                    using (MySqlCommand cmd = new MySqlCommand(query, Connection.conn))
                     {
-                        richTextBox1.Text = richTextBox1.Text.Remove(startIndex, line.Length + 1);
-                        break;
+                        cmd.Parameters.AddWithValue("@productName", menuName);
+
+                        object result = cmd.ExecuteScalar();
+                        if (result != null)
+                        {
+                            tipeproduk = result.ToString();
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error retrieving product type: " + ex.Message);
+                }
+                finally
+                {
+                    Connection.close();
+                }
+
+                richTextBox1.Lines = richTextBox1.Lines.Where((line, idx) => idx != lineIndex).ToArray();
+
+                FormModifier customorder = new FormModifier(idUser, namamenu, tipeproduk);
+                customorder.Show();
             }
         }
 

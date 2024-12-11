@@ -13,11 +13,13 @@ namespace POS
     public partial class FormModifier : Form
     {
         int idUser;
-        public FormModifier(int id)
+        public FormModifier(int id, string namamenu, string productType)
         {
             InitializeComponent();
             this.idUser = id;
-            
+            label5.Text = namamenu;
+            label7.Text = productType;
+            richTextBox1.Text = namamenu;
             
         }
 
@@ -85,6 +87,11 @@ namespace POS
         }
 
         private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
         {
 
         }
