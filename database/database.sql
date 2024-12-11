@@ -38,6 +38,7 @@ CREATE TABLE products (
     DESCRIPTION TEXT,
     is_active BOOLEAN DEFAULT TRUE,
     category_id INT, -- fk
+    url_image VARCHAR(200),
     FOREIGN KEY (category_id) REFERENCES categories(category_id)
 );
 
