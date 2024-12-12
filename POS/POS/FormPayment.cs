@@ -204,7 +204,7 @@ namespace POS
             {
                 Connection.open();
                 MySqlCommand cmd = new MySqlCommand("SELECT * FROM orders o " +
-                    "jOIN order_items oi ON o.order_id = oi.order_id " +
+                    "JOIN order_items oi ON o.order_id = oi.order_id " +
                     "JOIN products p ON p.product_id = oi.product_id " +
                     "JOIN payments py ON py.order_id = o.order_id " +
                     "WHERE o.order_status != 'completed'  ", Connection.conn);
