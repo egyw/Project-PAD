@@ -37,6 +37,14 @@ namespace POS
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panelLeft = new System.Windows.Forms.Panel();
+            this.panelPay = new System.Windows.Forms.Panel();
+            this.labelTotal = new System.Windows.Forms.Label();
+            this.labelTax = new System.Windows.Forms.Label();
+            this.labelSubtotal = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.buttonPay = new System.Windows.Forms.Button();
             this.panel_order = new System.Windows.Forms.Panel();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -46,25 +54,17 @@ namespace POS
             this.label1 = new System.Windows.Forms.Label();
             this.panelRight = new System.Windows.Forms.Panel();
             this.panelBottom = new System.Windows.Forms.Panel();
-            this.labelCashier = new System.Windows.Forms.Label();
             this.panelKeyboard = new System.Windows.Forms.Panel();
-            this.panelPay = new System.Windows.Forms.Panel();
-            this.labelTotal = new System.Windows.Forms.Label();
-            this.labelTax = new System.Windows.Forms.Label();
-            this.labelSubtotal = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.buttonPay = new System.Windows.Forms.Button();
+            this.labelCashier = new System.Windows.Forms.Label();
             this.panelTop.SuspendLayout();
             this.panelTopMiddle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureRefresh)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelLeft.SuspendLayout();
+            this.panelPay.SuspendLayout();
             this.panel_order.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.panelBottom.SuspendLayout();
-            this.panelPay.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelTop
@@ -112,7 +112,7 @@ namespace POS
             // 
             this.textBox1.Location = new System.Drawing.Point(39, 11);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(265, 29);
+            this.textBox1.Size = new System.Drawing.Size(265, 34);
             this.textBox1.TabIndex = 1;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             this.textBox1.Enter += new System.EventHandler(this.textBox1_Enter);
@@ -142,6 +142,92 @@ namespace POS
             this.panelLeft.Size = new System.Drawing.Size(413, 733);
             this.panelLeft.TabIndex = 1;
             // 
+            // panelPay
+            // 
+            this.panelPay.Controls.Add(this.labelTotal);
+            this.panelPay.Controls.Add(this.labelTax);
+            this.panelPay.Controls.Add(this.labelSubtotal);
+            this.panelPay.Controls.Add(this.label5);
+            this.panelPay.Controls.Add(this.label13);
+            this.panelPay.Controls.Add(this.label14);
+            this.panelPay.Controls.Add(this.buttonPay);
+            this.panelPay.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panelPay.Location = new System.Drawing.Point(0, 559);
+            this.panelPay.Name = "panelPay";
+            this.panelPay.Size = new System.Drawing.Size(409, 170);
+            this.panelPay.TabIndex = 4;
+            // 
+            // labelTotal
+            // 
+            this.labelTotal.AutoSize = true;
+            this.labelTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTotal.Location = new System.Drawing.Point(367, 80);
+            this.labelTotal.Name = "labelTotal";
+            this.labelTotal.Size = new System.Drawing.Size(20, 24);
+            this.labelTotal.TabIndex = 18;
+            this.labelTotal.Text = "$";
+            // 
+            // labelTax
+            // 
+            this.labelTax.AutoSize = true;
+            this.labelTax.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTax.Location = new System.Drawing.Point(367, 47);
+            this.labelTax.Name = "labelTax";
+            this.labelTax.Size = new System.Drawing.Size(20, 24);
+            this.labelTax.TabIndex = 17;
+            this.labelTax.Text = "$";
+            // 
+            // labelSubtotal
+            // 
+            this.labelSubtotal.AutoSize = true;
+            this.labelSubtotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelSubtotal.Location = new System.Drawing.Point(367, 19);
+            this.labelSubtotal.Name = "labelSubtotal";
+            this.labelSubtotal.Size = new System.Drawing.Size(20, 24);
+            this.labelSubtotal.TabIndex = 16;
+            this.labelSubtotal.Text = "$";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(27, 19);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(92, 24);
+            this.label5.TabIndex = 15;
+            this.label5.Text = "Subtotal : ";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(58, 47);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(52, 24);
+            this.label13.TabIndex = 14;
+            this.label13.Text = "Tax :";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(43, 79);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(68, 24);
+            this.label14.TabIndex = 13;
+            this.label14.Text = "Total :";
+            // 
+            // buttonPay
+            // 
+            this.buttonPay.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.buttonPay.Cursor = System.Windows.Forms.Cursors.Default;
+            this.buttonPay.Location = new System.Drawing.Point(127, 112);
+            this.buttonPay.Name = "buttonPay";
+            this.buttonPay.Size = new System.Drawing.Size(161, 42);
+            this.buttonPay.TabIndex = 12;
+            this.buttonPay.Text = "PAY";
+            this.buttonPay.UseVisualStyleBackColor = false;
+            // 
             // panel_order
             // 
             this.panel_order.Controls.Add(this.richTextBox1);
@@ -170,7 +256,7 @@ namespace POS
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(5, 28);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(95, 29);
+            this.label2.Size = new System.Drawing.Size(116, 36);
             this.label2.TabIndex = 3;
             this.label2.Text = "Dine In";
             // 
@@ -209,7 +295,7 @@ namespace POS
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(21, 26);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(107, 24);
+            this.label1.Size = new System.Drawing.Size(137, 29);
             this.label1.TabIndex = 0;
             this.label1.Text = "Order Type";
             // 
@@ -235,15 +321,6 @@ namespace POS
             this.panelBottom.Size = new System.Drawing.Size(1035, 39);
             this.panelBottom.TabIndex = 3;
             // 
-            // labelCashier
-            // 
-            this.labelCashier.AutoSize = true;
-            this.labelCashier.Location = new System.Drawing.Point(968, 5);
-            this.labelCashier.Name = "labelCashier";
-            this.labelCashier.Size = new System.Drawing.Size(61, 24);
-            this.labelCashier.TabIndex = 0;
-            this.labelCashier.Text = "Name";
-            // 
             // panelKeyboard
             // 
             this.panelKeyboard.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -252,95 +329,18 @@ namespace POS
             this.panelKeyboard.Size = new System.Drawing.Size(1033, 0);
             this.panelKeyboard.TabIndex = 1;
             // 
-            // panelPay
+            // labelCashier
             // 
-            this.panelPay.Controls.Add(this.labelTotal);
-            this.panelPay.Controls.Add(this.labelTax);
-            this.panelPay.Controls.Add(this.labelSubtotal);
-            this.panelPay.Controls.Add(this.label5);
-            this.panelPay.Controls.Add(this.label13);
-            this.panelPay.Controls.Add(this.label14);
-            this.panelPay.Controls.Add(this.buttonPay);
-            this.panelPay.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelPay.Location = new System.Drawing.Point(0, 559);
-            this.panelPay.Name = "panelPay";
-            this.panelPay.Size = new System.Drawing.Size(409, 170);
-            this.panelPay.TabIndex = 4;
-            // 
-            // labelTotal
-            // 
-            this.labelTotal.AutoSize = true;
-            this.labelTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTotal.Location = new System.Drawing.Point(367, 80);
-            this.labelTotal.Name = "labelTotal";
-            this.labelTotal.Size = new System.Drawing.Size(16, 18);
-            this.labelTotal.TabIndex = 18;
-            this.labelTotal.Text = "$";
-            // 
-            // labelTax
-            // 
-            this.labelTax.AutoSize = true;
-            this.labelTax.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTax.Location = new System.Drawing.Point(367, 47);
-            this.labelTax.Name = "labelTax";
-            this.labelTax.Size = new System.Drawing.Size(16, 18);
-            this.labelTax.TabIndex = 17;
-            this.labelTax.Text = "$";
-            // 
-            // labelSubtotal
-            // 
-            this.labelSubtotal.AutoSize = true;
-            this.labelSubtotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSubtotal.Location = new System.Drawing.Point(367, 19);
-            this.labelSubtotal.Name = "labelSubtotal";
-            this.labelSubtotal.Size = new System.Drawing.Size(16, 18);
-            this.labelSubtotal.TabIndex = 16;
-            this.labelSubtotal.Text = "$";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(27, 19);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(74, 18);
-            this.label5.TabIndex = 15;
-            this.label5.Text = "Subtotal : ";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(58, 47);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(40, 18);
-            this.label13.TabIndex = 14;
-            this.label13.Text = "Tax :";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(43, 79);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(56, 18);
-            this.label14.TabIndex = 13;
-            this.label14.Text = "Total :";
-            // 
-            // buttonPay
-            // 
-            this.buttonPay.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.buttonPay.Cursor = System.Windows.Forms.Cursors.Default;
-            this.buttonPay.Location = new System.Drawing.Point(127, 112);
-            this.buttonPay.Name = "buttonPay";
-            this.buttonPay.Size = new System.Drawing.Size(161, 42);
-            this.buttonPay.TabIndex = 12;
-            this.buttonPay.Text = "PAY";
-            this.buttonPay.UseVisualStyleBackColor = false;
+            this.labelCashier.AutoSize = true;
+            this.labelCashier.Location = new System.Drawing.Point(968, 5);
+            this.labelCashier.Name = "labelCashier";
+            this.labelCashier.Size = new System.Drawing.Size(78, 29);
+            this.labelCashier.TabIndex = 0;
+            this.labelCashier.Text = "Name";
             // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 29F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1448, 780);
             this.Controls.Add(this.panelBottom);
@@ -360,13 +360,13 @@ namespace POS
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panelLeft.ResumeLayout(false);
             this.panelLeft.PerformLayout();
+            this.panelPay.ResumeLayout(false);
+            this.panelPay.PerformLayout();
             this.panel_order.ResumeLayout(false);
             this.panel_order.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.panelBottom.ResumeLayout(false);
             this.panelBottom.PerformLayout();
-            this.panelPay.ResumeLayout(false);
-            this.panelPay.PerformLayout();
             this.ResumeLayout(false);
 
         }

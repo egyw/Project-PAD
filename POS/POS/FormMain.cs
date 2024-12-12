@@ -59,6 +59,9 @@ namespace POS
             panel_order.Enabled = false;
             panel_order.Visible = false;
 
+            panelPay.Enabled = false;
+            panelPay.Visible = false;
+
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -100,6 +103,9 @@ namespace POS
                         panel_order.Visible = false;
 
                         richTextBox1.Text = "";
+
+                        panelPay.Enabled = false;
+                        panelPay.Visible = false;
                     });
                     contextMenu.Show(pictureBox2, args.Location);
                 }
@@ -168,31 +174,68 @@ namespace POS
                 {
                     string productName = row["product_name"].ToString();
                     bool isActive = Convert.ToBoolean(row["is_active"]);
-
-                    Button btn = new Button
+                    if (isActive)
                     {
-                        Text = productName,
-                        Size = new Size(btnWidth, 70),
-                        Location = new Point(x, y),
-                        BackColor = Color.White,
-                        FlatStyle = FlatStyle.Flat
-                    };
+                        // Membuat Panel untuk menggabungkan PictureBox dan Label
+                        Panel productPanel = new Panel
+                        {
+                            Size = new Size(btnWidth, btnWidth + 20), // Tambahkan ruang untuk teks
+                            Location = new Point(x, y),
+                            BackColor = Color.White
+                        };
 
-                    btn.Click += btn_click;
-                    btn.FlatAppearance.BorderSize = 2;
-                    btn.FlatAppearance.BorderColor = isActive ? Color.Green : Color.Red;
+                        // Membuat PictureBox
+                        PictureBox btn = new PictureBox
+                        {
+                            Size = new Size(btnWidth, btnWidth),
+                            Location = new Point(0, 0),
+                            SizeMode = PictureBoxSizeMode.Zoom,
+                            BackColor = Color.LightGray
+                        };
 
-                    panelRight.Controls.Add(btn);
+                        // Memuat gambar ke PictureBox
+                        try
+                        {
+                            btn.Load(row["url_image"].ToString());
+                        }
+                        catch
+                        {
 
-                    count++;
-                    if (count % buttonsPerRow == 0)
-                    {
-                        y += btn.Height + 22;
-                        x = spacing;
-                    }
-                    else
-                    {
-                        x += btnWidth + spacing;
+                        }
+
+                        // Membuat Label untuk teks
+                        Label label = new Label
+                        {
+                            Text = productName,
+                            Size = new Size(btnWidth, 20),
+                            Location = new Point(0, btnWidth), // Di bawah PictureBox
+                            TextAlign = ContentAlignment.MiddleCenter,
+                            Font = new Font("Arial", 10, FontStyle.Regular),
+                            BackColor = Color.White
+                        };
+
+                        btn.Click += (s, e) => btn_click(label, e);
+
+                        label.Click += btn_click;
+
+                        // Menambahkan PictureBox dan Label ke Panel
+                        productPanel.Controls.Add(btn);
+                        productPanel.Controls.Add(label);
+
+                        // Menambahkan Panel ke panelRight
+                        panelRight.Controls.Add(productPanel);
+
+                        // Mengatur posisi berikutnya
+                        count++;
+                        if (count % buttonsPerRow == 0)
+                        {
+                            y += btnWidth + 35; // Tinggi PictureBox + jarak antar baris
+                            x = spacing;
+                        }
+                        else
+                        {
+                            x += btnWidth + spacing;
+                        }
                     }
                 }
 
@@ -209,7 +252,23 @@ namespace POS
 
         private void btn_click(object sender, EventArgs e)
         {
-            Button btn = sender as Button;
+            string menu = string.Empty;
+
+            if (sender is PictureBox btn)
+            {
+                menu = btn.Tag as string;
+            }
+            else if (sender is Label label)
+            {
+                menu = label.Text;
+            }
+
+            if (string.IsNullOrEmpty(menu))
+            {
+                MessageBox.Show("Nama produk tidak ditemukan.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             if (dine || take)
             {
                 // Tidak perlu implementasi tambahan
@@ -221,19 +280,21 @@ namespace POS
                 panel_order.Enabled = true;
                 panel_order.Visible = true;
                 label2.Text = "Dine in";
+                panelPay.Enabled = true;
+                panelPay.Visible = true;
             }
 
             decimal harga = 0;
             foreach (DataRow row in dt.Rows)
             {
-                if (btn.Text == row["product_name"].ToString())
+                if (menu == row["product_name"].ToString())
                 {
                     harga = (decimal)row["price"];
                     break;
                 }
             }
 
-            string nama = btn.Text;
+            string nama = menu;
             string hargaString = $"{harga:N2}";
             bool itemExists = false;
             string[] lines = richTextBox1.Lines;
@@ -274,8 +335,6 @@ namespace POS
 
             richTextBox1.SelectionStart = richTextBox1.TextLength;
             richTextBox1.ScrollToCaret();
-
-
         }
 
 
@@ -300,6 +359,9 @@ namespace POS
             panel_order.Enabled = true;
             panel_order.Visible = true;
             label2.Text = "Dine in";
+
+            panelPay.Enabled = true;
+            panelPay.Visible = true;
         }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
@@ -311,26 +373,16 @@ namespace POS
             {
                 if (line.Contains("$"))
                 {
-                    int xIndex = line.IndexOf('x');
-                    int lastSpaceIndex = line.LastIndexOf(' ');
+                    int lastSpaceIndex = line.LastIndexOf(' '); 
 
-                    if (xIndex > 0 && lastSpaceIndex > xIndex)
+                    if (lastSpaceIndex > 0)
                     {
-
                         string pricePart = line.Substring(lastSpaceIndex + 1).Trim();
                         pricePart = pricePart.Replace("$", "").Replace(",", ".").Trim();
 
                         if (decimal.TryParse(pricePart, out decimal price))
                         {
-                            int quantity = 1;
-
-                            string quantityPart = line.Substring(xIndex + 1, lastSpaceIndex - xIndex - 1).Trim();
-                            if (int.TryParse(quantityPart, out int parsedQuantity))
-                            {
-                                quantity = parsedQuantity;
-                            }
-
-                            subtotal += price * quantity;
+                            subtotal += price;
                         }
                     }
                 }
@@ -428,6 +480,8 @@ namespace POS
             panel_order.Enabled = true;
             panel_order.Visible = true;
             label2.Text = "Take Away";
+            panelPay.Enabled = true;
+            panelPay.Visible = true;
         }
 
         private void addKeyboard(TextBox textBox)
