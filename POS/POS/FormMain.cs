@@ -387,7 +387,7 @@ namespace POS
                     }
                 }
             }
-
+            subtotal /= 100;
             tax = subtotal / 10;
             total = subtotal + tax;
 
