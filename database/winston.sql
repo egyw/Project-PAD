@@ -119,7 +119,7 @@ INSERT INTO products (product_id,product_name,price,DESCRIPTION,is_active,catego
 (93,'Picnic Barrel 2 - Chicken & Chicken Chunks™',151500.00,'4 Golden/Spicy Aroma Chicken + 4 Chicken Chunks + 2 Rice + 2 Reg RB + Free Barrel',1,5,'image93.jpg','general'),
 (94,'Picnic Barrel 3 - Duo Aroma Chicken',134000.00,'6 Golden/Spicy Aroma Chicken + Free Barrel',1,5,'image94.jpg','general'),
 (95,'Good Friends - Chicken & Soup',235000.00,'6 Golden/Spicy Aroma Chicken + 2 Chicken Soup + 4 Rice + 4 Reg RB',1,5,'image95.jpg','general'),
-(96,'Good Family - Duo Aroma Chicken',191000.00,'9 Golden/Spicy Aroma Chicken',1,5,'image96','general');
+(96,'Good Family - Duo Aroma Chicken',191000.00,'9 Golden/Spicy Aroma Chicken',1,5,'image96.jpg','general');
 
 INSERT INTO payment_method (NAME) VALUES
 ('cash'),

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -193,14 +194,20 @@ namespace POS
                             BackColor = Color.LightGray
                         };
 
-                        // Memuat gambar ke PictureBox
+                        string imageName = row["url_image"].ToString();
+                        string imagePath = Path.Combine("productImg", imageName);
+
                         try
                         {
-                            btn.Load(row["url_image"].ToString());
+                            // Memuat gambar dan melakukan resize
+                            Image img = Image.FromFile(imagePath);
+                            int maxWidth = 100; // Ukuran gambar yang diinginkan
+                            int maxHeight = 100;
+                            btn.Image = ResizeImage(img, maxWidth, maxHeight); // Resize gambar
                         }
-                        catch
+                        catch(Exception ex)
                         {
-
+                            MessageBox.Show(ex.Message);
                         }
 
                         // Membuat Label untuk teks
@@ -248,6 +255,19 @@ namespace POS
             {
                 Connection.close();
             }
+        }
+
+        public static Image ResizeImage(Image img, int width, int height)
+        {
+            var bmp = new Bitmap(width, height);
+            using (var graphics = Graphics.FromImage(bmp))
+            {
+                graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+                graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                graphics.DrawImage(img, 0, 0, width, height);
+            }
+            return bmp;
         }
 
         private void btn_click(object sender, EventArgs e)
@@ -335,6 +355,11 @@ namespace POS
 
             richTextBox1.SelectionStart = richTextBox1.TextLength;
             richTextBox1.ScrollToCaret();
+
+            // Mengubah ukuran font untuk seluruh teks
+            richTextBox1.SelectAll();
+            richTextBox1.SelectionFont = new Font(richTextBox1.Font.FontFamily, 10);
+            richTextBox1.DeselectAll();
         }
 
 
