@@ -46,11 +46,13 @@ namespace POS
         private void AddModifier(string modifierText, dynamic modifierInfo)
         {
             int modifierId = modifierInfo.ModifierId;
+            decimal price = modifierInfo.Price;
 
             modifierQuantities[modifierId] = 1;
 
             UpdateRichTextBoxWithModifiers();
             UpdateModifierLabel();
+            UpdatePrices(); // Perbarui harga setelah menambahkan modifier
         }
 
         private void hapusmodifier(string modifierText, int modifierId)
@@ -59,12 +61,12 @@ namespace POS
 
             UpdateRichTextBoxWithModifiers();
             UpdateModifierLabel();
+            UpdatePrices(); // Perbarui harga setelah menghapus modifier
         }
 
         private void UpdateRichTextBoxWithModifiers()
         {
             string originalMenu = label5.Text;
-
             string updatedText = originalMenu;
 
             foreach (var modifier in modifierQuantities)
@@ -113,25 +115,18 @@ namespace POS
         private void UpdateButtonAppearance(Button button)
         {
             int modifierId = ((dynamic)button.Tag).ModifierId;
+            decimal price = ((dynamic)button.Tag).Price;
 
             if (modifierQuantities.ContainsKey(modifierId))
             {
                 int quantity = modifierQuantities[modifierId];
-
-                if (quantity > 1)
-                {
-                    button.BackColor = Color.LightBlue;
-                    button.Text = $"{button.Text.Split('\n')[0]}\n(x{quantity})";
-                }
-                else
-                {
-                    button.BackColor = Color.LightGreen;
-                }
+                button.BackColor = quantity > 1 ? Color.LightBlue : Color.LightGreen;
+                button.Text = $"{button.Text.Split('\n')[0]}\n(x{quantity})";
             }
             else
             {
                 button.BackColor = Color.White;
-                button.Text = $"{button.Text.Split('\n')[0]}\n(+{((dynamic)button.Tag).Price:C})";
+                button.Text = $"{button.Text.Split('\n')[0]}\n(+{price:C})";
             }
         }
 
@@ -237,6 +232,30 @@ namespace POS
             }
         }
 
+        private void UpdatePrices()
+        {
+            decimal subtotal = 0;
+
+            foreach (var modifier in modifierQuantities)
+            {
+                Button modifierButton = this.Controls.Find($"modifier_{modifier.Key}", true)[0] as Button;
+                if (modifierButton != null)
+                {
+                    decimal price = ((dynamic)modifierButton.Tag).Price;
+                    int quantity = modifierQuantities[modifier.Key];
+                    subtotal += price * quantity;
+                }
+            }
+
+            decimal tax = subtotal * 0.10m; // Pajak 10%
+            decimal total = subtotal + tax;
+
+            // Perbarui label subtotal, pajak, dan total
+            labelSubtotal.Text = $"{subtotal:C}".Replace(".", ",");
+            labelTax.Text = $"{tax:C}".Replace(".", ",");
+            labelTotal.Text = $"{total:C}".Replace(".", ",");
+        }
+
         private void label1_Click(object sender, EventArgs e)
         {
             FormMain balik = new FormMain(idUser);
@@ -258,40 +277,6 @@ namespace POS
                 bayar.ShowDialog();
                 this.Close();
             }
-        }
-
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
-        {
-            string[] lines = richTextBox1.Text.Split('\n');
-            decimal subtotal = 0, tax = 0, total = 0;
-
-            foreach (string line in lines)
-            {
-                if (line.Contains("$"))
-                {
-                    int lastSpaceIndex = line.LastIndexOf(' ');
-
-                    if (lastSpaceIndex > 0)
-                    {
-                        string pricePart = line.Substring(lastSpaceIndex + 1).Trim();
-                        pricePart = pricePart.Replace("$", "").Replace(",", ".").Trim();
-
-                        if (decimal.TryParse(pricePart, out decimal price))
-                        {
-                            subtotal += price;
-                        }
-                    }
-                }
-            }
-
-            tax = subtotal * 0.10m; // Pajak 10%
-            total = subtotal + tax;
-
-            // Perbarui label subtotal, tax, dan total
-            labelSubtotal.Text = $"{subtotal:C}".Replace(".", ",");
-            labelTax.Text = $"{tax:C}".Replace(".", ",");
-            labelTotal.Text = $"{total:C}".Replace(".", ",");
-
         }
     }
 }
