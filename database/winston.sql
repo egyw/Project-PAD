@@ -23,7 +23,7 @@ INSERT INTO categories (category_name) VALUES
 ('Desserts'),
 ('Combo');
 
-INSERT INTO products (product_id,product_name,price,DESCRIPTION,is_active,category_id,url_image,product_type) VALUES
+INSERT INTO products (product_id,product_name,price,DESCRIPTION,is_active,category_id,image,product_type) VALUES
 (1,'ICED Hazelnut Macchiato 16',32500.00,'The perfect pick me up on a hot summer day! A rich and creamy coffee blended with aromatic notes of roasted hazelnut',1,1,'image1.jpg','minuman'),
 (2,'HOT Hazelnut Macchiato 12',24500.00,'A soul warming blend of rich and creamy coffee with aromatic notes of roasted hazelnut',1,1,'image2.jpg','minuman'),
 (3,'SUPER - RB Float',15500.00,'1 Reg RB Float',1,1,'image3.jpg','minuman'),

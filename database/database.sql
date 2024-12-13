@@ -39,7 +39,7 @@ CREATE TABLE products (
     DESCRIPTION TEXT,
     is_active BOOLEAN DEFAULT TRUE,
     category_id INT,
-    url_image VARCHAR(200),
+    image VARCHAR(200),
     product_type ENUM('general', 'ayam', 'burger', 'minuman', 'snack', 'soup', 'icecream', 'none'),
     FOREIGN KEY (category_id) REFERENCES categories(category_id)
 );
