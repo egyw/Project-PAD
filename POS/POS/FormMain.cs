@@ -194,7 +194,7 @@ namespace POS
                             BackColor = Color.LightGray
                         };
 
-                        string imageName = row["url_image"].ToString();
+                        string imageName = row["image"].ToString();
                         string imagePath = Path.Combine("productImg", imageName);
 
                         try
