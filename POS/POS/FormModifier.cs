@@ -259,5 +259,39 @@ namespace POS
                 this.Close();
             }
         }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            string[] lines = richTextBox1.Text.Split('\n');
+            decimal subtotal = 0, tax = 0, total = 0;
+
+            foreach (string line in lines)
+            {
+                if (line.Contains("$"))
+                {
+                    int lastSpaceIndex = line.LastIndexOf(' ');
+
+                    if (lastSpaceIndex > 0)
+                    {
+                        string pricePart = line.Substring(lastSpaceIndex + 1).Trim();
+                        pricePart = pricePart.Replace("$", "").Replace(",", ".").Trim();
+
+                        if (decimal.TryParse(pricePart, out decimal price))
+                        {
+                            subtotal += price;
+                        }
+                    }
+                }
+            }
+
+            tax = subtotal * 0.10m; // Pajak 10%
+            total = subtotal + tax;
+
+            // Perbarui label subtotal, tax, dan total
+            labelSubtotal.Text = $"{subtotal:C}".Replace(".", ",");
+            labelTax.Text = $"{tax:C}".Replace(".", ",");
+            labelTotal.Text = $"{total:C}".Replace(".", ",");
+
+        }
     }
 }

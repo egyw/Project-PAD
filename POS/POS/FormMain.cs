@@ -435,8 +435,6 @@ namespace POS
                     Connection.close();
                 }
 
-                richTextBox1.Lines = richTextBox1.Lines.Where((line, idx) => idx != lineIndex).ToArray();
-
                 FormModifier customorder = new FormModifier(idUser, namamenu, tipeproduk);
                 customorder.Show();
             }

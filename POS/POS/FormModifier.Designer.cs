@@ -41,6 +41,12 @@ namespace POS
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.labelSubtotal = new System.Windows.Forms.Label();
+            this.labelTax = new System.Windows.Forms.Label();
+            this.labelTotal = new System.Windows.Forms.Label();
             this.panelTop.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -92,6 +98,12 @@ namespace POS
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.Gainsboro;
+            this.panel2.Controls.Add(this.labelTotal);
+            this.panel2.Controls.Add(this.labelTax);
+            this.panel2.Controls.Add(this.labelSubtotal);
+            this.panel2.Controls.Add(this.label14);
+            this.panel2.Controls.Add(this.label13);
+            this.panel2.Controls.Add(this.label7);
             this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.button2);
             this.panel2.Controls.Add(this.button1);
@@ -117,7 +129,7 @@ namespace POS
             // 
             this.button2.BackColor = System.Drawing.Color.Gray;
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(31, 743);
+            this.button2.Location = new System.Drawing.Point(31, 764);
             this.button2.Margin = new System.Windows.Forms.Padding(4);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(155, 54);
@@ -129,7 +141,7 @@ namespace POS
             // 
             this.button1.BackColor = System.Drawing.Color.YellowGreen;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(257, 743);
+            this.button1.Location = new System.Drawing.Point(249, 764);
             this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(155, 54);
@@ -144,9 +156,10 @@ namespace POS
             this.richTextBox1.Location = new System.Drawing.Point(3, 39);
             this.richTextBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(436, 676);
+            this.richTextBox1.Size = new System.Drawing.Size(436, 590);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
+            this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
             // 
             // label2
             // 
@@ -177,6 +190,66 @@ namespace POS
             this.label4.Size = new System.Drawing.Size(59, 25);
             this.label4.TabIndex = 5;
             this.label4.Text = "None";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(13, 645);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(92, 24);
+            this.label7.TabIndex = 16;
+            this.label7.Text = "Subtotal : ";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(43, 679);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(52, 24);
+            this.label13.TabIndex = 17;
+            this.label13.Text = "Tax :";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(27, 715);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(68, 24);
+            this.label14.TabIndex = 18;
+            this.label14.Text = "Total :";
+            // 
+            // labelSubtotal
+            // 
+            this.labelSubtotal.AutoSize = true;
+            this.labelSubtotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelSubtotal.Location = new System.Drawing.Point(312, 645);
+            this.labelSubtotal.Name = "labelSubtotal";
+            this.labelSubtotal.Size = new System.Drawing.Size(20, 24);
+            this.labelSubtotal.TabIndex = 17;
+            this.labelSubtotal.Text = "$";
+            // 
+            // labelTax
+            // 
+            this.labelTax.AutoSize = true;
+            this.labelTax.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTax.Location = new System.Drawing.Point(384, 679);
+            this.labelTax.Name = "labelTax";
+            this.labelTax.Size = new System.Drawing.Size(20, 24);
+            this.labelTax.TabIndex = 19;
+            this.labelTax.Text = "$";
+            // 
+            // labelTotal
+            // 
+            this.labelTotal.AutoSize = true;
+            this.labelTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTotal.Location = new System.Drawing.Point(384, 715);
+            this.labelTotal.Name = "labelTotal";
+            this.labelTotal.Size = new System.Drawing.Size(20, 24);
+            this.labelTotal.TabIndex = 20;
+            this.labelTotal.Text = "$";
             // 
             // FormModifier
             // 
@@ -214,5 +287,11 @@ namespace POS
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label labelSubtotal;
+        private System.Windows.Forms.Label labelTax;
+        private System.Windows.Forms.Label labelTotal;
     }
 }
