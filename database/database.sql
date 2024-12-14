@@ -24,7 +24,9 @@ CREATE TABLE users(
     ROLE ENUM('admin', 'cashier'),
     email VARCHAR(50),
     phone_number VARCHAR(20),
-    isActive BOOLEAN DEFAULT TRUE
+    isActive BOOLEAN DEFAULT TRUE,
+    delete_status BOOLEAN DEFAULT FALSE,
+    deleted_at TIMESTAMP NULL
 );
 
 CREATE TABLE categories (
@@ -65,6 +67,8 @@ CREATE TABLE orders (
     order_status ENUM('pending', 'completed', 'cancelled'),
     customer_name VARCHAR(50),
     order_type ENUM('dine_in', 'take_away'),
+    delete_status BOOLEAN DEFAULT FALSE,
+    deleted_at TIMESTAMP NULL,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
@@ -76,6 +80,7 @@ CREATE TABLE order_items (
     quantity INT,
     price DECIMAL(10, 2),
     total DECIMAL(10, 2),
+    delete_status BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (order_id) REFERENCES orders(order_id),
     FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
@@ -123,6 +128,7 @@ CREATE TABLE order_item_modifiers (
     modifier_id INT,
     quantity INT DEFAULT 1,
     price DECIMAL(10, 2),
+    delete_status BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (order_item_id) REFERENCES order_items(order_item_id),
     FOREIGN KEY (modifier_id) REFERENCES modifiers(modifier_id)
 );
