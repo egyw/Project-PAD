@@ -69,33 +69,42 @@ namespace POS
                     string username = tbUsername.Text.ToString();
                     string password = tbPassword.Text.ToString();
 
-                    MySqlCommand cmd = new MySqlCommand("SELECT * " +
-                        "FROM users " +
-                        "WHERE username = @username AND PASSWORD = @password", Connection.conn);
-                    DataTable dt = new DataTable();
-                    cmd.Parameters.AddWithValue("@username", username);
-                    cmd.Parameters.AddWithValue("@password", password);
-
-                    MySqlDataReader reader = cmd.ExecuteReader();
-
-                    if (reader.HasRows)
+                    if(username.Equals("Admin",StringComparison.InvariantCultureIgnoreCase) && password.Equals("Admin",StringComparison.CurrentCultureIgnoreCase))
                     {
-                        reader.Read();
-                        int id = Convert.ToInt32(reader["user_id"]);
 
-
-                        FormWelcome form = new FormWelcome(id);
-                        form.Show();
-
-                        this.Hide();
+                        clear();
                     }
                     else
                     {
-                        MessageBox.Show("Account is not found!");
+                        MySqlCommand cmd = new MySqlCommand("SELECT * " +
+                       "FROM users " +
+                       "WHERE username = @username AND PASSWORD = @password", Connection.conn);
+                        DataTable dt = new DataTable();
+                        cmd.Parameters.AddWithValue("@username", username);
+                        cmd.Parameters.AddWithValue("@password", password);
+
+                        MySqlDataReader reader = cmd.ExecuteReader();
+
+                        if (reader.HasRows)
+                        {
+                            reader.Read();
+                            int id = Convert.ToInt32(reader["user_id"]);
+
+
+                            FormWelcome form = new FormWelcome(id);
+                            form.Show();
+
+                            this.Hide();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Account is not found!");
+                            clear();
+                        }
                         clear();
+                        reader.Close();
                     }
-                    clear();
-                    reader.Close();
+                   
                 }
                 catch (Exception ex)
                 {
