@@ -23,7 +23,7 @@ namespace POS
         public FormMain(int id)
         {
             InitializeComponent();
-            
+
             richTextBox1.Height = panel_order.Height - 10;
             this.idUser = id;
             getCashier();
@@ -162,7 +162,7 @@ namespace POS
                 panelRight.Controls.Clear();
 
                 int buttonsPerRow = 5;
-                int btnWidth = panelRight.Width / 6; 
+                int btnWidth = panelRight.Width / 6;
 
                 int spacing = (panelRight.Width - (buttonsPerRow * btnWidth)) / (buttonsPerRow + 1);
 
@@ -205,7 +205,7 @@ namespace POS
                             int maxHeight = 100;
                             btn.Image = ResizeImage(img, maxWidth, maxHeight); // Resize gambar
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             MessageBox.Show(ex.Message);
                         }
@@ -398,7 +398,7 @@ namespace POS
             {
                 if (line.Contains("$"))
                 {
-                    int lastSpaceIndex = line.LastIndexOf(' '); 
+                    int lastSpaceIndex = line.LastIndexOf(' ');
 
                     if (lastSpaceIndex > 0)
                     {
@@ -523,12 +523,25 @@ namespace POS
             labelTotal.Location = new Point(panelPay.Width - labelTotal.Width, labelTotal.Location.Y);
         }
 
+        private void btnOrders_Click(object sender, EventArgs e)
+        {
+            FormOrders form = new FormOrders();
+            form.FormClosed += formOrderClosed;
+            this.Hide();
+            form.Show();
+        }
+
         private void buttonClosePressed()
         {
             panelBottom.Height = 39;
             labelCashier.Text = tableUser.Rows[0]["firstName"].ToString();
             isKeyboardActive = false;
             Keyboard.OnKeyboardClosed -= buttonClosePressed;
+        }
+
+        private void formOrderClosed(object sender, FormClosedEventArgs e)
+        {
+            this.Show();
         }
     }
 }
