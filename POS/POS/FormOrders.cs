@@ -27,8 +27,6 @@ namespace POS
 
             dataGridView1.Size = new Size(screenWidth, screenHeight - panelTop.Height);
             dataGridView1.Location = new Point(0, panelTop.Height);
-            dataGridView1.DefaultCellStyle.SelectionBackColor = dataGridView1.DefaultCellStyle.BackColor;
-            dataGridView1.DefaultCellStyle.SelectionForeColor = dataGridView1.DefaultCellStyle.ForeColor;
 
             int buttonWidth = panelRight.Width - 40;
 
@@ -170,6 +168,7 @@ namespace POS
         private void label1_Click(object sender, EventArgs e)
         {
             panelRight.Width = 0;
+            dataGridView1.ClearSelection();
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
