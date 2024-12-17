@@ -42,11 +42,10 @@ namespace POS
                 Connection.open();
                 MySqlDataAdapter adt = new MySqlDataAdapter("SELECT u.user_id as User_Id, u.firstName as FirstName, u.lastName as LastName, u.username as Username, u.PASSWORD as Password, " +
                     "u.ROLE as Role, u.email as Email, u.phone_number as Phone, u.isActive as Active " +
-                    "FROM users u WHERE u.role != 'admin' and u.isActive = 1", Connection.conn);
+                    "FROM users u WHERE u.role != 'admin'", Connection.conn);
                 DataTable dt = new DataTable();
                 adt.Fill(dt);
                 dataGridView1.DataSource = dt;
-                dataGridView1.Columns[8].Visible = false;
 
             }catch(Exception ex)
             {
@@ -91,8 +90,34 @@ namespace POS
         {
             row = e.RowIndex;
             column = e.ColumnIndex;
-            string getId = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
-            MessageBox.Show(row + " " + column);
+            string getNm = dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString();
+
+            if(dataGridView1.Rows[row].Cells[8].Value.ToString() == "False")
+            {
+               DialogResult confirm =  MessageBox.Show("Are You Sure Want To Enable " + getNm + " ? ", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                if(confirm == DialogResult.OK)
+                {
+                    try
+                    {
+                        Connection.open();
+                        string id = dataGridView1.Rows[row].Cells[0].Value.ToString();
+                        MySqlCommand cmd = new MySqlCommand("Update Users Set isActive = @1 where user_id = @2", Connection.conn);
+                        cmd.Parameters.AddWithValue("@1", 1);
+                        cmd.Parameters.AddWithValue("@2", id);
+                        cmd.ExecuteNonQuery();
+                        loadData();
+                        row = -1;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Message Error" + ex.Message);
+                    }
+                    finally
+                    {
+                        Connection.close();
+                    }
+                }
+            }
             
         }
 
@@ -178,7 +203,7 @@ namespace POS
                        OR `email` LIKE @searchValue
                        OR `phone_number` LIKE @searchValue
                       )
-                   AND u.role != 'admin' AND u.isActive = 1";
+                   AND u.role != 'admin'";
                 MySqlDataAdapter adt = new MySqlDataAdapter(query, Connection.conn);
                 adt.SelectCommand.Parameters.AddWithValue("@searchValue", "%" + searchValue + "%");
 
@@ -205,7 +230,7 @@ namespace POS
             {
                 Connection.open();
                 MySqlDataAdapter adt = new MySqlDataAdapter($"SELECT {text} " +
-                    "FROM users u WHERE u.role != 'admin' and u.isActive = 1", Connection.conn);
+                    "FROM users u WHERE u.role != 'admin'", Connection.conn);
                 DataTable dt = new DataTable();
                 adt.Fill(dt);
                 dataGridView1.DataSource = dt;
@@ -224,6 +249,19 @@ namespace POS
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
+        }
+
+        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            var cekTrue = dataGridView1.Rows[e.RowIndex].Cells[8].Value;
+            if (cekTrue.ToString() == "True") 
+            {
+                dataGridView1.Rows[e.RowIndex].Cells[8].Style.BackColor = Color.LightGreen;
+            }
+            else
+            {
+                dataGridView1.Rows[e.RowIndex].Cells[8].Style.BackColor = Color.Red;
+            }
         }
     }
 }
