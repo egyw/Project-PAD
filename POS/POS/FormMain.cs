@@ -24,7 +24,6 @@ namespace POS
         {
             InitializeComponent();
 
-            richTextBox1.Height = panel_order.Height - 10;
             this.idUser = id;
             getCashier();
             labelCashier.Text = tableUser.Rows[0]["firstName"].ToString();
@@ -62,6 +61,11 @@ namespace POS
 
             panelPay.Enabled = false;
             panelPay.Visible = false;
+
+            listView1.Columns.Add("Nama Produk", 200);
+            listView1.Columns.Add("Kuantitas", 50);
+            listView1.Columns.Add("Total Harga", 100);
+            listView1.View = View.Details;
 
         }
 
@@ -103,7 +107,7 @@ namespace POS
                         panel_order.Enabled = false;
                         panel_order.Visible = false;
 
-                        richTextBox1.Text = "";
+                        listView1.Items.Clear();
 
                         panelPay.Enabled = false;
                         panelPay.Visible = false;
@@ -314,52 +318,37 @@ namespace POS
                 }
             }
 
-            string nama = menu;
-            string hargaString = $"{harga:N2}";
             bool itemExists = false;
-            string[] lines = richTextBox1.Lines;
-
-            for (int i = 0; i < lines.Length; i++)
+            foreach (ListViewItem item in listView1.Items)
             {
-                if (lines[i].Trim().StartsWith(nama))
+                if (item.Text == menu) // Kolom pertama adalah nama produk
                 {
+                    // Update kuantitas dan total harga
+                    int count = int.Parse(item.SubItems[1].Text) + 1; // Kuantitas ada di kolom kedua
+                    decimal totalHarga = harga * count;
+
+                    item.SubItems[1].Text = count.ToString(); // Update kuantitas
+                    item.SubItems[2].Text = totalHarga.ToString("N2"); // Update total harga
                     itemExists = true;
-
-                    int xIndex = lines[i].IndexOf('x');
-                    if (xIndex > 0)
-                    {
-                        string quantityPart = lines[i].Substring(xIndex + 1).Split(' ')[0].Trim();
-                        if (int.TryParse(quantityPart, out int count))
-                        {
-                            count += 1;
-
-                            decimal totalHarga = harga * count;
-                            string totalHargaString = $"{totalHarga:N2}";
-
-                            lines[i] = $"{nama} x{count}".PadRight(40) + $"$ {totalHargaString}";
-                            break;
-                        }
-                    }
+                    break;
                 }
             }
 
             if (!itemExists)
             {
-                string formattedLine = $"{nama} x1".PadRight(40) + $"$ {hargaString}";
-                richTextBox1.AppendText($"{formattedLine}\n");
-            }
-            else
-            {
-                richTextBox1.Lines = lines;
+                // Tambahkan item baru ke ListView
+                ListViewItem newItem = new ListViewItem(menu);
+                newItem.SubItems.Add("1"); // Kuantitas awal = 1
+                newItem.SubItems.Add(harga.ToString("N2")); // Harga total awal
+                listView1.Items.Add(newItem);
             }
 
-            richTextBox1.SelectionStart = richTextBox1.TextLength;
-            richTextBox1.ScrollToCaret();
-
-            // Mengubah ukuran font untuk seluruh teks
-            richTextBox1.SelectAll();
-            richTextBox1.SelectionFont = new Font(richTextBox1.Font.FontFamily, 10);
-            richTextBox1.DeselectAll();
+            // Mengatur format tampilan ListView
+            listView1.View = View.Details; // Tampilkan dalam mode detail dengan kolom
+            listView1.Columns[0].Width = 200; // Kolom nama produk
+            listView1.Columns[1].Width = 50;  // Kolom kuantitas
+            listView1.Columns[2].Width = 100; // Kolom harga total
+            addToTotal();
         }
 
 
@@ -387,82 +376,6 @@ namespace POS
 
             panelPay.Enabled = true;
             panelPay.Visible = true;
-        }
-
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
-        {
-            string[] lines = richTextBox1.Text.Split('\n');
-            decimal subtotal = 0, tax = 0, total = 0;
-
-            foreach (string line in lines)
-            {
-                if (line.Contains("$"))
-                {
-                    int lastSpaceIndex = line.LastIndexOf(' ');
-
-                    if (lastSpaceIndex > 0)
-                    {
-                        string pricePart = line.Substring(lastSpaceIndex + 1).Trim();
-                        pricePart = pricePart.Replace("$", "").Replace(",", ".").Trim();
-
-                        if (decimal.TryParse(pricePart, out decimal price))
-                        {
-                            subtotal += price;
-                        }
-                    }
-                }
-            }
-            subtotal /= 100;
-            tax = subtotal / 10;
-            total = subtotal + tax;
-
-            labelSubtotal.Text = $"$. {subtotal:N2}".Replace(".", ",");
-            labelTax.Text = $"$. {tax:N2}".Replace(".", ",");
-            labelTotal.Text = $"$. {total:N2}".Replace(".", ",");
-            getLabelLocation();
-        }
-
-        private void richTextBox1_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                int index = richTextBox1.GetCharIndexFromPosition(e.Location);
-
-                int lineIndex = richTextBox1.GetLineFromCharIndex(index);
-                string namamenu = richTextBox1.Lines[lineIndex];
-
-                string menuName = namamenu.Split('x')[0].Trim();
-
-                string tipeproduk = "";
-
-                try
-                {
-                    Connection.open();
-                    string query = "SELECT product_type FROM products WHERE product_name = @productName";
-
-                    using (MySqlCommand cmd = new MySqlCommand(query, Connection.conn))
-                    {
-                        cmd.Parameters.AddWithValue("@productName", menuName);
-
-                        object result = cmd.ExecuteScalar();
-                        if (result != null)
-                        {
-                            tipeproduk = result.ToString();
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error retrieving product type: " + ex.Message);
-                }
-                finally
-                {
-                    Connection.close();
-                }
-
-                FormModifier customorder = new FormModifier(idUser, namamenu, tipeproduk);
-                customorder.Show();
-            }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -537,6 +450,77 @@ namespace POS
             labelCashier.Text = tableUser.Rows[0]["firstName"].ToString();
             isKeyboardActive = false;
             Keyboard.OnKeyboardClosed -= buttonClosePressed;
+        }
+
+        private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                // Mendapatkan item yang diklik
+                ListViewItem clickedItem = listView1.GetItemAt(e.X, e.Y);
+
+                if (clickedItem != null)
+                {
+                    string menuName = clickedItem.Text; // Nama produk (kolom pertama)
+                    string namamenu = $"{menuName} x{clickedItem.SubItems[1].Text}"; // Nama menu + kuantitas
+                    string tipeproduk = "";
+
+                    try
+                    {
+                        Connection.open();
+                        string query = "SELECT product_type FROM products WHERE product_name = @productName";
+
+                        using (MySqlCommand cmd = new MySqlCommand(query, Connection.conn))
+                        {
+                            cmd.Parameters.AddWithValue("@productName", menuName);
+
+                            object result = cmd.ExecuteScalar();
+                            if (result != null)
+                            {
+                                tipeproduk = result.ToString();
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error retrieving product type: " + ex.Message);
+                    }
+                    finally
+                    {
+                        Connection.close();
+                    }
+
+                    // Menampilkan form untuk memodifikasi pesanan
+                    FormModifier customorder = new FormModifier(idUser, namamenu, tipeproduk);
+                    customorder.Show();
+                }
+            }
+
+        }
+
+
+        public void addToTotal()
+        {
+            decimal subtotal = 0, tax = 0, total = 0;
+
+            // Loop melalui setiap item di ListView
+            foreach (ListViewItem item in listView1.Items)
+            {
+                // Ambil total harga dari kolom ketiga (SubItems[2])
+                if (decimal.TryParse(item.SubItems[2].Text.Replace(",", "").Replace(".", ","), out decimal price))
+                {
+                    subtotal += price;
+                }
+            }
+
+            // Perhitungan pajak dan total
+            tax = subtotal / 10; // Pajak 10%
+            total = subtotal + tax;
+
+            // Format hasil perhitungan ke Label
+            labelSubtotal.Text = $"$. {subtotal:N2}".Replace(".", ",");
+            labelTax.Text = $"$. {tax:N2}".Replace(".", ",");
+            labelTotal.Text = $"$. {total:N2}".Replace(".", ",");
         }
 
         private void formOrderClosed(object sender, FormClosedEventArgs e)

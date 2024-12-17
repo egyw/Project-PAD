@@ -46,7 +46,6 @@ namespace POS
             this.label14 = new System.Windows.Forms.Label();
             this.buttonPay = new System.Windows.Forms.Button();
             this.panel_order = new System.Windows.Forms.Panel();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.button2 = new System.Windows.Forms.Button();
@@ -56,6 +55,7 @@ namespace POS
             this.panelBottom = new System.Windows.Forms.Panel();
             this.panelKeyboard = new System.Windows.Forms.Panel();
             this.labelCashier = new System.Windows.Forms.Label();
+            this.listView1 = new System.Windows.Forms.ListView();
             this.panelTop.SuspendLayout();
             this.panelTopMiddle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureRefresh)).BeginInit();
@@ -113,7 +113,7 @@ namespace POS
             // 
             this.textBox1.Location = new System.Drawing.Point(39, 11);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(265, 29);
+            this.textBox1.Size = new System.Drawing.Size(265, 34);
             this.textBox1.TabIndex = 1;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             this.textBox1.Enter += new System.EventHandler(this.textBox1_Enter);
@@ -162,9 +162,9 @@ namespace POS
             // 
             this.labelTotal.AutoSize = true;
             this.labelTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTotal.Location = new System.Drawing.Point(367, 80);
+            this.labelTotal.Location = new System.Drawing.Point(285, 79);
             this.labelTotal.Name = "labelTotal";
-            this.labelTotal.Size = new System.Drawing.Size(16, 18);
+            this.labelTotal.Size = new System.Drawing.Size(20, 24);
             this.labelTotal.TabIndex = 18;
             this.labelTotal.Text = "$";
             // 
@@ -172,9 +172,9 @@ namespace POS
             // 
             this.labelTax.AutoSize = true;
             this.labelTax.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTax.Location = new System.Drawing.Point(367, 47);
+            this.labelTax.Location = new System.Drawing.Point(285, 47);
             this.labelTax.Name = "labelTax";
-            this.labelTax.Size = new System.Drawing.Size(16, 18);
+            this.labelTax.Size = new System.Drawing.Size(20, 24);
             this.labelTax.TabIndex = 17;
             this.labelTax.Text = "$";
             // 
@@ -182,9 +182,9 @@ namespace POS
             // 
             this.labelSubtotal.AutoSize = true;
             this.labelSubtotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSubtotal.Location = new System.Drawing.Point(367, 19);
+            this.labelSubtotal.Location = new System.Drawing.Point(285, 19);
             this.labelSubtotal.Name = "labelSubtotal";
-            this.labelSubtotal.Size = new System.Drawing.Size(16, 18);
+            this.labelSubtotal.Size = new System.Drawing.Size(20, 24);
             this.labelSubtotal.TabIndex = 16;
             this.labelSubtotal.Text = "$";
             // 
@@ -194,7 +194,7 @@ namespace POS
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(27, 19);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(74, 18);
+            this.label5.Size = new System.Drawing.Size(92, 24);
             this.label5.TabIndex = 15;
             this.label5.Text = "Subtotal : ";
             // 
@@ -204,7 +204,7 @@ namespace POS
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.Location = new System.Drawing.Point(58, 47);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(40, 18);
+            this.label13.Size = new System.Drawing.Size(52, 24);
             this.label13.TabIndex = 14;
             this.label13.Text = "Tax :";
             // 
@@ -214,7 +214,7 @@ namespace POS
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.Location = new System.Drawing.Point(43, 79);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(56, 18);
+            this.label14.Size = new System.Drawing.Size(68, 24);
             this.label14.TabIndex = 13;
             this.label14.Text = "Total :";
             // 
@@ -231,7 +231,7 @@ namespace POS
             // 
             // panel_order
             // 
-            this.panel_order.Controls.Add(this.richTextBox1);
+            this.panel_order.Controls.Add(this.listView1);
             this.panel_order.Controls.Add(this.label2);
             this.panel_order.Controls.Add(this.pictureBox2);
             this.panel_order.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -240,24 +240,13 @@ namespace POS
             this.panel_order.Size = new System.Drawing.Size(409, 729);
             this.panel_order.TabIndex = 3;
             // 
-            // richTextBox1
-            // 
-            this.richTextBox1.BackColor = System.Drawing.SystemColors.Menu;
-            this.richTextBox1.Location = new System.Drawing.Point(6, 67);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(401, 486);
-            this.richTextBox1.TabIndex = 4;
-            this.richTextBox1.Text = "";
-            this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
-            this.richTextBox1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.richTextBox1_MouseDoubleClick);
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(5, 28);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(95, 29);
+            this.label2.Size = new System.Drawing.Size(116, 36);
             this.label2.TabIndex = 3;
             this.label2.Text = "Dine In";
             // 
@@ -296,7 +285,7 @@ namespace POS
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(21, 26);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(107, 24);
+            this.label1.Size = new System.Drawing.Size(137, 29);
             this.label1.TabIndex = 0;
             this.label1.Text = "Order Type";
             // 
@@ -335,13 +324,25 @@ namespace POS
             this.labelCashier.AutoSize = true;
             this.labelCashier.Location = new System.Drawing.Point(968, 5);
             this.labelCashier.Name = "labelCashier";
-            this.labelCashier.Size = new System.Drawing.Size(61, 24);
+            this.labelCashier.Size = new System.Drawing.Size(78, 29);
             this.labelCashier.TabIndex = 0;
             this.labelCashier.Text = "Name";
             // 
+            // listView1
+            // 
+            this.listView1.BackColor = System.Drawing.SystemColors.Menu;
+            this.listView1.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.listView1.HideSelection = false;
+            this.listView1.Location = new System.Drawing.Point(3, 67);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(402, 486);
+            this.listView1.TabIndex = 19;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseDoubleClick);
+            // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 29F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1448, 780);
             this.Controls.Add(this.panelBottom);
@@ -388,7 +389,6 @@ namespace POS
         private System.Windows.Forms.Panel panel_order;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Panel panelBottom;
         private System.Windows.Forms.Label labelCashier;
         private System.Windows.Forms.Panel panelKeyboard;
@@ -400,5 +400,6 @@ namespace POS
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Button buttonPay;
+        private System.Windows.Forms.ListView listView1;
     }
 }
