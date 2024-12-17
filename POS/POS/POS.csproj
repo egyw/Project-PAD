@@ -72,6 +72,12 @@
     <Compile Include="FormAdmin.Designer.cs">
       <DependentUpon>FormAdmin.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormAdminEgy.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAdminEgy.Designer.cs">
+      <DependentUpon>FormAdminEgy.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormCustomAllPayment.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -122,6 +128,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormAdmin.resx">
       <DependentUpon>FormAdmin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAdminEgy.resx">
+      <DependentUpon>FormAdminEgy.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormCustomAllPayment.resx">
       <DependentUpon>FormCustomAllPayment.cs</DependentUpon>

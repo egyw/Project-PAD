@@ -18,10 +18,17 @@ namespace POS
         public FormAdmin()
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.None;
+
+            int screenWidth = Screen.PrimaryScreen.WorkingArea.Width;
+            int screenHeight = Screen.PrimaryScreen.WorkingArea.Height;
+            this.MaximumSize = new Size(screenWidth, screenHeight);
+            this.MinimumSize = new Size(screenWidth, screenHeight);
         }
 
         private void FormAdmin_Load(object sender, EventArgs e)
         {
+            this.FormBorderStyle = FormBorderStyle.Sizable;
             CenterPanel();
             loadData();
             SetPlaceholder(textBox1, "Search Here");
