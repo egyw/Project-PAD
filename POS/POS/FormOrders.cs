@@ -187,5 +187,10 @@ namespace POS
                 timerAnimateRightPanel.Stop();
             }
         }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

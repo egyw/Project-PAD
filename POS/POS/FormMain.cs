@@ -171,7 +171,7 @@ namespace POS
                 int spacing = (panelRight.Width - (buttonsPerRow * btnWidth)) / (buttonsPerRow + 1);
 
                 int x = spacing;
-                int y = 26; // posisi vertical baris pertama
+                int y = 26;
 
                 int count = 0;
 
@@ -181,15 +181,13 @@ namespace POS
                     bool isActive = Convert.ToBoolean(row["is_active"]);
                     if (isActive)
                     {
-                        // Membuat Panel untuk menggabungkan PictureBox dan Label
                         Panel productPanel = new Panel
                         {
-                            Size = new Size(btnWidth, btnWidth + 20), // Tambahkan ruang untuk teks
+                            Size = new Size(btnWidth, btnWidth + 20),
                             Location = new Point(x, y),
                             BackColor = Color.White
                         };
 
-                        // Membuat PictureBox
                         PictureBox btn = new PictureBox
                         {
                             Size = new Size(btnWidth, btnWidth),
@@ -203,23 +201,21 @@ namespace POS
 
                         try
                         {
-                            // Memuat gambar dan melakukan resize
                             Image img = Image.FromFile(imagePath);
-                            int maxWidth = 100; // Ukuran gambar yang diinginkan
+                            int maxWidth = 100;
                             int maxHeight = 100;
-                            btn.Image = ResizeImage(img, maxWidth, maxHeight); // Resize gambar
+                            btn.Image = ResizeImage(img, maxWidth, maxHeight);
                         }
                         catch (Exception ex)
                         {
                             MessageBox.Show(ex.Message);
                         }
 
-                        // Membuat Label untuk teks
                         Label label = new Label
                         {
                             Text = productName,
                             Size = new Size(btnWidth, 20),
-                            Location = new Point(0, btnWidth), // Di bawah PictureBox
+                            Location = new Point(0, btnWidth),
                             TextAlign = ContentAlignment.MiddleCenter,
                             Font = new Font("Arial", 10, FontStyle.Regular),
                             BackColor = Color.White
@@ -229,18 +225,15 @@ namespace POS
 
                         label.Click += btn_click;
 
-                        // Menambahkan PictureBox dan Label ke Panel
                         productPanel.Controls.Add(btn);
                         productPanel.Controls.Add(label);
 
-                        // Menambahkan Panel ke panelRight
                         panelRight.Controls.Add(productPanel);
 
-                        // Mengatur posisi berikutnya
                         count++;
                         if (count % buttonsPerRow == 0)
                         {
-                            y += btnWidth + 35; // Tinggi PictureBox + jarak antar baris
+                            y += btnWidth + 35;
                             x = spacing;
                         }
                         else
@@ -321,14 +314,13 @@ namespace POS
             bool itemExists = false;
             foreach (ListViewItem item in listView1.Items)
             {
-                if (item.Text == menu) // Kolom pertama adalah nama produk
+                if (item.Text == menu) 
                 {
-                    // Update kuantitas dan total harga
-                    int count = int.Parse(item.SubItems[1].Text) + 1; // Kuantitas ada di kolom kedua
+                    int count = int.Parse(item.SubItems[1].Text) + 1;
                     decimal totalHarga = harga * count;
 
-                    item.SubItems[1].Text = count.ToString(); // Update kuantitas
-                    item.SubItems[2].Text = totalHarga.ToString("N2"); // Update total harga
+                    item.SubItems[1].Text = count.ToString();
+                    item.SubItems[2].Text = totalHarga.ToString("N2");
                     itemExists = true;
                     break;
                 }
@@ -336,18 +328,16 @@ namespace POS
 
             if (!itemExists)
             {
-                // Tambahkan item baru ke ListView
                 ListViewItem newItem = new ListViewItem(menu);
-                newItem.SubItems.Add("1"); // Kuantitas awal = 1
-                newItem.SubItems.Add(harga.ToString("N2")); // Harga total awal
+                newItem.SubItems.Add("1");
+                newItem.SubItems.Add(harga.ToString("N2")); 
                 listView1.Items.Add(newItem);
             }
 
-            // Mengatur format tampilan ListView
-            listView1.View = View.Details; // Tampilkan dalam mode detail dengan kolom
-            listView1.Columns[0].Width = 200; // Kolom nama produk
-            listView1.Columns[1].Width = 50;  // Kolom kuantitas
-            listView1.Columns[2].Width = 100; // Kolom harga total
+            listView1.View = View.Details;
+            listView1.Columns[0].Width = 200;
+            listView1.Columns[1].Width = 50;
+            listView1.Columns[2].Width = 100;
             addToTotal();
         }
 
@@ -441,7 +431,10 @@ namespace POS
             FormOrders form = new FormOrders();
             form.FormClosed += formOrderClosed;
             this.Hide();
-            form.Show();
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+
+            }
         }
 
         private void buttonClosePressed()
@@ -456,13 +449,12 @@ namespace POS
         {
             if (e.Button == MouseButtons.Left)
             {
-                // Mendapatkan item yang diklik
                 ListViewItem clickedItem = listView1.GetItemAt(e.X, e.Y);
 
                 if (clickedItem != null)
                 {
-                    string menuName = clickedItem.Text; // Nama produk (kolom pertama)
-                    string namamenu = $"{menuName} x{clickedItem.SubItems[1].Text}"; // Nama menu + kuantitas
+                    string menuName = clickedItem.Text;
+                    string namamenu = $"{menuName} x{clickedItem.SubItems[1].Text}"; 
                     string tipeproduk = "";
 
                     try
@@ -490,7 +482,6 @@ namespace POS
                         Connection.close();
                     }
 
-                    // Menampilkan form untuk memodifikasi pesanan
                     FormModifier customorder = new FormModifier(idUser, namamenu, tipeproduk);
                     customorder.Show();
                 }
@@ -503,21 +494,17 @@ namespace POS
         {
             decimal subtotal = 0, tax = 0, total = 0;
 
-            // Loop melalui setiap item di ListView
             foreach (ListViewItem item in listView1.Items)
             {
-                // Ambil total harga dari kolom ketiga (SubItems[2])
                 if (decimal.TryParse(item.SubItems[2].Text.Replace(",", "").Replace(".", ","), out decimal price))
                 {
                     subtotal += price;
                 }
             }
 
-            // Perhitungan pajak dan total
-            tax = subtotal / 10; // Pajak 10%
+            tax = subtotal / 10; 
             total = subtotal + tax;
 
-            // Format hasil perhitungan ke Label
             labelSubtotal.Text = $"$. {subtotal:N2}".Replace(".", ",");
             labelTax.Text = $"$. {tax:N2}".Replace(".", ",");
             labelTotal.Text = $"$. {total:N2}".Replace(".", ",");

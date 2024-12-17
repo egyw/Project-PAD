@@ -47,10 +47,10 @@ namespace POS
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panelRight = new System.Windows.Forms.Panel();
-            this.btnPay = new System.Windows.Forms.Button();
-            this.btnEdit = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnEdit = new System.Windows.Forms.Button();
+            this.btnPay = new System.Windows.Forms.Button();
             this.timerAnimateRightPanel = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panelKbContainer.SuspendLayout();
@@ -86,7 +86,7 @@ namespace POS
             this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGridView1.EnableHeadersVisualStyles = false;
             this.dataGridView1.Location = new System.Drawing.Point(0, 49);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(6);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
@@ -99,6 +99,7 @@ namespace POS
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.RowHeadersVisible = false;
+            this.dataGridView1.RowHeadersWidth = 51;
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
             dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(0, 10, 0, 10);
@@ -115,8 +116,8 @@ namespace POS
             // 
             this.panelKbContainer.Controls.Add(this.panelKeyboard);
             this.panelKbContainer.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelKbContainer.Location = new System.Drawing.Point(0, 1204);
-            this.panelKbContainer.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.panelKbContainer.Location = new System.Drawing.Point(0, 1055);
+            this.panelKbContainer.Margin = new System.Windows.Forms.Padding(6);
             this.panelKbContainer.Name = "panelKbContainer";
             this.panelKbContainer.Size = new System.Drawing.Size(1434, 0);
             this.panelKbContainer.TabIndex = 3;
@@ -125,7 +126,7 @@ namespace POS
             // 
             this.panelKeyboard.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelKeyboard.Location = new System.Drawing.Point(0, 0);
-            this.panelKeyboard.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.panelKeyboard.Margin = new System.Windows.Forms.Padding(6);
             this.panelKeyboard.Name = "panelKeyboard";
             this.panelKeyboard.Size = new System.Drawing.Size(1434, 0);
             this.panelKeyboard.TabIndex = 0;
@@ -148,7 +149,7 @@ namespace POS
             this.label3.Location = new System.Drawing.Point(72, 12);
             this.label3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(68, 24);
+            this.label3.Size = new System.Drawing.Size(88, 29);
             this.label3.TabIndex = 3;
             this.label3.Text = "Orders";
             // 
@@ -170,7 +171,7 @@ namespace POS
             this.label4.Location = new System.Drawing.Point(4, 11);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(27, 25);
+            this.label4.Size = new System.Drawing.Size(33, 31);
             this.label4.TabIndex = 1;
             this.label4.Text = "X";
             this.label4.Click += new System.EventHandler(this.label4_Click);
@@ -210,7 +211,7 @@ namespace POS
             // 
             this.textBox1.Location = new System.Drawing.Point(39, 11);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(265, 29);
+            this.textBox1.Size = new System.Drawing.Size(265, 34);
             this.textBox1.TabIndex = 1;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             this.textBox1.Enter += new System.EventHandler(this.textBox1_Enter);
@@ -236,26 +237,20 @@ namespace POS
             this.panelRight.Dock = System.Windows.Forms.DockStyle.Right;
             this.panelRight.Location = new System.Drawing.Point(917, 47);
             this.panelRight.Name = "panelRight";
-            this.panelRight.Size = new System.Drawing.Size(517, 1157);
+            this.panelRight.Size = new System.Drawing.Size(517, 1008);
             this.panelRight.TabIndex = 6;
             // 
-            // btnPay
+            // label1
             // 
-            this.btnPay.Location = new System.Drawing.Point(57, 55);
-            this.btnPay.Name = "btnPay";
-            this.btnPay.Size = new System.Drawing.Size(416, 63);
-            this.btnPay.TabIndex = 0;
-            this.btnPay.Text = "PAY";
-            this.btnPay.UseVisualStyleBackColor = true;
-            // 
-            // btnEdit
-            // 
-            this.btnEdit.Location = new System.Drawing.Point(57, 133);
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(416, 57);
-            this.btnEdit.TabIndex = 1;
-            this.btnEdit.Text = "EDIT";
-            this.btnEdit.UseVisualStyleBackColor = true;
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(15, 12);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(33, 31);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "X";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // btnDelete
             // 
@@ -266,17 +261,24 @@ namespace POS
             this.btnDelete.Text = "DELETE";
             this.btnDelete.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // btnEdit
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(15, 12);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(27, 25);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "X";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
+            this.btnEdit.Location = new System.Drawing.Point(57, 133);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(416, 57);
+            this.btnEdit.TabIndex = 1;
+            this.btnEdit.Text = "EDIT";
+            this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
+            // 
+            // btnPay
+            // 
+            this.btnPay.Location = new System.Drawing.Point(57, 55);
+            this.btnPay.Name = "btnPay";
+            this.btnPay.Size = new System.Drawing.Size(416, 63);
+            this.btnPay.TabIndex = 0;
+            this.btnPay.Text = "PAY";
+            this.btnPay.UseVisualStyleBackColor = true;
             // 
             // timerAnimateRightPanel
             // 
@@ -285,15 +287,15 @@ namespace POS
             // 
             // FormOrders
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 29F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1434, 1204);
+            this.ClientSize = new System.Drawing.Size(1434, 1055);
             this.Controls.Add(this.panelRight);
             this.Controls.Add(this.panelTop);
             this.Controls.Add(this.panelKbContainer);
             this.Controls.Add(this.dataGridView1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "FormOrders";
             this.Text = "FormOrders";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
