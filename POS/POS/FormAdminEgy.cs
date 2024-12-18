@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
@@ -16,10 +18,19 @@ namespace POS
         string filter = "";
         int selectedIndex = -1;
         DataTable tableUsers;
+        DataTable tableProducts;
         int idUser = -1;
-        public FormAdminEgy()
+        string selectedFilePath = string.Empty;
+        string adminName = string.Empty;
+        public FormAdminEgy(string name)
         {
             InitializeComponent();
+            loadCBoxProducts();
+            this.adminName = name;
+            labelAdmin.Text = adminName;
+            panelModifiers.Dock = DockStyle.Fill;
+            panelProducts.Dock = DockStyle.Fill;
+            panelUsers.Dock = DockStyle.Fill;
             button1.BackColor = Color.White;
             btnUpd.Text = "...";
             this.FormBorderStyle = FormBorderStyle.None;
@@ -29,6 +40,7 @@ namespace POS
             this.MaximumSize = new Size(screenWidth, screenHeight);
             this.MinimumSize = new Size(screenWidth, screenHeight);
 
+            //users
             labelAdmin.Location = new Point(panelTop.Width - labelAdmin.Width, 18);
             label2.Location = new Point(panelTop.Width - label2.Width, 50);
 
@@ -39,6 +51,10 @@ namespace POS
             btnAddUser.Location = new Point(btnDelete.Location.X - btnAddUser.Width, btnY);
 
             groupBox1.Location = new Point(dgvUsers.Location.X, btnY);
+
+            //products
+            dgvProducts.Size = new Size(screenWidth - panelLeft.Width - dgvProducts.Location.X - 28, panelProducts.Height - dgvProducts.Location.Y - 200);
+            groupBox2.Location = new Point(dgvProducts.Location.X, dgvProducts.Height + dgvProducts.Location.Y);
         }
 
         private void FormAdminEgy_Load(object sender, EventArgs e)
@@ -243,6 +259,7 @@ namespace POS
         private void button1_Click(object sender, EventArgs e)
         {
             resetChosenMenu();
+            loadDGVUsers(filter);
             button1.BackColor = Color.White;
             panah1.Visible = true;
             panelUsers.Visible = true;
@@ -251,9 +268,9 @@ namespace POS
         private void button2_Click(object sender, EventArgs e)
         {
             resetChosenMenu();
+            loadDgvProducts();
             button2.BackColor = Color.White;
             panah2.Visible = true;
-            panelUsers.Visible = true;
             panelProducts.Visible = true;
         }
 
@@ -262,6 +279,7 @@ namespace POS
             resetChosenMenu();
             button3.BackColor = Color.White;
             panah3.Visible = true;
+            panelModifiers.Visible = true;
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -294,6 +312,227 @@ namespace POS
 
             panelUsers.Visible = false;
             panelProducts.Visible = false;
+            panelModifiers.Visible = false;
+
+            dgvUsers.DataSource = null;
+            dgvProducts.DataSource = null;
+        }
+
+
+
+
+
+
+        //products
+        private void loadDgvProducts()
+        {
+            try
+            {
+                Connection.open();
+                MySqlDataAdapter data = new MySqlDataAdapter(
+                    "SELECT p.product_id, p.product_name, p.price, p.description, c.category_name, p.product_type, p.image, p.is_active " +
+                    "FROM products p " +
+                    "JOIN categories c ON p.category_id = c.category_id", Connection.conn);
+                tableProducts = new DataTable();
+                data.Fill(tableProducts);
+                dgvProducts.DataSource = tableProducts;
+
+                dgvProducts.Columns["product_id"].HeaderText = "ID";
+                dgvProducts.Columns["product_name"].HeaderText = "Name";
+                dgvProducts.Columns["price"].HeaderText = "Price";
+                dgvProducts.Columns["description"].HeaderText = "Description";
+                dgvProducts.Columns["category_name"].HeaderText = "Category";
+                dgvProducts.Columns["product_type"].HeaderText = "Type";
+                dgvProducts.Columns["image"].HeaderText = "Image";
+                dgvProducts.Columns["is_active"].HeaderText = "Is Active";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Connection.close();
+            }
+        }
+
+        private void loadCBoxProducts()
+        {
+            try
+            {
+                Connection.open();
+
+                MySqlDataAdapter data = new MySqlDataAdapter("SELECT * FROM categories", Connection.conn);
+                DataTable dt = new DataTable();
+                data.Fill(dt);
+                comboBox2.DataSource = dt;
+                comboBox2.DisplayMember = "category_name";
+                comboBox2.ValueMember = "category_id";
+
+                comboBox2.SelectedIndex = -1;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Connection.close();
+            }
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Title = "Pilih Gambar";
+                openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.bmp";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    selectedFilePath = openFileDialog.FileName;
+                    textBoxImage.Text = Path.GetFileName(selectedFilePath);
+                }
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(selectedFilePath))
+            {
+                MessageBox.Show("Silakan pilih file gambar terlebih dahulu");
+                return;
+            }
+
+            if (textBox12.Text != "" && numericUpDown1.Value != 0 && textBox9.Text != "" && comboBox2.Text != "" && comboBox3.Text != "")
+            {
+                string destinationFolder = Path.Combine(Application.StartupPath, "productImg");
+
+                if (!Directory.Exists(destinationFolder))
+                {
+                    Directory.CreateDirectory(destinationFolder);
+                }
+                string selectedExtension = Path.GetExtension(selectedFilePath).ToLower();
+
+                string[] allowedExtensions = { ".jpg", ".jpeg", ".png" };
+                if (!allowedExtensions.Contains(selectedExtension))
+                {
+                    MessageBox.Show("Ekstensi file tidak support. Silakan pilih file gambar dengan ekstensi .jpg, .jpeg, .png", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                string newFileName = GetNextFileName(destinationFolder, selectedExtension);
+                string destinationPath = Path.Combine(destinationFolder, newFileName);
+
+                try
+                {
+                    File.Copy(selectedFilePath, destinationPath, overwrite: false);
+                    MessageBox.Show($"File berhasil disimpan sebagai {newFileName} di folder Images.", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    textBoxImage.Text = string.Empty;
+                    selectedFilePath = string.Empty;
+                }
+                catch (IOException ioEx)
+                {
+                    MessageBox.Show($"Terjadi kesalahan saat menyimpan file: {ioEx.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Terjadi kesalahan: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                try
+                {
+                    Connection.open();
+                    MySqlCommand cmd = new MySqlCommand("INSERT INTO products (product_name, price, DESCRIPTION, category_id, image, product_type) VALUES (@name, @price, @desc, @category, @image, @type)", Connection.conn);
+                    cmd.Parameters.AddWithValue("@name", textBox12.Text);
+                    cmd.Parameters.AddWithValue("@price", numericUpDown1.Value);
+                    cmd.Parameters.AddWithValue("@desc", textBox9.Text);
+                    cmd.Parameters.AddWithValue("@category", comboBox2.SelectedValue);
+                    cmd.Parameters.AddWithValue("image", newFileName);
+                    cmd.Parameters.AddWithValue("type", comboBox3.Text);
+                    cmd.ExecuteNonQuery();
+                    resetInputProducts();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    if (File.Exists(destinationPath))
+                    {
+                        try
+                        {
+                            File.Delete(destinationPath);
+                            MessageBox.Show("image berhasil di rollback");
+                        }
+                        catch (Exception deleteEx)
+                        {
+                            MessageBox.Show($"Terjadi kesalahan saat menghapus file setelah terjadi kesalahan: {deleteEx.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+                finally
+                {
+                    Connection.close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("inputan tidak boleh kosong!");
+            }
+        }
+
+        private string GetNextFileName(string folderPath, string extension)
+        {
+            string pattern = @"^image(\d+)\.\w+$";
+
+            var files = Directory.GetFiles(folderPath, "image*.*");
+
+            var numbers = files.Select(file =>
+            {
+                string fileName = Path.GetFileName(file);
+                Match match = Regex.Match(fileName, pattern, RegexOptions.IgnoreCase);
+                if (match.Success && int.TryParse(match.Groups[1].Value, out int number))
+                {
+                    return number;
+                }
+                return 0;
+            });
+
+            int maxNumber = numbers.Any() ? numbers.Max() : 0;
+
+            int nextNumber = maxNumber + 1;
+
+            string newFileName = $"image{nextNumber}{extension}";
+
+            return newFileName;
+        }
+
+        private void resetInputProducts()
+        {
+            textBox12.Text = "";
+            textBox9.Text = "";
+            numericUpDown1.ResetText();
+            comboBox2.SelectedIndex = -1;
+            comboBox3.SelectedIndex = -1;
+            textBoxImage.Text = "";
+            selectedFilePath = string.Empty;
+        }
+
+        private void productsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            panelCategories.Visible = false;
+        }
+
+        private void categoriesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            panelCategories.Visible = true;
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

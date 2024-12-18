@@ -69,42 +69,43 @@ namespace POS
                     string username = tbUsername.Text.ToString();
                     string password = tbPassword.Text.ToString();
 
-                    if(username.Equals("Admin",StringComparison.InvariantCultureIgnoreCase) && password.Equals("Admin",StringComparison.CurrentCultureIgnoreCase))
-                    {
-
-                        clear();
-                    }
-                    else
-                    {
-                        MySqlCommand cmd = new MySqlCommand("SELECT * " +
+                    MySqlCommand cmd = new MySqlCommand("SELECT * " +
                        "FROM users " +
                        "WHERE username = @username AND PASSWORD = @password", Connection.conn);
-                        DataTable dt = new DataTable();
-                        cmd.Parameters.AddWithValue("@username", username);
-                        cmd.Parameters.AddWithValue("@password", password);
+                    DataTable dt = new DataTable();
+                    cmd.Parameters.AddWithValue("@username", username);
+                    cmd.Parameters.AddWithValue("@password", password);
+                    MySqlDataReader reader = cmd.ExecuteReader();
 
-                        MySqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        reader.Read(); 
 
-                        if (reader.HasRows)
+                        int id = Convert.ToInt32(reader["user_id"]);
+                        string role = reader["role"].ToString();
+                        string name = reader["firstName"].ToString();
+                        reader.Close();
+
+                        if (role.Equals("Admin", StringComparison.InvariantCultureIgnoreCase))
                         {
-                            reader.Read();
-                            int id = Convert.ToInt32(reader["user_id"]);
-
-
-                            FormWelcome form = new FormWelcome(id);
+                            FormAdminEgy form = new FormAdminEgy(name);
+                            form.FormClosed += (s, args) => this.Show();
                             form.Show();
-
                             this.Hide();
+                            clear();
                         }
                         else
                         {
-                            MessageBox.Show("Account is not found!");
-                            clear();
+                            FormWelcome form = new FormWelcome(id);
+                            form.Show();
+                            this.Hide();
                         }
-                        clear();
-                        reader.Close();
                     }
-                   
+                    else
+                    {
+                        MessageBox.Show("Account is not found!");
+                        clear();
+                    }
                 }
                 catch (Exception ex)
                 {
