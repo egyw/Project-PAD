@@ -54,7 +54,13 @@ namespace POS
 
             //products
             dgvProducts.Size = new Size(screenWidth - panelLeft.Width - dgvProducts.Location.X - 28, panelProducts.Height - dgvProducts.Location.Y - 200);
-            groupBox2.Location = new Point(dgvProducts.Location.X, dgvProducts.Height + dgvProducts.Location.Y);
+            int btnYProducts = (dgvProducts.Height + dgvProducts.Location.Y) + 10;
+            groupBox2.Location = new Point(dgvProducts.Location.X, btnYProducts);
+            btnEditProduct.Location = new Point((dgvProducts.Width + dgvProducts.Location.X) - btnEditProduct.Width, btnYProducts);
+            btnAddProducts.Location = new Point(btnEditProduct.Location.X - btnAddProducts.Width, btnYProducts);
+            btnUpdateProduct.Location = new Point((dgvProducts.Width + dgvProducts.Location.X) - btnUpdateProduct.Width, btnYProducts + btnEditProduct.Height);
+            btnDeleteProduct.Location = new Point(btnUpdateProduct.Location.X - btnDeleteProduct.Width, btnYProducts + btnAddProducts.Height);
+
         }
 
         private void FormAdminEgy_Load(object sender, EventArgs e)
