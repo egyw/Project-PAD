@@ -20,7 +20,8 @@ namespace POS
         public FormAdminEgy()
         {
             InitializeComponent();
-            btnUpd.Text = "";
+            button1.BackColor = Color.White;
+            btnUpd.Text = "...";
             this.FormBorderStyle = FormBorderStyle.None;
 
             int screenWidth = Screen.PrimaryScreen.WorkingArea.Width;
@@ -36,6 +37,8 @@ namespace POS
             btnUpd.Location = new Point((dgvUsers.Width + dgvUsers.Location.X) - btnUpd.Width, btnY);
             btnDelete.Location = new Point(btnUpd.Location.X - btnDelete.Width, btnY);
             btnAddUser.Location = new Point(btnDelete.Location.X - btnAddUser.Width, btnY);
+
+            groupBox1.Location = new Point(dgvUsers.Location.X, btnY);
         }
 
         private void FormAdminEgy_Load(object sender, EventArgs e)
@@ -103,10 +106,11 @@ namespace POS
         {
             if (e.RowIndex >= 0)
             {
+                resetFormAddUser();
                 selectedIndex = e.RowIndex;
                 btnUpd.Enabled = true;
                 btnDelete.Enabled = true;
-                btnAddUser.Enabled = false;
+                groupBox1.Enabled = false;
                 try
                 {
                     Connection.open();
@@ -154,11 +158,12 @@ namespace POS
 
         private void reset()
         {
+            dgvUsers.ClearSelection();
             selectedIndex = -1;
             idUser = -1;
-            btnAddUser.Enabled = true;
             btnDelete.Enabled = false;
             btnUpd.Enabled = false;
+            btnUpd.Text = "...";
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -180,6 +185,115 @@ namespace POS
             {
                 Connection.close();
             }
+        }
+
+        private void btnAddUser_Click(object sender, EventArgs e)
+        {
+            groupBox1.Enabled = true;
+            reset();
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            if(textBox1.Text != "" && textBox2.Text != "" && textBox3.Text != "" && textBox4.Text != "" && textBox5.Text != "" && textBox6.Text != "" && comboBox1.Text != "")
+            {
+                try
+                {
+                    Connection.open();
+                    MySqlCommand cmd = new MySqlCommand("INSERT INTO users (firstName, lastName, username, PASSWORD, ROLE, email, phone_number) VALUES (@firstName, @lastName, @username, @password, @role, @email, @phone_number)", Connection.conn);
+                    cmd.Parameters.AddWithValue("@firstName", textBox1.Text);
+                    cmd.Parameters.AddWithValue("@lastName", textBox2.Text);
+                    cmd.Parameters.AddWithValue("@username", textBox3.Text);
+                    cmd.Parameters.AddWithValue("@password", textBox4.Text);
+                    cmd.Parameters.AddWithValue("@phone_number", textBox5.Text);
+                    cmd.Parameters.AddWithValue("@email", textBox6.Text);
+                    cmd.Parameters.AddWithValue("@role", comboBox1.Text);
+                    cmd.ExecuteNonQuery();
+                    resetFormAddUser();
+                    reset();
+                    loadDGVUsers(filter);
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("inputan tidak boleh kosong!");
+                resetFormAddUser();
+            }
+        }
+
+        private void resetFormAddUser()
+        {
+            textBox1.Clear();
+            textBox2.Clear();
+            textBox3.Clear();
+            textBox4.Clear();
+            textBox5.Clear();
+            textBox6.Clear();
+            comboBox1.SelectedIndex = -1;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            resetChosenMenu();
+            button1.BackColor = Color.White;
+            panah1.Visible = true;
+            panelUsers.Visible = true;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            resetChosenMenu();
+            button2.BackColor = Color.White;
+            panah2.Visible = true;
+            panelUsers.Visible = true;
+            panelProducts.Visible = true;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            resetChosenMenu();
+            button3.BackColor = Color.White;
+            panah3.Visible = true;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            resetChosenMenu();
+            button4.BackColor = Color.White;
+            panah4.Visible = true;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            resetChosenMenu();
+            button5.BackColor = Color.White;
+            panah5.Visible = true;
+        }
+
+        private void resetChosenMenu()
+        {
+            button1.BackColor = SystemColors.Control;
+            button2.BackColor = SystemColors.Control;
+            button3.BackColor = SystemColors.Control;
+            button4.BackColor = SystemColors.Control;
+            button5.BackColor = SystemColors.Control;
+
+            panah1.Visible = false;
+            panah2.Visible = false;
+            panah3.Visible = false;
+            panah4.Visible = false;
+            panah5.Visible = false;
+
+            panelUsers.Visible = false;
+            panelProducts.Visible = false;
         }
     }
 }
