@@ -43,6 +43,8 @@ CREATE TABLE products (
     category_id INT,
     image VARCHAR(200),
     product_type ENUM('general', 'ayam', 'burger', 'minuman', 'snack', 'soup', 'icecream', 'none'),
+    delete_status BOOLEAN DEFAULT FALSE,
+    deleted_at TIMESTAMP NULL,
     FOREIGN KEY (category_id) REFERENCES categories(category_id)
 );
 

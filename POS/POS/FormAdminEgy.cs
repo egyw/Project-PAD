@@ -15,7 +15,6 @@ namespace POS
 {
     public partial class FormAdminEgy : Form
     {
-        string filter = "";
         int selectedIndex = -1;
         DataTable tableUsers;
         DataTable tableProducts;
@@ -47,8 +46,9 @@ namespace POS
             dgvUsers.Size = new Size(panelUsers.Width - dgvUsers.Location.X - 28, panelUsers.Height - dgvUsers.Location.Y - 300);
             int btnY = (dgvUsers.Height + dgvUsers.Location.Y) + 10;
             btnUpd.Location = new Point((dgvUsers.Width + dgvUsers.Location.X) - btnUpd.Width, btnY);
-            btnDelete.Location = new Point(btnUpd.Location.X - btnDelete.Width, btnY);
-            btnAddUser.Location = new Point(btnDelete.Location.X - btnAddUser.Width, btnY);
+            btnAddUser.Location = new Point(btnUpd.Location.X - btnAddUser.Width, btnY);
+            btnDelete.Location = new Point((dgvUsers.Width + dgvUsers.Location.X) - btnUpd.Width, btnY + btnUpd.Height);
+            btnEditUser.Location = new Point(btnDelete.Location.X - btnEditUser.Width, btnY + btnAddUser.Height);
 
             groupBox1.Location = new Point(dgvUsers.Location.X, btnY);
 
@@ -68,6 +68,8 @@ namespace POS
             this.FormBorderStyle = FormBorderStyle.Sizable;
             loadDGVUsers("");
         }
+
+        //User-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
         private void tbUser_TextChanged(object sender, EventArgs e)
         {
@@ -165,7 +167,7 @@ namespace POS
                 cmd.Parameters.AddWithValue("@status", status);
                 cmd.Parameters.AddWithValue("@id", idUser);
                 cmd.ExecuteNonQuery();
-                loadDGVUsers(filter);
+                loadDGVUsers(tbUser.Text);
                 reset();
             }
             catch(Exception ex)
@@ -185,6 +187,7 @@ namespace POS
             idUser = -1;
             btnDelete.Enabled = false;
             btnUpd.Enabled = false;
+            btnEditUser.Enabled = false;
             btnUpd.Text = "...";
         }
 
@@ -196,7 +199,7 @@ namespace POS
                 MySqlCommand cmd = new MySqlCommand("UPDATE users SET delete_status = TRUE, deleted_at = NOW() WHERE user_id = @id", Connection.conn);
                 cmd.Parameters.AddWithValue("@id", idUser);
                 cmd.ExecuteNonQuery();
-                loadDGVUsers(filter);
+                loadDGVUsers(tbUser.Text);
                 reset();
             }
             catch (Exception ex)
@@ -212,6 +215,8 @@ namespace POS
         private void btnAddUser_Click(object sender, EventArgs e)
         {
             groupBox1.Enabled = true;
+            btnAdd.Enabled = true;
+            resetFormAddUser();
             reset();
         }
 
@@ -231,9 +236,9 @@ namespace POS
                     cmd.Parameters.AddWithValue("@email", textBox6.Text);
                     cmd.Parameters.AddWithValue("@role", comboBox1.Text);
                     cmd.ExecuteNonQuery();
+                    loadDGVUsers(tbUser.Text);
                     resetFormAddUser();
                     reset();
-                    loadDGVUsers(filter);
                 }
                 catch(Exception ex)
                 {
@@ -262,83 +267,89 @@ namespace POS
             comboBox1.SelectedIndex = -1;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void dgvUsers_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            resetChosenMenu();
-            loadDGVUsers(filter);
-            button1.BackColor = Color.White;
-            panah1.Visible = true;
-            panelUsers.Visible = true;
+            btnEditUser.Enabled = true;
+            groupBox1.Enabled = true;
+            btnAdd.Enabled = false;
+            btnDelete.Enabled = false;
+            btnUpd.Enabled = false;
+            try
+            {
+                Connection.open();
+                idUser = Convert.ToInt32(dgvUsers.Rows[selectedIndex].Cells["user_id"].Value);
+                textBox1.Text = dgvUsers.Rows[selectedIndex].Cells["firstName"].Value.ToString();
+                textBox2.Text = dgvUsers.Rows[selectedIndex].Cells["lastName"].Value.ToString();
+                textBox3.Text = dgvUsers.Rows[selectedIndex].Cells["username"].Value.ToString();
+                textBox4.Text = dgvUsers.Rows[selectedIndex].Cells["PASSWORD"].Value.ToString();
+                textBox5.Text = dgvUsers.Rows[selectedIndex].Cells["phone_number"].Value.ToString();
+                textBox6.Text = dgvUsers.Rows[selectedIndex].Cells["email"].Value.ToString();
+                comboBox1.Text = dgvUsers.Rows[selectedIndex].Cells["ROLE"].Value.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Connection.close();
+            }
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            resetChosenMenu();
-            loadDgvProducts();
-            button2.BackColor = Color.White;
-            panah2.Visible = true;
-            panelProducts.Visible = true;
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            resetChosenMenu();
-            button3.BackColor = Color.White;
-            panah3.Visible = true;
-            panelModifiers.Visible = true;
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            resetChosenMenu();
-            button4.BackColor = Color.White;
-            panah4.Visible = true;
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            resetChosenMenu();
-            button5.BackColor = Color.White;
-            panah5.Visible = true;
-        }
-
-        private void resetChosenMenu()
-        {
-            button1.BackColor = SystemColors.Control;
-            button2.BackColor = SystemColors.Control;
-            button3.BackColor = SystemColors.Control;
-            button4.BackColor = SystemColors.Control;
-            button5.BackColor = SystemColors.Control;
-
-            panah1.Visible = false;
-            panah2.Visible = false;
-            panah3.Visible = false;
-            panah4.Visible = false;
-            panah5.Visible = false;
-
-            panelUsers.Visible = false;
-            panelProducts.Visible = false;
-            panelModifiers.Visible = false;
-
-            dgvUsers.DataSource = null;
-            dgvProducts.DataSource = null;
-        }
-
-
-
-
-
-
-        //products
-        private void loadDgvProducts()
+        private void btnEditUser_Click(object sender, EventArgs e)
         {
             try
             {
                 Connection.open();
-                MySqlDataAdapter data = new MySqlDataAdapter(
-                    "SELECT p.product_id, p.product_name, p.price, p.description, c.category_name, p.product_type, p.image, p.is_active " +
+                MySqlCommand cmd = new MySqlCommand("UPDATE users SET firstName = @first, lastName = @last, username = @username, PASSWORD = @pw, phone_number = @number, email = @email, ROLE = @role WHERE user_id = @id", Connection.conn);
+                cmd.Parameters.AddWithValue("@id", idUser);
+                cmd.Parameters.AddWithValue("@first", textBox1.Text.ToString());
+                cmd.Parameters.AddWithValue("@last", textBox2.Text.ToString());
+                cmd.Parameters.AddWithValue("@username", textBox3.Text.ToString());
+                cmd.Parameters.AddWithValue("@pw", textBox4.Text.ToString());
+                cmd.Parameters.AddWithValue("@number", textBox5.Text.ToString());
+                cmd.Parameters.AddWithValue("@email", textBox6.Text.ToString());
+                cmd.Parameters.AddWithValue("@role", comboBox1.Text.ToString());
+
+                cmd.ExecuteNonQuery();
+                loadDGVUsers(tbUser.Text);
+                reset();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Connection.close();
+            }
+        }
+
+
+
+
+        //products ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        private void loadDgvProducts(string filter)
+        {
+            try
+            {
+                Connection.open();
+                MySqlDataAdapter data;
+                if (filter == "")
+                {
+                    data = new MySqlDataAdapter("SELECT p.product_id, p.product_name, p.price, p.description, c.category_name, p.product_type, p.image, p.is_active " +
                     "FROM products p " +
-                    "JOIN categories c ON p.category_id = c.category_id", Connection.conn);
+                    "JOIN categories c ON p.category_id = c.category_id " +
+                    "WHERE delete_status = FALSE", Connection.conn);
+                }
+                else
+                {
+                    data = new MySqlDataAdapter("SELECT p.product_id, p.product_name, p.price, p.description, c.category_name, p.product_type, p.image, p.is_active " +
+                    "FROM products p " +
+                    "JOIN categories c ON p.category_id = c.category_id " +
+                    "WHERE p.product_name LIKE @name AND delete_status = FALSE", Connection.conn);
+                    data.SelectCommand.Parameters.AddWithValue("@name", filter + "%");
+                }
                 tableProducts = new DataTable();
                 data.Fill(tableProducts);
                 dgvProducts.DataSource = tableProducts;
@@ -487,6 +498,7 @@ namespace POS
             {
                 MessageBox.Show("inputan tidak boleh kosong!");
             }
+            resetFormAddProduct();
         }
 
         private string GetNextFileName(string folderPath, string extension)
@@ -529,16 +541,252 @@ namespace POS
         private void productsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             panelCategories.Visible = false;
+            selectedIndex = -1;
         }
 
         private void categoriesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             panelCategories.Visible = true;
+            selectedIndex = -1;
         }
 
         private void label4_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+        private void tbSearchProduct_TextChanged(object sender, EventArgs e)
+        {
+            loadDgvProducts(tbSearchProduct.Text);
+        }
+
+        private void btnAddProducts_Click(object sender, EventArgs e)
+        {
+            groupBox2.Enabled = true;
+            btnAddInBoxProduct.Enabled = true;
+        }
+
+        private void btnEditProduct_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Connection.open();
+                MySqlCommand cmd = new MySqlCommand("UPDATE products SET product_name = @name, price = @price, DESCRIPTION = @desc, category_id = @category, product_type = @type WHERE product_id = @id", Connection.conn);
+                cmd.Parameters.AddWithValue("@id", selectedIndex);
+                cmd.Parameters.AddWithValue("@name", textBox12.Text.ToString());
+                cmd.Parameters.AddWithValue("@price", numericUpDown1.Value);
+                cmd.Parameters.AddWithValue("@desc", textBox9.Text.ToString());
+                cmd.Parameters.AddWithValue("@category", comboBox2.SelectedValue);
+                cmd.Parameters.AddWithValue("@type", comboBox3.Text.ToString());
+
+                cmd.ExecuteNonQuery();
+                loadDgvProducts(tbSearchProduct.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Connection.close();
+            }
+            resetFormAddProduct();
+        }
+
+        private void btnDeleteProduct_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Connection.open();
+                MySqlCommand cmd = new MySqlCommand("UPDATE products SET delete_status = TRUE, deleted_at = NOW() WHERE product_id = @id", Connection.conn);
+                cmd.Parameters.AddWithValue("@id", selectedIndex);
+
+                cmd.ExecuteNonQuery();
+                loadDgvProducts(tbSearchProduct.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Connection.close();
+            }
+            resetFormAddProduct();
+        }
+
+        private void btnUpdateProduct_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Connection.open();
+                MySqlCommand cmd = new MySqlCommand("UPDATE products SET is_active = @status WHERE product_id = @id", Connection.conn);
+                bool status;
+                if(btnUpdateProduct.Text == "Disable") { status = false; }
+                else { status = true; }
+                cmd.Parameters.AddWithValue("@id", selectedIndex);
+                cmd.Parameters.AddWithValue("@status", status);
+
+                cmd.ExecuteNonQuery();
+                loadDgvProducts(tbSearchProduct.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Connection.close();
+            }
+            resetFormAddProduct();
+            dgvProducts.ClearSelection();
+        }
+
+        private void resetFormAddProduct()
+        {
+            btnDeleteProduct.Enabled = false;
+            btnUpdateProduct.Enabled = false;
+            btnEditProduct.Enabled = false;
+            btnAddProducts.Enabled = true;
+            textBox12.Clear();
+            textBox9.Clear();
+            comboBox2.SelectedIndex = -1;
+            comboBox3.SelectedIndex = -1;
+            numericUpDown1.ResetText();
+            groupBox2.Enabled = false;
+            btnUpdateProduct.Text = "...";
+        }
+
+        private void dgvProducts_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                resetFormAddProduct();
+                btnDeleteProduct.Enabled = true;
+                btnUpdateProduct.Enabled = true;
+                selectedIndex = Convert.ToInt32(dgvProducts.Rows[e.RowIndex].Cells["product_id"].Value);
+                if (Convert.ToBoolean(dgvProducts.Rows[e.RowIndex].Cells["is_active"].Value))
+                {
+                    btnUpdateProduct.Text = "Disable";
+                }
+                else
+                {
+                    btnUpdateProduct.Text = "Enable";
+                }
+            }
+
+        }
+
+        private void dgvProducts_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                resetFormAddProduct();
+                groupBox2.Enabled = true;
+                btnAddInBoxProduct.Enabled = false;
+                btnEditProduct.Enabled = true;
+                selectedIndex = Convert.ToInt32(dgvProducts.Rows[e.RowIndex].Cells["product_id"].Value);
+                textBox12.Text = dgvProducts.Rows[e.RowIndex].Cells["product_name"].Value.ToString();
+                textBox9.Text = dgvProducts.Rows[e.RowIndex].Cells["Description"].Value.ToString();
+                numericUpDown1.Value = numericUpDown1.Minimum;
+                numericUpDown1.Value = Convert.ToInt32(dgvProducts.Rows[e.RowIndex].Cells["price"].Value);
+                comboBox2.Text = dgvProducts.Rows[e.RowIndex].Cells["category_name"].Value.ToString();
+                comboBox3.Text = dgvProducts.Rows[e.RowIndex].Cells["product_type"].Value.ToString();
+            }
+        }
+
+
+        //general-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        private void button1_Click(object sender, EventArgs e)
+        {
+            resetPanel(panelUsers);
+            resetChosenMenu();
+            loadDGVUsers("");
+            button1.BackColor = Color.White;
+            panah1.Visible = true;
+            panelUsers.Visible = true;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            resetPanel(panelProducts);
+            resetChosenMenu();
+            loadDgvProducts("");
+            button2.BackColor = Color.White;
+            panah2.Visible = true;
+            panelProducts.Visible = true;
+            dgvProducts.ClearSelection();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            resetChosenMenu();
+            button3.BackColor = Color.White;
+            panah3.Visible = true;
+            panelModifiers.Visible = true;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            resetChosenMenu();
+            button4.BackColor = Color.White;
+            panah4.Visible = true;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            resetChosenMenu();
+            button5.BackColor = Color.White;
+            panah5.Visible = true;
+        }
+
+        private void resetChosenMenu()
+        {
+            button1.BackColor = SystemColors.Control;
+            button2.BackColor = SystemColors.Control;
+            button3.BackColor = SystemColors.Control;
+            button4.BackColor = SystemColors.Control;
+            button5.BackColor = SystemColors.Control;
+
+            panah1.Visible = false;
+            panah2.Visible = false;
+            panah3.Visible = false;
+            panah4.Visible = false;
+            panah5.Visible = false;
+
+            panelUsers.Visible = false;
+            panelProducts.Visible = false;
+            panelModifiers.Visible = false;
+
+            selectedIndex = -1;
+        }
+
+        private void resetPanel(Control parentControl)
+        {
+            foreach (Control control in parentControl.Controls)
+            {
+                if (control is TextBox textBox)
+                {
+                    textBox.Clear(); 
+                }
+                else if (control is ComboBox comboBox)
+                {
+                    comboBox.SelectedIndex = -1; 
+                }
+                else if (control is NumericUpDown numericUpDown)
+                {
+                    numericUpDown.Value = numericUpDown.Minimum;
+                }
+                else if (control is DataGridView dataGridView)
+                {
+                    dataGridView.DataSource = null; 
+                }
+                else if (control.HasChildren)
+                {
+                    resetPanel(control);
+                }
+            }
+        }
+
+        
     }
 }
