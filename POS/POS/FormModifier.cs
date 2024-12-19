@@ -12,13 +12,19 @@ namespace POS
         int idUser;
         private string connectionString = "Server=localhost;Database=pos_aw;UserID=root;Password=;";
         private Dictionary<int, int> modifierQuantities = new Dictionary<int, int>();
+        public List<string> modif { get; set; }
+        public List<decimal> modifprice { get; set; }
 
         public FormModifier(int id, string namamenu, string productType)
         {
             InitializeComponent();
             this.idUser = id;
             label5.Text = namamenu;
-            richTextBox1.Text = namamenu;
+            listView1.Columns.Add("Modifiers", 200);
+            listView1.Columns.Add("Quantity", 80);
+            listView1.Columns.Add("Price", 100);
+            listView1.View = View.Details;
+            listView1.Font = new Font(listView1.Font.FontFamily, 10, listView1.Font.Style);
             LoadModifiers(productType);
         }
 
@@ -50,24 +56,22 @@ namespace POS
 
             modifierQuantities[modifierId] = 1;
 
-            UpdateRichTextBoxWithModifiers();
+            UpdateListViewWithModifiers();
             UpdateModifierLabel();
-            UpdatePrices(); // Perbarui harga setelah menambahkan modifier
         }
 
         private void hapusmodifier(string modifierText, int modifierId)
         {
             modifierQuantities.Remove(modifierId);
 
-            UpdateRichTextBoxWithModifiers();
+            UpdateListViewWithModifiers();
             UpdateModifierLabel();
-            UpdatePrices(); // Perbarui harga setelah menghapus modifier
+
         }
 
-        private void UpdateRichTextBoxWithModifiers()
+        private void UpdateListViewWithModifiers()
         {
-            string originalMenu = label5.Text;
-            string updatedText = originalMenu;
+            listView1.Items.Clear();
 
             foreach (var modifier in modifierQuantities)
             {
@@ -76,15 +80,17 @@ namespace POS
                 {
                     string modifierText = modifierButton.Text.Split('\n')[0];
                     int quantity = modifier.Value;
+                    decimal price = ((dynamic)modifierButton.Tag).Price;
 
-                    updatedText += quantity > 1
-                        ? $" + {modifierText} x{quantity}"
-                        : $" + {modifierText}";
+                    ListViewItem item = new ListViewItem(modifierText);
+                    item.SubItems.Add(quantity.ToString());
+                    item.SubItems.Add((price * quantity).ToString());
+                    listView1.Items.Add(item);
                 }
             }
-
-            richTextBox1.Text = updatedText;
+            UpdatePrices();
         }
+
 
         private void UpdateModifierLabel()
         {
@@ -236,24 +242,16 @@ namespace POS
         {
             decimal subtotal = 0;
 
-            foreach (var modifier in modifierQuantities)
+            foreach (ListViewItem item in listView1.Items)
             {
-                Button modifierButton = this.Controls.Find($"modifier_{modifier.Key}", true)[0] as Button;
-                if (modifierButton != null)
+                if (decimal.TryParse(item.SubItems[2].Text.Replace(",", "").Replace(".", ","), out decimal price))
                 {
-                    decimal price = ((dynamic)modifierButton.Tag).Price;
-                    int quantity = modifierQuantities[modifier.Key];
-                    subtotal += price * quantity;
+                    subtotal += price;
                 }
             }
+            subtotal = subtotal / 100;
 
-            decimal tax = subtotal * 0.10m; // Pajak 10%
-            decimal total = subtotal + tax;
-
-            // Perbarui label subtotal, pajak, dan total
-            labelSubtotal.Text = $"{subtotal:C}".Replace(".", ",");
-            labelTax.Text = $"{tax:C}".Replace(".", ",");
-            labelTotal.Text = $"{total:C}".Replace(".", ",");
+            labelSubtotal.Text = $"$. {subtotal:N2}".Replace(".", ",");
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -266,7 +264,7 @@ namespace POS
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(richTextBox1.Text))
+            if (listView1.Items.Count == 0)
             {
                 MessageBox.Show("Add Extra Menu!");
             }
@@ -277,6 +275,25 @@ namespace POS
                 bayar.ShowDialog();
                 this.Close();
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            List<string> selectedItems = new List<string>();
+            List<decimal> selectedItemsPrice = new List<decimal>();
+
+            foreach (ListViewItem item in listView1.Items)
+            {
+                string modifier = item.SubItems[0].Text;
+                decimal price = decimal.Parse(item.SubItems[2].Text.Replace(",", "").Replace(".", ","));
+                selectedItems.Add(modifier);
+                selectedItemsPrice.Add(price);
+            }
+
+            modif = selectedItems;
+            modifprice = selectedItemsPrice;
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
     }
 }

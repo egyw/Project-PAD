@@ -533,10 +533,46 @@ namespace POS
                     }
 
                     FormModifier customorder = new FormModifier(idUser, namamenu, tipeproduk);
-                    customorder.Show();
+                    this.Hide();
+                    if (customorder.ShowDialog() == DialogResult.OK)
+                    {
+                        List<string> modif = customorder.modif;
+                        List<decimal> modifprice = customorder.modifprice;
+
+                        foreach (ListViewItem item in listView1.Items)
+                        {
+                            if (item.Text == menuName)
+                            {
+                                if (item.SubItems.Count < 4)
+                                {
+                                    item.SubItems.Add(string.Join(", ", modif));
+                                }
+                                else
+                                {
+                                    string existingMods = item.SubItems[3].Text;
+                                    List<string> combinedMods = new List<string>(existingMods.Split(',').Select(m => m.Trim()));
+                                    combinedMods.AddRange(modif);
+                                    item.SubItems[3].Text = string.Join(", ", combinedMods.Distinct());
+                                }
+
+                                decimal basePrice = decimal.Parse(item.SubItems[2].Text.Replace(",", ""));
+                                decimal modifTotalPrice = modifprice.Sum();
+                                modifTotalPrice = modifTotalPrice / 100;
+                                decimal newTotalPrice = basePrice + modifTotalPrice;
+
+                                item.SubItems[2].Text = newTotalPrice.ToString("N2");
+
+                                break;
+                            }
+                        }
+
+                        listView1.View = View.Details;
+                    }
+
+                    this.Show();
                 }
             }
-
+            addToTotal();
         }
 
 
