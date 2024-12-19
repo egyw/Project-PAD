@@ -63,10 +63,12 @@ namespace POS
             panelPay.Enabled = false;
             panelPay.Visible = false;
 
-            listView1.Columns.Add("Nama Produk", 200);
-            listView1.Columns.Add("Kuantitas", 50);
-            listView1.Columns.Add("Total Harga", 100);
+            listView1.Columns.Add("Product", 150);
+            listView1.Columns.Add("Quantity", 80);
+            listView1.Columns.Add("Price", 100);
+            listView1.Columns.Add("Modifiers", 200);
             listView1.View = View.Details;
+            listView1.Font = new Font(listView1.Font.FontFamily, 10, listView1.Font.Style);
 
         }
 
