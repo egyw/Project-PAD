@@ -19,6 +19,7 @@ namespace POS
         DataTable tableUsers;
         DataTable tableProducts;
         DataTable tableCategories;
+        DataTable tableDiscounts;
         int idUser = -1;
         string selectedFilePath = string.Empty;
         string adminName = string.Empty;
@@ -29,8 +30,10 @@ namespace POS
             this.adminName = name;
             labelAdmin.Text = adminName;
             panelModifiers.Dock = DockStyle.Fill;
+            panelCategories.Dock = DockStyle.Fill;
             panelProducts.Dock = DockStyle.Fill;
             panelUsers.Dock = DockStyle.Fill;
+            
             button1.BackColor = Color.White;
             btnUpd.Text = "...";
             this.FormBorderStyle = FormBorderStyle.None;
@@ -874,7 +877,178 @@ namespace POS
         }
 
 
+        //discount------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        private void loadDGVDiscounts()
+        {
+            try
+            {
+                Connection.open();
+                MySqlDataAdapter data = new MySqlDataAdapter("SELECT * FROM discounts WHERE delete_status = FALSE", Connection.conn);
 
+                tableDiscounts = new DataTable();
+                data.Fill(tableDiscounts);
+
+                dgvDiscount.DataSource = tableDiscounts;
+                dgvDiscount.Columns["discount_id"].HeaderText = "ID";
+                dgvDiscount.Columns["discount_code"].HeaderText = "Code";
+                dgvDiscount.Columns["DESCRIPTION"].HeaderText = "Description";
+                dgvDiscount.Columns["discount_percentage"].HeaderText = "Percentage";
+                dgvDiscount.Columns["start_date"].HeaderText = "Start Date";
+                dgvDiscount.Columns["end_date"].HeaderText = "End Date";
+                dgvDiscount.Columns["is_active"].HeaderText = "Is Active";
+
+                dgvDiscount.Columns["delete_status"].Visible = false;
+                dgvDiscount.Columns["deleted_at"].Visible = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Connection.close();
+            }
+        }
+
+        private void resetFormDiscount()
+        {
+            tbCode.Clear();
+            tbDescDisc.Clear();
+            numericUpDown2.Value = 0;
+            dateTimePicker1.Value = DateTime.Now;
+            dateTimePicker2.Value = DateTime.Now;
+            selectedIndex = -1;
+        }
+
+        private void btnAddDiscount_Click(object sender, EventArgs e)
+        {
+            resetFormDiscount();
+            dgvDiscount.ClearSelection();
+            groupBox4.Enabled = true;
+            btnAddDiscountInBox.Enabled = true;
+        }
+
+        private void btnEditDiscount_Click(object sender, EventArgs e)
+        {
+            if (tbCode.Text != "" && numericUpDown2.Value > 0 && tbDescDisc.Text != "")
+            {
+                try
+                {
+                    Connection.open();
+                    MySqlCommand cmd = new MySqlCommand("UPDATE discounts SET discount_code = @code, DESCRIPTION = @desc, discount_percentage = @percentage, start_date = @startDate, end_date = @endDate WHERE discount_id = @id", Connection.conn);
+                    cmd.Parameters.AddWithValue("@code", tbCode.Text);
+                    cmd.Parameters.AddWithValue("@desc", tbDescDisc.Text);
+                    cmd.Parameters.AddWithValue("@percentage", numericUpDown2.Value);
+                    cmd.Parameters.AddWithValue("@startDate", dateTimePicker1.Value);
+                    cmd.Parameters.AddWithValue("@endDate", dateTimePicker2.Value);
+                    cmd.Parameters.AddWithValue("@id", selectedIndex);
+
+                    cmd.ExecuteNonQuery();
+                    loadDGVDiscounts();
+                    resetFormDiscount();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Inputan tidak boleh kosong!");
+            }
+        }
+
+        private void btnDeleteDiscount_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Connection.open();
+                MySqlCommand cmd = new MySqlCommand("UPDATE discounts SET delete_status = TRUE, deleted_at = NOW() WHERE discount_id = @id", Connection.conn);
+                cmd.Parameters.AddWithValue("@id", selectedIndex);
+                cmd.ExecuteNonQuery();
+
+                loadDGVDiscounts();
+                resetFormDiscount();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Connection.close();
+            }
+        }
+
+        private void btnUpdateDiscount_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnAddDiscountInBox_Click(object sender, EventArgs e)
+        {
+            if (tbCode.Text != "" && numericUpDown2.Value > 0 && tbDescDisc.Text != "")
+            {
+                try
+                {
+                    Connection.open();
+                    MySqlCommand cmd = new MySqlCommand("INSERT INTO discounts (discount_code, DESCRIPTION, discount_percentage, start_date, end_date) VALUES (@code, @desc, @percentage, @startDate, @endDate)", Connection.conn);
+                    cmd.Parameters.AddWithValue("@code", tbCode.Text);
+                    cmd.Parameters.AddWithValue("@desc", tbDescDisc.Text);
+                    cmd.Parameters.AddWithValue("@percentage", numericUpDown2.Value);
+                    cmd.Parameters.AddWithValue("@startDate", dateTimePicker1.Value);
+                    cmd.Parameters.AddWithValue("@endDate", dateTimePicker2.Value);
+
+                    cmd.ExecuteNonQuery();
+                    loadDGVDiscounts();
+                    resetFormDiscount();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Inputan tidak boleh kosong");
+            }
+        }
+
+        private void dgvDiscount_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //if (e.RowIndex >= 0)
+            //{
+            //    selectedIndex = Convert.ToInt32(dgvDiscount.Rows[e.RowIndex].Cells["discount_id"].Value);
+            //    tbCode.Text = dgvDiscount.Rows[e.RowIndex].Cells["discount_code"].Value.ToString();
+            //    tbDescription.Text = dgvDiscount.Rows[e.RowIndex].Cells["DESCRIPTION"].Value.ToString();
+            //    numericPercentage.Value = Convert.ToDecimal(dgvDiscount.Rows[e.RowIndex].Cells["discount_percentage"].Value);
+            //    dtpStartDate.Value = Convert.ToDateTime(dgvDiscount.Rows[e.RowIndex].Cells["start_date"].Value);
+            //    dtpEndDate.Value = Convert.ToDateTime(dgvDiscount.Rows[e.RowIndex].Cells["end_date"].Value);
+            //    chkIsActive.Checked = Convert.ToBoolean(dgvDiscount.Rows[e.RowIndex].Cells["is_active"].Value);
+            //}
+        }
+
+        private void dgvDiscount_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //if (e.RowIndex >= 0)
+            //{
+            //    resetFormDiscount();
+            //    groupBox4.Enabled = true;
+            //    btnEditCategories.Enabled = true;
+            //    btnAddCategoriesInBox.Enabled = false;
+
+            //    selectedIndex = Convert.ToInt32(dgvCategories.Rows[e.RowIndex].Cells["category_id"].Value);
+            //    tbNamaCategory.Text = dgvCategories.Rows[e.RowIndex].Cells["category_name"].Value.ToString();
+            //}
+        }
 
 
 
@@ -975,7 +1149,5 @@ namespace POS
                 }
             }
         }
-
-        
     }
 }

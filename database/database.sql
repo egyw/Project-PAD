@@ -107,7 +107,9 @@ CREATE TABLE discounts (
     discount_percentage DECIMAL(5, 2),
     start_date TIMESTAMP,
     end_date TIMESTAMP NULL,
-    is_active BOOLEAN DEFAULT TRUE
+    is_active BOOLEAN DEFAULT TRUE,
+    delete_status BOOLEAN DEFAULT FALSE,
+    deleted_at TIMESTAMP NULL
 );
 
 CREATE TABLE modifiers (
