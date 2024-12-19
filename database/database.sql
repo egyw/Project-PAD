@@ -31,7 +31,9 @@ CREATE TABLE users(
 
 CREATE TABLE categories (
     category_id INT PRIMARY KEY AUTO_INCREMENT,
-    category_name VARCHAR(50)
+    category_name VARCHAR(50),
+    delete_status BOOLEAN DEFAULT FALSE,
+    deleted_at TIMESTAMP NULL
 );
 
 CREATE TABLE products (
