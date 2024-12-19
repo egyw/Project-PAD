@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 
+
 namespace POS
 {
     public partial class FormMain : Form
@@ -363,7 +364,6 @@ namespace POS
             panel_order.Enabled = true;
             panel_order.Visible = true;
             label2.Text = "Dine in";
-
             panelPay.Enabled = true;
             panelPay.Visible = true;
         }
@@ -428,11 +428,59 @@ namespace POS
 
         private void btnOrders_Click(object sender, EventArgs e)
         {
+            listView1.Items.Clear();
             FormOrders form = new FormOrders();
             form.FormClosed += formOrderClosed;
             this.Hide();
             if (form.ShowDialog() == DialogResult.OK)
             {
+                int orderid = form.orderid;
+                try
+                {
+                    Connection.open();
+                    MySqlDataAdapter data = new MySqlDataAdapter("SELECT p.product_name, p.price ,oi.quantity FROM products p JOIN order_items oi ON oi.product_id = p.product_id JOIN orders o ON o.order_id = oi.order_id WHERE o.order_id = @id", Connection.conn);
+                    data.SelectCommand.Parameters.AddWithValue("@id", orderid);
+
+                    DataTable itemordered = new DataTable();
+                    data.Fill(itemordered);
+
+                    foreach (DataRow row in itemordered.Rows)
+                    {
+                        string productName = row["product_name"].ToString();
+                        string quantityText = row["quantity"].ToString();
+                        string priceText = row["price"].ToString();
+
+                        decimal price = decimal.TryParse(priceText, out decimal parsedPrice) ? parsedPrice : 0;
+                        decimal quantity = decimal.TryParse(quantityText, out decimal parsedQuantity) ? parsedQuantity : 0;
+                        decimal totalPrice = price * quantity;
+
+                        ListViewItem newItem = new ListViewItem(productName);
+                        newItem.SubItems.Add(quantityText);
+                        newItem.SubItems.Add(totalPrice.ToString("N2"));
+                        listView1.Items.Add(newItem);
+                    }
+                    listView1.View = View.Details;
+                    listView1.Columns[0].Width = 200;
+                    listView1.Columns[1].Width = 50;
+                    listView1.Columns[2].Width = 100;
+                    addToTotal();
+
+                    take = true;
+                    dine = false;
+                    panel_order.Enabled = true;
+                    panel_order.Visible = true;
+                    label2.Text = "Take Away";
+                    panelPay.Enabled = true;
+                    panelPay.Visible = true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.close();
+                }
 
             }
         }
@@ -501,7 +549,7 @@ namespace POS
                     subtotal += price;
                 }
             }
-
+            subtotal = subtotal / 100;
             tax = subtotal / 10; 
             total = subtotal + tax;
 

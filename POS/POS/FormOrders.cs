@@ -15,6 +15,8 @@ namespace POS
     {
         DataTable tableAllOrders;
         bool isKeyboardActive = false;
+        int selected = -1;
+        public int orderid { get; private set; }
         public FormOrders()
         {
             InitializeComponent();
@@ -169,11 +171,14 @@ namespace POS
         {
             panelRight.Width = 0;
             dataGridView1.ClearSelection();
+            selected = -1;
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             timerAnimateRightPanel.Start();
+            selected = (int)dataGridView1.Rows[e.RowIndex].Cells["order_id"].Value;
+            
         }
 
         private void timerAnimateRightPanel_Tick(object sender, EventArgs e)
@@ -185,12 +190,15 @@ namespace POS
             else
             {
                 timerAnimateRightPanel.Stop();
+
             }
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-
+            orderid = selected;
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
     }
 }
