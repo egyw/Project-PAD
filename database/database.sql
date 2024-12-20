@@ -13,7 +13,7 @@ DROP TABLE IF EXISTS payment_details;
 DROP TABLE IF EXISTS payment_method;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS discounts;
-
+DROP TABLE IF EXISTS product_types;
 
 CREATE TABLE users(
     user_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -36,6 +36,14 @@ CREATE TABLE categories (
     deleted_at TIMESTAMP NULL
 );
 
+CREATE TABLE product_types (
+    product_type_id INT PRIMARY KEY AUTO_INCREMENT,
+    type_name VARCHAR(50) NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    delete_status BOOLEAN DEFAULT FALSE,
+    deleted_at TIMESTAMP NULL
+);
+
 CREATE TABLE products (
     product_id INT PRIMARY KEY AUTO_INCREMENT,
     product_name VARCHAR(100),
@@ -44,10 +52,11 @@ CREATE TABLE products (
     is_active BOOLEAN DEFAULT TRUE,
     category_id INT,
     image VARCHAR(200),
-    product_type ENUM('general', 'ayam', 'burger', 'minuman', 'snack', 'soup', 'icecream', 'none'),
+    product_type INT,
     delete_status BOOLEAN DEFAULT FALSE,
     deleted_at TIMESTAMP NULL,
-    FOREIGN KEY (category_id) REFERENCES categories(category_id)
+    FOREIGN KEY (category_id) REFERENCES categories(category_id),
+    FOREIGN KEY (product_type) REFERENCES product_types(product_type_id)
 );
 
 CREATE TABLE payment_method (
@@ -116,15 +125,21 @@ CREATE TABLE modifiers (
     modifier_id INT PRIMARY KEY AUTO_INCREMENT,
     modifier_name VARCHAR(100) NOT NULL,
     modifier_price DECIMAL(10, 2),
-    is_active BOOLEAN DEFAULT TRUE
+    is_active BOOLEAN DEFAULT TRUE,
+    delete_status BOOLEAN DEFAULT FALSE,
+    deleted_at TIMESTAMP NULL
 );
 
 -- Produk tertentu hanya memiliki modifiers tertentu
 CREATE TABLE product_type_modifiers (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    product_type VARCHAR(50) NOT NULL,
+    product_type INT,
     modifier_id INT NOT NULL,
-    FOREIGN KEY (modifier_id) REFERENCES modifiers(modifier_id)
+    is_active BOOLEAN DEFAULT TRUE,
+    delete_status BOOLEAN DEFAULT FALSE,
+    deleted_at TIMESTAMP NULL,
+    FOREIGN KEY (modifier_id) REFERENCES modifiers(modifier_id),
+    FOREIGN KEY (product_type) REFERENCES product_types(product_type_id)
 );
 
 -- Tabel Order Item Modifiers (jika order_item memiliki modifier)

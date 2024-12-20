@@ -20,6 +20,9 @@ namespace POS
         DataTable tableProducts;
         DataTable tableCategories;
         DataTable tableDiscounts;
+        DataTable tableModifiers;
+        DataTable tableTypes;
+        DataTable tableProductModifiers;
         int idUser = -1;
         string selectedFilePath = string.Empty;
         string adminName = string.Empty;
@@ -30,9 +33,12 @@ namespace POS
             this.adminName = name;
             labelAdmin.Text = adminName;
             panelModifiers.Dock = DockStyle.Fill;
+            panelType.Dock = DockStyle.Fill;
             panelCategories.Dock = DockStyle.Fill;
             panelProducts.Dock = DockStyle.Fill;
             panelUsers.Dock = DockStyle.Fill;
+            panelDiscount.Dock = DockStyle.Fill;
+            panelProductModifier.Dock = DockStyle.Fill;
             
             button1.BackColor = Color.White;
             btnUpd.Text = "...";
@@ -42,12 +48,13 @@ namespace POS
             int screenHeight = Screen.PrimaryScreen.WorkingArea.Height;
             this.MaximumSize = new Size(screenWidth, screenHeight);
             this.MinimumSize = new Size(screenWidth, screenHeight);
-
+            int widthDGV = panelUsers.Width - dgvUsers.Location.X;
+            int heightDGV = panelUsers.Height - dgvUsers.Location.Y;
             //users
             labelAdmin.Location = new Point(panelTop.Width - labelAdmin.Width, 18);
             label2.Location = new Point(panelTop.Width - label2.Width, 50);
 
-            dgvUsers.Size = new Size(panelUsers.Width - dgvUsers.Location.X - 28, panelUsers.Height - dgvUsers.Location.Y - 300);
+            dgvUsers.Size = new Size(widthDGV - 28, heightDGV - 300);
             int btnY = (dgvUsers.Height + dgvUsers.Location.Y) + 10;
             btnUpd.Location = new Point((dgvUsers.Width + dgvUsers.Location.X) - btnUpd.Width, btnY);
             btnAddUser.Location = new Point(btnUpd.Location.X - btnAddUser.Width, btnY);
@@ -57,22 +64,56 @@ namespace POS
             groupBox1.Location = new Point(dgvUsers.Location.X, btnY);
 
             //products
-            dgvProducts.Size = new Size(screenWidth - panelLeft.Width - dgvProducts.Location.X - 28, panelProducts.Height - dgvProducts.Location.Y - 200);
+            dgvProducts.Size = new Size(widthDGV - 28, heightDGV - 300);
             int btnYProducts = (dgvProducts.Height + dgvProducts.Location.Y) + 10;
             groupBox2.Location = new Point(dgvProducts.Location.X, btnYProducts);
-            btnEditProduct.Location = new Point((dgvProducts.Width + dgvProducts.Location.X) - btnEditProduct.Width, btnYProducts);
-            btnAddProducts.Location = new Point(btnEditProduct.Location.X - btnAddProducts.Width, btnYProducts);
-            btnUpdateProduct.Location = new Point((dgvProducts.Width + dgvProducts.Location.X) - btnUpdateProduct.Width, btnYProducts + btnEditProduct.Height);
-            btnDeleteProduct.Location = new Point(btnUpdateProduct.Location.X - btnDeleteProduct.Width, btnYProducts + btnAddProducts.Height);
+            btnUpdateProduct.Location = new Point((dgvProducts.Width + dgvProducts.Location.X) - btnUpdateProduct.Width, btnYProducts);
+            btnAddProducts.Location = new Point(btnUpdateProduct.Location.X - btnAddProducts.Width, btnYProducts);
+            btnEditProduct.Location = new Point(btnAddProducts.Location.X, btnYProducts + btnAddProducts.Height);
+            btnDeleteProduct.Location = new Point(btnUpdateProduct.Location.X, btnYProducts + btnUpdateProduct.Height);
 
             //categories
-            dgvCategories.Size = new Size(screenWidth - panelLeft.Width - dgvProducts.Location.X - 15, panelProducts.Height - dgvProducts.Location.Y - 200);
+            dgvCategories.Size = new Size(widthDGV - 28, heightDGV - 300);
             int btnYCategories = (dgvCategories.Height + dgvCategories.Location.Y) + 10;
             groupBox3.Location = new Point(dgvCategories.Location.X, btnYCategories);
             btnDeleteCategories.Location = new Point((dgvCategories.Width + dgvCategories.Location.X) - btnDeleteCategories.Width, btnYCategories);
             btnEditCategories.Location = new Point(btnDeleteCategories.Location.X - btnEditCategories.Width, btnYCategories);
             btnAddCategories.Location = new Point(btnEditCategories.Location.X - btnAddCategories.Width, btnYCategories);
 
+            //type
+            dgvType.Size = new Size(widthDGV - 28, heightDGV - 300);
+            int btnYType = (dgvType.Height + dgvType.Location.Y) + 10;
+            groupBoxType.Location = new Point(dgvType.Location.X, btnYType);
+            btnDeleteType.Location = new Point((dgvType.Width + dgvType.Location.X) - btnDeleteType.Width, btnYType);
+            btnEditType.Location = new Point(btnDeleteType.Location.X - btnEditType.Width, btnYType);
+            btnAddType.Location = new Point(btnEditType.Location.X - btnAddType.Width, btnYType);
+
+            //discount
+            dgvDiscount.Size = new Size(widthDGV - 28, heightDGV - 300);
+            int btnYDiscounts = (dgvDiscount.Height + dgvDiscount.Location.Y) + 10;
+            groupBox4.Location = new Point(dgvDiscount.Location.X, btnYDiscounts);
+            btnUpdateDiscount.Location = new Point((dgvDiscount.Width + dgvDiscount.Location.X) - btnUpdateDiscount.Width, btnYDiscounts);
+            btnAddDiscount.Location = new Point(btnUpdateDiscount.Location.X - btnAddDiscount.Width, btnYDiscounts);
+            btnDeleteDiscount.Location = new Point(btnUpdateDiscount.Location.X, btnYDiscounts + btnUpdateDiscount.Height);
+            btnEditDiscount.Location = new Point(btnAddDiscount.Location.X, btnYDiscounts + btnAddDiscount.Height);
+
+            //modifiers
+            dgvModifiers.Size = new Size(widthDGV - 28, heightDGV - 300);
+            int btnYModifiers = (dgvModifiers.Height + dgvModifiers.Location.Y) + 10;
+            groupBoxModifier.Location = new Point(dgvModifiers.Location.X, btnYModifiers);
+            btnUpdateModifier.Location = new Point((dgvModifiers.Width + dgvModifiers.Location.X) - btnUpdateModifier.Width, btnYModifiers);
+            btnAddModifier.Location = new Point(btnUpdateModifier.Location.X - btnAddModifier.Width, btnYModifiers);
+            btnDeleteModifier.Location = new Point(btnUpdateModifier.Location.X, btnYModifiers + btnUpdateModifier.Height);
+            btnEditModifier.Location = new Point(btnAddModifier.Location.X, btnYModifiers + btnAddModifier.Height);
+
+            //product-modifiers
+            dgvProductMod.Size = new Size(widthDGV - 28, heightDGV - 300);
+            int btnYProductMod = (dgvProductMod.Height + dgvProductMod.Location.Y) + 10;
+            groupBoxProductMod.Location = new Point(dgvProductMod.Location.X, btnYProductMod);
+            btnUpdateProductMod.Location = new Point((dgvProductMod.Width + dgvProductMod.Location.X) - btnUpdateProductMod.Width, btnYProductMod);
+            btnAddProductMod.Location = new Point(btnUpdateProductMod.Location.X - btnAddProductMod.Width, btnYProductMod);
+            btnDeleteProductMod.Location = new Point(btnUpdateProductMod.Location.X, btnYProductMod + btnUpdateProductMod.Height);
+            btnEditProductMod.Location = new Point(btnAddProductMod.Location.X, btnYProductMod + btnAddProductMod.Height);
         }
 
         private void FormAdminEgy_Load(object sender, EventArgs e)
@@ -117,7 +158,6 @@ namespace POS
                 tableUsers = new DataTable();
                 data.Fill(tableUsers);
                 dgvUsers.DataSource = tableUsers;
-                dgvUsers.Columns["user_id"].Visible = false;
                 dgvUsers.Columns["delete_status"].Visible = false;
                 dgvUsers.Columns["deleted_at"].Visible = false;
 
@@ -350,16 +390,18 @@ namespace POS
                 MySqlDataAdapter data;
                 if (filter == "")
                 {
-                    data = new MySqlDataAdapter("SELECT p.product_id, p.product_name, p.price, p.description, c.category_name, p.product_type, p.image, p.is_active " +
+                    data = new MySqlDataAdapter("SELECT p.product_id, p.product_name, p.price, p.description, c.category_name, pt.type_name, p.image, p.is_active " +
                     "FROM products p " +
                     "JOIN categories c ON p.category_id = c.category_id " +
+                    "JOIN product_types pt ON p.product_type = pt.product_type_id " +
                     "WHERE p.delete_status = FALSE", Connection.conn);
                 }
                 else
                 {
-                    data = new MySqlDataAdapter("SELECT p.product_id, p.product_name, p.price, p.description, c.category_name, p.product_type, p.image, p.is_active " +
+                    data = new MySqlDataAdapter("SELECT p.product_id, p.product_name, p.price, p.description, c.category_name, pt.type_name, p.image, p.is_active " +
                     "FROM products p " +
                     "JOIN categories c ON p.category_id = c.category_id " +
+                    "JOIN product_types pt ON p.product_type = pt.product_type_id " +
                     "WHERE p.product_name LIKE @name AND p.delete_status = FALSE", Connection.conn);
                     data.SelectCommand.Parameters.AddWithValue("@name", filter + "%");
                 }
@@ -372,7 +414,7 @@ namespace POS
                 dgvProducts.Columns["price"].HeaderText = "Price";
                 dgvProducts.Columns["description"].HeaderText = "Description";
                 dgvProducts.Columns["category_name"].HeaderText = "Category";
-                dgvProducts.Columns["product_type"].HeaderText = "Type";
+                dgvProducts.Columns["type_name"].HeaderText = "Type";
                 dgvProducts.Columns["image"].HeaderText = "Image";
                 dgvProducts.Columns["is_active"].HeaderText = "Is Active";
             }
@@ -392,14 +434,22 @@ namespace POS
             {
                 Connection.open();
 
-                MySqlDataAdapter data = new MySqlDataAdapter("SELECT * FROM categories", Connection.conn);
+                MySqlDataAdapter data = new MySqlDataAdapter("SELECT * FROM categories WHERE delete_status = FALSE", Connection.conn);
                 DataTable dt = new DataTable();
                 data.Fill(dt);
                 comboBox2.DataSource = dt;
                 comboBox2.DisplayMember = "category_name";
                 comboBox2.ValueMember = "category_id";
 
+                MySqlDataAdapter data2 = new MySqlDataAdapter("SELECT * FROM product_types WHERE delete_status = FALSE", Connection.conn);
+                DataTable dt2 = new DataTable();
+                data2.Fill(dt2);
+                comboBox3.DataSource = dt2;
+                comboBox3.DisplayMember = "type_name";
+                comboBox3.ValueMember = "product_type_id";
+
                 comboBox2.SelectedIndex = -1;
+                comboBox3.SelectedIndex = -1;
             }
             catch(Exception ex)
             {
@@ -482,8 +532,9 @@ namespace POS
                     cmd.Parameters.AddWithValue("@desc", textBox9.Text);
                     cmd.Parameters.AddWithValue("@category", comboBox2.SelectedValue);
                     cmd.Parameters.AddWithValue("image", newFileName);
-                    cmd.Parameters.AddWithValue("type", comboBox3.Text);
+                    cmd.Parameters.AddWithValue("type", comboBox3.SelectedValue);
                     cmd.ExecuteNonQuery();
+                    loadDgvProducts(tbSearchProduct.Text);
                     resetInputProducts();
                 }
                 catch (Exception ex)
@@ -559,6 +610,7 @@ namespace POS
             loadDgvProducts("");
             dgvProducts.ClearSelection();
             panelCategories.Visible = false;
+            panelType.Visible = false;
             selectedIndex = -1;
         }
 
@@ -568,8 +620,20 @@ namespace POS
             dgvCategories.DataSource = null;
             loadDgvCategories();
             panelCategories.Visible = true;
+            panelType.Visible = false;
             selectedIndex = -1;
             dgvCategories.ClearSelection();
+        }
+
+        private void typeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            resetPanel(panelType);
+            dgvType.DataSource = null;
+            loadDGVType();
+            panelType.Visible = true;
+            panelCategories.Visible = false;
+            selectedIndex = -1;
+            dgvType.ClearSelection();
         }
 
         private void label4_Click(object sender, EventArgs e)
@@ -602,7 +666,7 @@ namespace POS
                     cmd.Parameters.AddWithValue("@price", numericUpDown1.Value);
                     cmd.Parameters.AddWithValue("@desc", textBox9.Text.ToString());
                     cmd.Parameters.AddWithValue("@category", comboBox2.SelectedValue);
-                    cmd.Parameters.AddWithValue("@type", comboBox3.Text.ToString());
+                    cmd.Parameters.AddWithValue("@type", comboBox3.SelectedValue);
 
                     cmd.ExecuteNonQuery();
                     loadDgvProducts(tbSearchProduct.Text);
@@ -720,7 +784,7 @@ namespace POS
                 numericUpDown1.Value = numericUpDown1.Minimum;
                 numericUpDown1.Value = Convert.ToInt32(dgvProducts.Rows[e.RowIndex].Cells["price"].Value);
                 comboBox2.Text = dgvProducts.Rows[e.RowIndex].Cells["category_name"].Value.ToString();
-                comboBox3.Text = dgvProducts.Rows[e.RowIndex].Cells["product_type"].Value.ToString();
+                comboBox3.Text = dgvProducts.Rows[e.RowIndex].Cells["type_name"].Value.ToString();
             }
         }
 
@@ -775,6 +839,7 @@ namespace POS
                     cmd.ExecuteNonQuery();
 
                     loadDgvCategories();
+                    loadCBoxProducts();
                 }
                 catch (Exception ex)
                 {
@@ -812,6 +877,7 @@ namespace POS
                     cmd.ExecuteNonQuery();
 
                     loadDgvCategories();
+                    loadCBoxProducts();
                 }
                 catch (Exception ex)
                 {
@@ -839,6 +905,7 @@ namespace POS
                 cmd.ExecuteNonQuery();
 
                 loadDgvCategories();
+                loadCBoxProducts();
             }
             catch (Exception ex)
             {
@@ -877,6 +944,170 @@ namespace POS
         }
 
 
+        //Type ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        private void loadDGVType()
+        {
+            try
+            {
+                Connection.open();
+                MySqlDataAdapter data = new MySqlDataAdapter("SELECT * FROM product_types WHERE delete_status = FALSE", Connection.conn);
+
+                tableTypes = new DataTable();
+                data.Fill(tableTypes);
+                dgvType.DataSource = tableTypes;
+
+                dgvType.Columns["product_type_id"].HeaderText = "ID";
+                dgvType.Columns["type_name"].HeaderText = "Type Name";
+
+                dgvType.Columns["delete_status"].Visible = false;
+                dgvType.Columns["deleted_at"].Visible = false;
+
+                dgvType.ClearSelection();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Connection.close();
+            }
+        }
+
+        private void resetFormType()
+        {
+            tbTypeName.Clear();
+            groupBoxType.Enabled = false;
+            btnAddTypeInBox.Enabled = false;
+            btnEditType.Enabled = false;
+            btnDeleteType.Enabled = false;
+            btnAddType.Enabled = true;
+            selectedIndex = -1;
+        }
+
+        private void btnAddTypeInBox_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(tbTypeName.Text))
+            {
+                try
+                {
+                    Connection.open();
+                    MySqlCommand cmd = new MySqlCommand("INSERT INTO product_types (type_name) VALUES (@name)", Connection.conn);
+                    cmd.Parameters.AddWithValue("@name", tbTypeName.Text);
+                    cmd.ExecuteNonQuery();
+
+                    loadDGVType();
+                    resetFormType();
+                    loadCBoxProducts();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Inputan tidak boleh kosong!");
+            }
+        }
+
+        private void btnAddType_Click(object sender, EventArgs e)
+        {
+            resetFormType();
+            groupBoxType.Enabled = true;
+            btnAddTypeInBox.Enabled = true;
+            dgvType.ClearSelection();
+        }
+
+        private void btnEditType_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(tbTypeName.Text) && selectedIndex >= 0)
+            {
+                try
+                {
+                    Connection.open();
+                    MySqlCommand cmd = new MySqlCommand("UPDATE product_types SET type_name = @name WHERE product_type_id = @id", Connection.conn);
+                    cmd.Parameters.AddWithValue("@name", tbTypeName.Text);
+                    cmd.Parameters.AddWithValue("@id", selectedIndex);
+                    cmd.ExecuteNonQuery();
+
+                    loadDGVType();
+                    resetFormType();
+                    loadCBoxProducts();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Inputan tidak boleh kosong!");
+            }
+        }
+
+        private void btnDeleteType_Click(object sender, EventArgs e)
+        {
+            if (selectedIndex >= 0)
+            {
+                try
+                {
+                    Connection.open();
+                    MySqlCommand cmd = new MySqlCommand("UPDATE product_types SET delete_status = TRUE, deleted_at = NOW() WHERE product_type_id = @id", Connection.conn);
+                    cmd.Parameters.AddWithValue("@id", selectedIndex);
+                    cmd.ExecuteNonQuery();
+
+                    loadDGVType();
+                    resetFormType();
+                    loadCBoxProducts();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Tidak ada item yang dipilih!");
+            }
+        }
+
+        private void dgvType_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                resetFormType();
+                btnDeleteType.Enabled = true;
+
+                selectedIndex = Convert.ToInt32(dgvType.Rows[e.RowIndex].Cells["product_type_id"].Value);
+            }
+        }
+
+        private void dgvType_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                resetFormType();
+                groupBoxType.Enabled = true;
+                btnEditType.Enabled = true;
+                btnAddTypeInBox.Enabled = false;
+
+                selectedIndex = Convert.ToInt32(dgvType.Rows[e.RowIndex].Cells["product_type_id"].Value);
+                tbTypeName.Text = dgvType.Rows[e.RowIndex].Cells["type_name"].Value.ToString();
+            }
+        }
         //discount------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         private void loadDGVDiscounts()
         {
@@ -912,6 +1143,10 @@ namespace POS
 
         private void resetFormDiscount()
         {
+            btnDeleteDiscount.Enabled = false;
+            btnEditDiscount.Enabled = false;
+            btnUpdateDiscount.Enabled = false;
+            btnUpdateDiscount.Text = "...";
             tbCode.Clear();
             tbDescDisc.Clear();
             numericUpDown2.Value = 0;
@@ -986,7 +1221,29 @@ namespace POS
 
         private void btnUpdateDiscount_Click(object sender, EventArgs e)
         {
+            try
+            {
+                Connection.open();
+                MySqlCommand cmd = new MySqlCommand("UPDATE discounts SET is_active = @status WHERE discount_id = @id", Connection.conn);
+                bool status;
+                if (btnUpdateDiscount.Text == "Disable") { status = false; }
+                else { status = true; }
+                cmd.Parameters.AddWithValue("@id", selectedIndex);
+                cmd.Parameters.AddWithValue("@status", status);
 
+                cmd.ExecuteNonQuery();
+                loadDGVDiscounts();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Connection.close();
+            }
+            resetFormAddProduct();
+            dgvProducts.ClearSelection();
         }
 
         private void btnAddDiscountInBox_Click(object sender, EventArgs e)
@@ -1024,32 +1281,555 @@ namespace POS
 
         private void dgvDiscount_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            //if (e.RowIndex >= 0)
-            //{
-            //    selectedIndex = Convert.ToInt32(dgvDiscount.Rows[e.RowIndex].Cells["discount_id"].Value);
-            //    tbCode.Text = dgvDiscount.Rows[e.RowIndex].Cells["discount_code"].Value.ToString();
-            //    tbDescription.Text = dgvDiscount.Rows[e.RowIndex].Cells["DESCRIPTION"].Value.ToString();
-            //    numericPercentage.Value = Convert.ToDecimal(dgvDiscount.Rows[e.RowIndex].Cells["discount_percentage"].Value);
-            //    dtpStartDate.Value = Convert.ToDateTime(dgvDiscount.Rows[e.RowIndex].Cells["start_date"].Value);
-            //    dtpEndDate.Value = Convert.ToDateTime(dgvDiscount.Rows[e.RowIndex].Cells["end_date"].Value);
-            //    chkIsActive.Checked = Convert.ToBoolean(dgvDiscount.Rows[e.RowIndex].Cells["is_active"].Value);
-            //}
+            if (e.RowIndex >= 0)
+            {
+                resetFormDiscount();
+                btnDeleteDiscount.Enabled = true;
+                btnUpdateDiscount.Enabled = true;
+                selectedIndex = Convert.ToInt32(dgvDiscount.Rows[e.RowIndex].Cells["discount_id"].Value);
+
+                if (Convert.ToBoolean(dgvDiscount.Rows[e.RowIndex].Cells["is_active"].Value))
+                {
+                    btnUpdateDiscount.Text = "Disable";
+                }
+                else
+                {
+                    btnUpdateDiscount.Text = "Enable";
+                }
+            }
         }
 
         private void dgvDiscount_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            //if (e.RowIndex >= 0)
-            //{
-            //    resetFormDiscount();
-            //    groupBox4.Enabled = true;
-            //    btnEditCategories.Enabled = true;
-            //    btnAddCategoriesInBox.Enabled = false;
+            if (e.RowIndex >= 0)
+            {
+                resetFormDiscount();
+                groupBox4.Enabled = true;
+                btnEditDiscount.Enabled = true;
+                btnAddDiscountInBox.Enabled = false;
 
-            //    selectedIndex = Convert.ToInt32(dgvCategories.Rows[e.RowIndex].Cells["category_id"].Value);
-            //    tbNamaCategory.Text = dgvCategories.Rows[e.RowIndex].Cells["category_name"].Value.ToString();
-            //}
+                selectedIndex = Convert.ToInt32(dgvDiscount.Rows[e.RowIndex].Cells["discount_id"].Value);
+                tbCode.Text = dgvDiscount.Rows[e.RowIndex].Cells["discount_code"].Value.ToString();
+                numericUpDown2.Value = numericUpDown2.Minimum;
+                numericUpDown2.Value = Convert.ToInt32(dgvDiscount.Rows[e.RowIndex].Cells["discount_percentage"].Value);
+                dateTimePicker1.Value = Convert.ToDateTime(dgvDiscount.Rows[e.RowIndex].Cells["start_date"].Value);
+                dateTimePicker2.Value = Convert.ToDateTime(dgvDiscount.Rows[e.RowIndex].Cells["end_date"].Value);
+                tbDescDisc.Text = dgvDiscount.Rows[e.RowIndex].Cells["DESCRIPTION"].Value.ToString();
+            }
         }
 
+
+        //modifiers-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        private void modifiersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            resetPanel(panelModifiers);
+            dgvModifiers.DataSource = null;
+            tbSearchModifier.Text = "";
+            loadDGVModifiers(tbSearchModifier.Text);
+            dgvModifiers.ClearSelection();
+            panelProductModifier.Visible = false;
+            selectedIndex = -1;
+        }
+
+        private void productModifiersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            resetPanel(panelProductModifier);
+            dgvProductMod.DataSource = null;
+            loadDGVProductModifiers(tbSearchProductMod.Text);
+            loadCBoxProductMod();
+            panelProductModifier.Visible = true;
+            selectedIndex = -1;
+            dgvProductMod.ClearSelection();
+        }
+
+        private void loadDGVModifiers(string filter)
+        {
+            try
+            {
+                Connection.open();
+                MySqlDataAdapter data;
+
+                if (string.IsNullOrWhiteSpace(filter))
+                {
+                    data = new MySqlDataAdapter("SELECT * FROM modifiers WHERE delete_status = FALSE", Connection.conn);
+                }
+                else
+                {
+                    data = new MySqlDataAdapter("SELECT * FROM modifiers WHERE modifier_name LIKE @name AND delete_status = FALSE", Connection.conn);
+                    data.SelectCommand.Parameters.AddWithValue("@name", filter + "%");
+                }
+
+                tableModifiers = new DataTable();
+                data.Fill(tableModifiers);
+                dgvModifiers.DataSource = tableModifiers;
+
+                dgvModifiers.Columns["modifier_id"].HeaderText = "ID";
+                dgvModifiers.Columns["modifier_name"].HeaderText = "Modifier Name";
+                dgvModifiers.Columns["modifier_price"].HeaderText = "Price";
+                dgvModifiers.Columns["is_active"].HeaderText = "Is Active";
+
+                dgvModifiers.Columns["delete_status"].Visible = false;
+                dgvModifiers.Columns["deleted_at"].Visible = false;
+
+                dgvModifiers.ClearSelection();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Connection.close();
+            }
+        }
+
+        private void tbSearchModifier_TextChanged(object sender, EventArgs e)
+        {
+            loadDGVModifiers(tbSearchModifier.Text);
+        }
+
+        private void resetFormModifiers()
+        {
+            tbModifiers.Clear();
+            numericModifier.Value = numericModifier.Minimum;
+            groupBoxModifier.Enabled = false;
+            btnAddModifierInBox.Enabled = false;
+            btnEditModifier.Enabled = false;
+            btnDeleteModifier.Enabled = false;
+            btnUpdateModifier.Enabled = false;
+            btnAddModifier.Enabled = true;
+            selectedIndex = -1;
+            btnUpdateModifier.Text = "...";
+        }
+
+        private void btnAddModifierInBox_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(tbModifiers.Text) && numericModifier.Value > 0)
+            {
+                try
+                {
+                    Connection.open();
+                    MySqlCommand cmd = new MySqlCommand("INSERT INTO modifiers (modifier_name, modifier_price) VALUES (@name, @price)", Connection.conn);
+                    cmd.Parameters.AddWithValue("@name", tbModifiers.Text);
+                    cmd.Parameters.AddWithValue("@price", numericModifier.Value);
+                    cmd.ExecuteNonQuery();
+
+                    loadDGVModifiers(tbSearchModifier.Text);
+                    resetFormModifiers();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Inputan tidak boleh kosong!");
+            }
+        }
+
+        private void btnAddModifier_Click(object sender, EventArgs e)
+        {
+            resetFormModifiers();
+            groupBoxModifier.Enabled = true;
+            btnAddModifierInBox.Enabled = true;
+            dgvModifiers.ClearSelection();
+        }
+
+        private void btnEditModifier_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(tbModifiers.Text) && numericModifier.Value > 0 && selectedIndex >= 0)
+            {
+                try
+                {
+                    Connection.open();
+                    MySqlCommand cmd = new MySqlCommand("UPDATE modifiers SET modifier_name = @name, modifier_price = @price WHERE modifier_id = @id", Connection.conn);
+                    cmd.Parameters.AddWithValue("@name", tbModifiers.Text);
+                    cmd.Parameters.AddWithValue("@price", numericModifier.Value);
+                    cmd.Parameters.AddWithValue("@id", selectedIndex);
+                    cmd.ExecuteNonQuery();
+
+                    loadDGVModifiers(tbSearchModifier.Text);
+                    resetFormModifiers();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Inputan tidak boleh kosong!");
+            }
+        }
+
+        private void btnDeleteModifier_Click(object sender, EventArgs e)
+        {
+            if (selectedIndex >= 0)
+            {
+                try
+                {
+                    Connection.open();
+                    MySqlCommand cmd = new MySqlCommand("UPDATE modifiers SET delete_status = TRUE, deleted_at = NOW() WHERE modifier_id = @id", Connection.conn);
+                    cmd.Parameters.AddWithValue("@id", selectedIndex);
+                    cmd.ExecuteNonQuery();
+
+                    loadDGVModifiers(tbSearchModifier.Text);
+                    resetFormModifiers();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Tidak ada item yang dipilih!");
+            }
+        }
+
+        private void btnUpdateModifier_Click(object sender, EventArgs e)
+        {
+            if (selectedIndex >= 0)
+            {
+                try
+                {
+                    Connection.open();
+                    MySqlCommand cmd = new MySqlCommand("UPDATE modifiers SET is_active = @status WHERE modifier_id = @id", Connection.conn);
+                    bool status;
+                    if (btnUpdateModifier.Text == "Disable") { status = false; }
+                    else { status = true; }
+                    cmd.Parameters.AddWithValue("@id", selectedIndex);
+                    cmd.Parameters.AddWithValue("@status", status);
+                    cmd.ExecuteNonQuery();
+
+                    loadDGVModifiers(tbSearchModifier.Text);
+                    resetFormModifiers();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.close();
+                }
+            }
+        }
+
+        private void dgvModifiers_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                resetFormModifiers();
+                selectedIndex = Convert.ToInt32(dgvModifiers.Rows[e.RowIndex].Cells["modifier_id"].Value);
+
+                btnUpdateModifier.Enabled = true;
+                btnDeleteModifier.Enabled = true;
+
+                if (Convert.ToBoolean(dgvModifiers.Rows[e.RowIndex].Cells["is_active"].Value))
+                {
+                    btnUpdateModifier.Text = "Disable";
+                }
+                else
+                {
+                    btnUpdateModifier.Text = "Enable";
+                }
+            }
+        }
+
+        private void dgvModifiers_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                resetFormModifiers();
+                groupBoxModifier.Enabled = true;
+                btnEditModifier.Enabled = true;
+                btnAddModifierInBox.Enabled = false;
+
+                selectedIndex = Convert.ToInt32(dgvModifiers.Rows[e.RowIndex].Cells["modifier_id"].Value);
+                tbModifiers.Text = dgvModifiers.Rows[e.RowIndex].Cells["modifier_name"].Value.ToString();
+                numericModifier.Value = numericModifier.Minimum;
+                numericModifier.Value = Convert.ToInt32(dgvModifiers.Rows[e.RowIndex].Cells["modifier_price"].Value);
+            }
+        }
+
+
+        //product-modifiers---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        private void loadDGVProductModifiers(string filter)
+        {
+            try
+            {
+                Connection.open();
+                MySqlDataAdapter data;
+
+                if (string.IsNullOrWhiteSpace(filter))
+                {
+                    data = new MySqlDataAdapter(
+                        "SELECT ptm.id, pt.type_name, m.modifier_name, ptm.is_active " +
+                        "FROM product_type_modifiers ptm " +
+                        "JOIN product_types pt ON ptm.product_type = pt.product_type_id " +
+                        "JOIN modifiers m ON ptm.modifier_id = m.modifier_id " +
+                        "WHERE ptm.delete_status = FALSE", Connection.conn);
+                }
+                else
+                {
+                    data = new MySqlDataAdapter(
+                        "SELECT ptm.id, pt.type_name, m.modifier_name, ptm.is_active " +
+                        "FROM product_type_modifiers ptm " +
+                        "JOIN product_types pt ON ptm.product_type = pt.product_type_id " +
+                        "JOIN modifiers m ON ptm.modifier_id = m.modifier_id " +
+                        "WHERE ptm.delete_status = FALSE AND pt.type_name LIKE @filter", Connection.conn);
+                    data.SelectCommand.Parameters.AddWithValue("@filter", "%" + filter + "%");
+                }
+
+                tableProductModifiers = new DataTable();
+                data.Fill(tableProductModifiers);
+                dgvProductMod.DataSource = tableProductModifiers;
+
+                dgvProductMod.Columns["id"].HeaderText = "ID";
+                dgvProductMod.Columns["type_name"].HeaderText = "Type";
+                dgvProductMod.Columns["modifier_name"].HeaderText = "Modifier";
+                dgvProductMod.Columns["is_active"].HeaderText = "Is Active";
+
+                dgvProductMod.ClearSelection();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Connection.close();
+            }
+        }
+
+        private void loadCBoxProductMod()
+        {
+            try
+            {
+                Connection.open();
+
+                MySqlDataAdapter data2 = new MySqlDataAdapter("SELECT * FROM product_types WHERE delete_status = FALSE", Connection.conn);
+                DataTable dt2 = new DataTable();
+                data2.Fill(dt2);
+                cboxTypeProductMod.DataSource = dt2;
+                cboxTypeProductMod.DisplayMember = "type_name";
+                cboxTypeProductMod.ValueMember = "product_type_id";
+               
+                MySqlDataAdapter data = new MySqlDataAdapter("SELECT * FROM modifiers WHERE delete_status = FALSE", Connection.conn);
+                DataTable dt = new DataTable();
+                data.Fill(dt);
+                cboxModifierProductMod.DataSource = dt;
+                cboxModifierProductMod.DisplayMember = "modifier_name";
+                cboxModifierProductMod.ValueMember = "modifier_id";
+
+                cboxTypeProductMod.SelectedIndex = -1;
+                cboxModifierProductMod.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Connection.close();
+            }
+        }
+
+        private void tbSearchProductMod_TextChanged(object sender, EventArgs e)
+        {
+            loadDGVProductModifiers(tbSearchProductMod.Text);
+        }
+
+        private void resetFormProductMod()
+        {
+            cboxTypeProductMod.SelectedIndex = -1;
+            cboxModifierProductMod.SelectedIndex = -1;
+            groupBoxProductMod.Enabled = false;
+            btnAddProductModInBox.Enabled = false;
+            btnEditProductMod.Enabled = false;
+            btnDeleteProductMod.Enabled = false;
+            btnUpdateProductMod.Enabled = false;
+            btnAddProductMod.Enabled = true;
+            selectedIndex = -1;
+            btnUpdateProductMod.Text = "...";
+        }
+
+        private void btnAddProductModInBox_Click(object sender, EventArgs e)
+        {
+            if (cboxTypeProductMod.SelectedIndex != -1 && cboxModifierProductMod.SelectedIndex != -1)
+            {
+                try
+                {
+                    Connection.open();
+                    MySqlCommand cmd = new MySqlCommand("INSERT INTO product_type_modifiers (product_type, modifier_id) VALUES (@type, @mod)", Connection.conn);
+                    cmd.Parameters.AddWithValue("@type", cboxTypeProductMod.SelectedValue);
+                    cmd.Parameters.AddWithValue("@mod", cboxModifierProductMod.SelectedValue);
+                    cmd.ExecuteNonQuery();
+
+                    loadDGVProductModifiers(tbSearchProductMod.Text);
+                    resetFormProductMod();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Inputan tidak boleh kosong!");
+            }
+        }
+
+        private void btnAddProductMod_Click(object sender, EventArgs e)
+        {
+            resetFormProductMod();
+            groupBoxProductMod.Enabled = true;
+            btnAddProductModInBox.Enabled = true;
+            dgvProductMod.ClearSelection();
+        }
+
+        private void btnEditProductMod_Click(object sender, EventArgs e)
+        {
+            if (selectedIndex >= 0 && cboxTypeProductMod.SelectedIndex != -1 && cboxModifierProductMod.SelectedIndex != -1)
+            {
+                try
+                {
+                    Connection.open();
+                    MySqlCommand cmd = new MySqlCommand("UPDATE product_type_modifiers SET product_type = @type, modifier_id = @mod WHERE id = @id", Connection.conn);
+                    cmd.Parameters.AddWithValue("@type", cboxTypeProductMod.SelectedValue);
+                    cmd.Parameters.AddWithValue("@mod", cboxModifierProductMod.SelectedValue);
+                    cmd.Parameters.AddWithValue("@id", selectedIndex);
+                    cmd.ExecuteNonQuery();
+
+                    loadDGVProductModifiers(tbSearchProductMod.Text);
+                    resetFormProductMod();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Inputan tidak boleh kosong!");
+            }
+        }
+
+        private void btnDeleteProductMod_Click(object sender, EventArgs e)
+        {
+            if (selectedIndex >= 0)
+            {
+                try
+                {
+                    Connection.open();
+                    MySqlCommand cmd = new MySqlCommand("UPDATE product_type_modifiers SET delete_status = TRUE, deleted_at = NOW() WHERE id = @id", Connection.conn);
+                    cmd.Parameters.AddWithValue("@id", selectedIndex);
+                    cmd.ExecuteNonQuery();
+
+                    loadDGVProductModifiers(tbSearchProductMod.Text);
+                    resetFormProductMod();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Tidak ada item yang dipilih!");
+            }
+        }
+
+        private void btnUpdateProductMod_Click(object sender, EventArgs e)
+        {
+            if (selectedIndex >= 0)
+            {
+                try
+                {
+                    Connection.open();
+                    MySqlCommand cmd = new MySqlCommand("UPDATE product_type_modifiers SET is_active = @status WHERE id = @id", Connection.conn);
+                    bool status;
+                    if (btnUpdateProductMod.Text == "Disable") { status = false; }
+                    else { status = true; }
+                    cmd.Parameters.AddWithValue("@id", selectedIndex);
+                    cmd.Parameters.AddWithValue("@status", status);
+                    cmd.ExecuteNonQuery();
+
+                    loadDGVProductModifiers(tbSearchProductMod.Text);
+                    resetFormProductMod();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.close();
+                }
+            }
+        }
+
+        private void dgvProductMod_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                resetFormProductMod();
+                selectedIndex = Convert.ToInt32(dgvProductMod.Rows[e.RowIndex].Cells["id"].Value);
+
+                btnUpdateProductMod.Enabled = true;
+                btnDeleteProductMod.Enabled = true;
+
+                if (Convert.ToBoolean(dgvProductMod.Rows[e.RowIndex].Cells["is_active"].Value))
+                {
+                    btnUpdateProductMod.Text = "Disable";
+                }
+                else
+                {
+                    btnUpdateProductMod.Text = "Enable";
+                }
+            }
+        }
+
+        private void dgvProductMod_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                resetFormProductMod();
+                groupBoxProductMod.Enabled = true;
+                btnEditProductMod.Enabled = true;
+                btnAddProductModInBox.Enabled = false;
+
+                selectedIndex = Convert.ToInt32(dgvProductMod.Rows[e.RowIndex].Cells["id"].Value);
+                cboxTypeProductMod.Text = dgvProductMod.Rows[e.RowIndex].Cells["type_name"].Value.ToString();
+                cboxModifierProductMod.Text = dgvProductMod.Rows[e.RowIndex].Cells["modifier_name"].Value.ToString();
+            }
+        }
 
 
         //general-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1077,17 +1857,24 @@ namespace POS
 
         private void button3_Click(object sender, EventArgs e)
         {
+            resetPanel(panelModifiers);
             resetChosenMenu();
+            loadDGVModifiers("");
             button3.BackColor = Color.White;
             panah3.Visible = true;
             panelModifiers.Visible = true;
+            dgvModifiers.ClearSelection();
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
+            resetPanel(panelDiscount);
             resetChosenMenu();
+            loadDGVDiscounts();
             button4.BackColor = Color.White;
             panah4.Visible = true;
+            panelDiscount.Visible = true;
+            dgvDiscount.ClearSelection();
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -1115,6 +1902,8 @@ namespace POS
             panelProducts.Visible = false;
             panelModifiers.Visible = false;
             panelCategories.Visible = false;
+            panelDiscount.Visible = false;
+            panelProductModifier.Visible = false;
 
             selectedIndex = -1;
         }
@@ -1149,5 +1938,7 @@ namespace POS
                 }
             }
         }
+
+        
     }
 }
