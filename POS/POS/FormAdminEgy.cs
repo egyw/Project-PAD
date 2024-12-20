@@ -23,6 +23,8 @@ namespace POS
         DataTable tableModifiers;
         DataTable tableTypes;
         DataTable tableProductModifiers;
+        DataTable tableMethods;
+        DataTable tablePaymentDetail;
         int idUser = -1;
         string selectedFilePath = string.Empty;
         string adminName = string.Empty;
@@ -39,6 +41,8 @@ namespace POS
             panelUsers.Dock = DockStyle.Fill;
             panelDiscount.Dock = DockStyle.Fill;
             panelProductModifier.Dock = DockStyle.Fill;
+            panelMethod.Dock = DockStyle.Fill;
+            panelDetail.Dock = DockStyle.Fill;
             
             button1.BackColor = Color.White;
             btnUpd.Text = "...";
@@ -114,6 +118,24 @@ namespace POS
             btnAddProductMod.Location = new Point(btnUpdateProductMod.Location.X - btnAddProductMod.Width, btnYProductMod);
             btnDeleteProductMod.Location = new Point(btnUpdateProductMod.Location.X, btnYProductMod + btnUpdateProductMod.Height);
             btnEditProductMod.Location = new Point(btnAddProductMod.Location.X, btnYProductMod + btnAddProductMod.Height);
+
+            //payment-method
+            dgvMethod.Size = new Size(widthDGV - 28, heightDGV - 300);
+            int btnYMethod = (dgvMethod.Height + dgvMethod.Location.Y) + 10;
+            groupBoxMethod.Location = new Point(dgvMethod.Location.X, btnYMethod);
+            btnUpdateMethod.Location = new Point((dgvMethod.Width + dgvMethod.Location.X) - btnUpdateMethod.Width, btnYMethod);
+            btnAddMethod.Location = new Point(btnUpdateMethod.Location.X - btnAddMethod.Width, btnYMethod);
+            btnDeleteMethod.Location = new Point(btnUpdateMethod.Location.X, btnYMethod + btnUpdateMethod.Height);
+            btnEditMethod.Location = new Point(btnAddMethod.Location.X, btnYMethod + btnAddMethod.Height);
+
+            //payment-details
+            dgvDetail.Size = new Size(widthDGV - 28, heightDGV - 300);
+            int btnYDetail = (dgvDetail.Height + dgvDetail.Location.Y) + 10;
+            groupBoxDetail.Location = new Point(dgvDetail.Location.X, btnYDetail);
+            btnUpdatePayment.Location = new Point((dgvDetail.Width + dgvDetail.Location.X) - btnUpdatePayment.Width, btnYDetail);
+            btnAddPayment.Location = new Point(btnUpdatePayment.Location.X - btnAddPayment.Width, btnYDetail);
+            btnDeletePayment.Location = new Point(btnUpdatePayment.Location.X, btnYDetail + btnUpdatePayment.Height);
+            btnEditPayment.Location = new Point(btnAddPayment.Location.X, btnYDetail + btnAddPayment.Height);
         }
 
         private void FormAdminEgy_Load(object sender, EventArgs e)
@@ -1831,6 +1853,478 @@ namespace POS
             }
         }
 
+        //payment-method------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        private void methodToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            resetPanel(panelMethod);
+            dgvMethod.DataSource = null;
+            loadDGVMethods();
+            dgvMethod.ClearSelection();
+            panelDetail.Visible = false;
+            selectedIndex = -1;
+        }
+
+        private void detailToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            resetPanel(panelDetail);
+            dgvDetail.DataSource = null;
+            loadDGVPaymentDetails();
+            loadCBoxPaymentDetail();
+            panelDetail.Visible = true;
+            selectedIndex = -1;
+            dgvDetail.ClearSelection();
+        }
+
+        private void loadDGVMethods()
+        {
+            try
+            {
+                Connection.open();
+                MySqlDataAdapter data = new MySqlDataAdapter("SELECT * FROM payment_method WHERE delete_status = FALSE", Connection.conn);
+
+                tableMethods = new DataTable();
+                data.Fill(tableMethods);
+                dgvMethod.DataSource = tableMethods;
+
+                dgvMethod.Columns["method_id"].HeaderText = "ID";
+                dgvMethod.Columns["NAME"].HeaderText = "Method";
+                dgvMethod.Columns["is_active"].HeaderText = "Is Active";
+
+                dgvMethod.Columns["delete_status"].Visible = false;
+                dgvMethod.Columns["deleted_at"].Visible = false;
+
+                dgvMethod.ClearSelection();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Connection.close();
+            }
+        }
+
+        private void resetFormMethod()
+        {
+            tbMethod.Clear();
+            groupBoxMethod.Enabled = false;
+            btnAddMethodInBox.Enabled = false;
+            btnEditMethod.Enabled = false;
+            btnDeleteMethod.Enabled = false;
+            btnUpdateMethod.Enabled = false;
+            btnAddMethod.Enabled = true;
+            btnUpdateMethod.Text = "...";
+        }
+
+        private void btnAddMethodInBox_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(tbMethod.Text))
+            {
+                try
+                {
+                    Connection.open();
+                    MySqlCommand cmd = new MySqlCommand("INSERT INTO payment_method (NAME) VALUES (@name)", Connection.conn);
+                    cmd.Parameters.AddWithValue("@name", tbMethod.Text);
+                    cmd.ExecuteNonQuery();
+
+                    loadDGVMethods();
+                    resetFormMethod();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Inputan tidak boleh kosong!");
+            }
+        }
+
+        private void btnAddMethod_Click(object sender, EventArgs e)
+        {
+            resetFormMethod();
+            groupBoxMethod.Enabled = true;
+            btnAddMethodInBox.Enabled = true;
+            dgvMethod.ClearSelection();
+        }
+
+        private void btnEditMethod_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(tbMethod.Text) && selectedIndex >= 0)
+            {
+                try
+                {
+                    Connection.open();
+                    MySqlCommand cmd = new MySqlCommand("UPDATE payment_method SET NAME = @name WHERE method_id = @id", Connection.conn);
+                    cmd.Parameters.AddWithValue("@name", tbMethod.Text);
+                    cmd.Parameters.AddWithValue("@id", selectedIndex);
+                    cmd.ExecuteNonQuery();
+
+                    loadDGVMethods();
+                    resetFormMethod();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Inputan tidak boleh kosong!");
+            }
+        }
+
+        private void btnDeleteMethod_Click(object sender, EventArgs e)
+        {
+            if (selectedIndex >= 0)
+            {
+                try
+                {
+                    Connection.open();
+                    MySqlCommand cmd = new MySqlCommand("UPDATE payment_method SET delete_status = TRUE, deleted_at = NOW() WHERE method_id = @id", Connection.conn);
+                    cmd.Parameters.AddWithValue("@id", selectedIndex);
+                    cmd.ExecuteNonQuery();
+
+                    loadDGVMethods();
+                    resetFormMethod();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Tidak ada item yang dipilih!");
+            }
+        }
+
+        private void btnUpdateMethod_Click(object sender, EventArgs e)
+        {
+            if (selectedIndex >= 0)
+            {
+                try
+                {
+                    Connection.open();
+                    MySqlCommand cmd = new MySqlCommand("UPDATE payment_method SET is_active = @status WHERE method_id = @id", Connection.conn);
+                    bool status;
+                    if (btnUpdateMethod.Text == "Disable") { status = false; }
+                    else { status = true; }
+                    cmd.Parameters.AddWithValue("@status", status);
+                    cmd.Parameters.AddWithValue("@id", selectedIndex);
+                    cmd.ExecuteNonQuery();
+
+                    loadDGVMethods();
+                    resetFormMethod();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.close();
+                }
+            }
+        }
+
+        private void dgvMethod_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                resetFormMethod();
+                selectedIndex = Convert.ToInt32(dgvMethod.Rows[e.RowIndex].Cells["method_id"].Value);
+
+                btnUpdateMethod.Enabled = true;
+                btnDeleteMethod.Enabled = true;
+
+                if (Convert.ToBoolean(dgvMethod.Rows[e.RowIndex].Cells["is_active"].Value))
+                {
+                    btnUpdateMethod.Text = "Disable";
+                }
+                else
+                {
+                    btnUpdateMethod.Text = "Enable";
+                }
+            }
+        }
+
+        private void dgvMethod_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                resetFormMethod();
+                groupBoxMethod.Enabled = true;
+                btnEditMethod.Enabled = true;
+                btnAddMethodInBox.Enabled = false;
+
+                selectedIndex = Convert.ToInt32(dgvMethod.Rows[e.RowIndex].Cells["method_id"].Value);
+                tbMethod.Text = dgvMethod.Rows[e.RowIndex].Cells["NAME"].Value.ToString();
+            }
+        }
+
+
+        //payment-detail------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        private void loadDGVPaymentDetails()
+        {
+            try
+            {
+                Connection.open();
+                MySqlDataAdapter data = new MySqlDataAdapter(
+                    "SELECT id, pd.NAME, pm.NAME AS method_name, pd.is_active " +
+                    "FROM payment_details pd " +
+                    "JOIN payment_method pm ON pd.payment_method_id = pm.method_id " +
+                    "WHERE pd.delete_status = FALSE",
+                    Connection.conn
+                );
+
+                tablePaymentDetail = new DataTable();
+                data.Fill(tablePaymentDetail);
+                dgvDetail.DataSource = tablePaymentDetail;
+
+                dgvDetail.Columns["id"].HeaderText = "ID";
+                dgvDetail.Columns["NAME"].HeaderText = "Payment Name";
+                dgvDetail.Columns["method_name"].HeaderText = "Method";
+                dgvDetail.Columns["is_active"].HeaderText = "Is Active";
+
+                dgvDetail.ClearSelection();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Connection.close();
+            }
+        }
+
+        private void loadCBoxPaymentDetail()
+        {
+            try
+            {
+                Connection.open();
+                MySqlDataAdapter data = new MySqlDataAdapter("SELECT * FROM payment_method WHERE delete_status = FALSE", Connection.conn);
+                DataTable dt = new DataTable();
+                data.Fill(dt);
+
+                comboBoxMethod.DataSource = dt;
+                comboBoxMethod.DisplayMember = "NAME";
+                comboBoxMethod.ValueMember = "method_id";
+
+                comboBoxMethod.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Connection.close();
+            }
+        }
+
+        private void resetFormPaymentDetail()
+        {
+            tbPaymentName.Clear();
+            comboBoxMethod.SelectedIndex = -1;
+            groupBoxDetail.Enabled = false;
+            btnAddPaymentInBox.Enabled = false;
+            btnEditPayment.Enabled = false;
+            btnDeletePayment.Enabled = false;
+            btnUpdatePayment.Enabled = false;
+            btnAddPayment.Enabled = true;
+            btnUpdatePayment.Text = "...";
+            selectedIndex = -1;
+        }
+
+        private void btnAddPaymentInBox_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(tbPaymentName.Text) && comboBoxMethod.SelectedIndex != -1)
+            {
+                try
+                {
+                    Connection.open();
+                    MySqlCommand cmd = new MySqlCommand(
+                        "INSERT INTO payment_details (NAME, payment_method_id) VALUES (@name, @method_id)",
+                        Connection.conn
+                    );
+                    cmd.Parameters.AddWithValue("@name", tbPaymentName.Text);
+                    cmd.Parameters.AddWithValue("@method_id", comboBoxMethod.SelectedValue);
+                    cmd.ExecuteNonQuery();
+
+                    loadDGVPaymentDetails();
+                    resetFormPaymentDetail();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Inputan tidak boleh kosong!");
+            }
+        }
+
+        private void btnAddPayment_Click(object sender, EventArgs e)
+        {
+            resetFormPaymentDetail();
+            groupBoxDetail.Enabled = true;
+            btnAddPaymentInBox.Enabled = true;
+            dgvDetail.ClearSelection();
+        }
+
+        private void btnEditPayment_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(tbPaymentName.Text) && comboBoxMethod.SelectedIndex != -1 && selectedIndex >= 0)
+            {
+                try
+                {
+                    Connection.open();
+                    MySqlCommand cmd = new MySqlCommand(
+                        "UPDATE payment_details SET NAME = @name, payment_method_id = @method_id WHERE id = @id",
+                        Connection.conn
+                    );
+                    cmd.Parameters.AddWithValue("@name", tbPaymentName.Text);
+                    cmd.Parameters.AddWithValue("@method_id", comboBoxMethod.SelectedValue);
+                    cmd.Parameters.AddWithValue("@id", selectedIndex);
+                    cmd.ExecuteNonQuery();
+
+                    loadDGVPaymentDetails();
+                    resetFormPaymentDetail();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Inputan tidak boleh kosong!");
+            }
+        }
+
+        private void btnDeletePayment_Click(object sender, EventArgs e)
+        {
+            if (selectedIndex >= 0)
+            {
+                try
+                {
+                    Connection.open();
+                    MySqlCommand cmd = new MySqlCommand(
+                        "UPDATE payment_details SET delete_status = TRUE, deleted_at = NOW() WHERE id = @id",
+                        Connection.conn
+                    );
+                    cmd.Parameters.AddWithValue("@id", selectedIndex);
+                    cmd.ExecuteNonQuery();
+
+                    loadDGVPaymentDetails();
+                    resetFormPaymentDetail();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Tidak ada item yang dipilih!");
+            }
+        }
+
+        private void btnUpdatePayment_Click(object sender, EventArgs e)
+        {
+            if (selectedIndex >= 0)
+            {
+                try
+                {
+                    Connection.open();
+                    MySqlCommand cmd = new MySqlCommand(
+                        "UPDATE payment_details SET is_active = @status WHERE id = @id",
+                        Connection.conn
+                    );
+                    bool status;
+                    if (btnUpdatePayment.Text == "Disable") { status = false; }
+                    else { status = true; }
+                    cmd.Parameters.AddWithValue("@status", status);
+                    cmd.Parameters.AddWithValue("@id", selectedIndex);
+                    cmd.ExecuteNonQuery();
+
+                    loadDGVPaymentDetails();
+                    resetFormPaymentDetail();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.close();
+                }
+            }
+        }
+
+        private void dgvDetail_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                resetFormPaymentDetail();
+                selectedIndex = Convert.ToInt32(dgvDetail.Rows[e.RowIndex].Cells["id"].Value);
+
+                btnUpdatePayment.Enabled = true;
+                btnDeletePayment.Enabled = true;
+
+                if (Convert.ToBoolean(dgvDetail.Rows[e.RowIndex].Cells["is_active"].Value))
+                {
+                    btnUpdatePayment.Text = "Disable";
+                }
+                else
+                {
+                    btnUpdatePayment.Text = "Enable";
+                }
+            }
+        }
+
+        private void dgvDetail_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                resetFormPaymentDetail();
+                groupBoxDetail.Enabled = true;
+                btnEditPayment.Enabled = true;
+
+                selectedIndex = Convert.ToInt32(dgvDetail.Rows[e.RowIndex].Cells["id"].Value);
+                tbPaymentName.Text = dgvDetail.Rows[e.RowIndex].Cells["NAME"].Value.ToString();
+                comboBoxMethod.Text = dgvDetail.Rows[e.RowIndex].Cells["method_name"].Value.ToString();
+            }
+        }
 
         //general-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         private void button1_Click(object sender, EventArgs e)
@@ -1879,9 +2373,13 @@ namespace POS
 
         private void button5_Click(object sender, EventArgs e)
         {
+            resetPanel(panelMethod);
             resetChosenMenu();
+            loadDGVMethods();
             button5.BackColor = Color.White;
             panah5.Visible = true;
+            panelMethod.Visible = true;
+            dgvMethod.ClearSelection();
         }
 
         private void resetChosenMenu()
@@ -1904,6 +2402,8 @@ namespace POS
             panelCategories.Visible = false;
             panelDiscount.Visible = false;
             panelProductModifier.Visible = false;
+            panelMethod.Visible = false;
+            panelDetail.Visible = false;
 
             selectedIndex = -1;
         }
@@ -1938,7 +2438,5 @@ namespace POS
                 }
             }
         }
-
-        
     }
 }

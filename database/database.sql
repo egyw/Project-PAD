@@ -39,7 +39,6 @@ CREATE TABLE categories (
 CREATE TABLE product_types (
     product_type_id INT PRIMARY KEY AUTO_INCREMENT,
     type_name VARCHAR(50) NOT NULL,
-    is_active BOOLEAN DEFAULT TRUE,
     delete_status BOOLEAN DEFAULT FALSE,
     deleted_at TIMESTAMP NULL
 );
@@ -61,13 +60,19 @@ CREATE TABLE products (
 
 CREATE TABLE payment_method (
     method_id INT PRIMARY KEY AUTO_INCREMENT,
-    NAME VARCHAR(30) NOT NULL
+    NAME VARCHAR(30) NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    delete_status BOOLEAN DEFAULT FALSE,
+    deleted_at TIMESTAMP NULL
 );
 
 CREATE TABLE payment_details (
     id INT PRIMARY KEY AUTO_INCREMENT,
     payment_method_id INT,
     NAME VARCHAR(50) NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    delete_status BOOLEAN DEFAULT FALSE,
+    deleted_at TIMESTAMP NULL,
     FOREIGN KEY (payment_method_id) REFERENCES payment_method(method_id)
 );
 
