@@ -158,3 +158,6 @@ C:\Users\lenovo\OneDrive\Documents\GitHub\Project-PAD\POS\POS\obj\Debug\POS.Form
 C:\Users\lenovo\OneDrive\Documents\GitHub\Project-PAD\POS\POS\obj\Debug\POS.FormOrders.resources
 G:\Kuliah\iSTTS\Semester 3\matkul\PAD\Project-PAD\POS\POS\obj\Debug\POS.FormAdminEgy.resources
 C:\Users\lenovo\OneDrive\Documents\GitHub\Project-PAD\POS\POS\obj\Debug\POS.FormAdminEgy.resources
+D:\Pelajaran\Semester 3\Project-PAD\POS\POS\obj\Debug\POS.FormAdmin.resources
+D:\Pelajaran\Semester 3\Project-PAD\POS\POS\obj\Debug\POS.FormAdminEgy.resources
+D:\Pelajaran\Semester 3\Project-PAD\POS\POS\obj\Debug\POS.FormOrders.resources

@@ -16,7 +16,7 @@ namespace POS
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormAdminEgy("eggy"));
+            Application.Run(new FormMain(3));
         }
     }
 }
