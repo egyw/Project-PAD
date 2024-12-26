@@ -345,17 +345,7 @@ namespace POS
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (listView1.Items.Count == 0)
-            {
-                MessageBox.Show("Add Extra Menu!");
-            }
-            else
-            {
-                FormPayment bayar = new FormPayment();
-                this.Hide();
-                bayar.ShowDialog();
-                this.Close();
-            }
+
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -388,6 +378,11 @@ namespace POS
             modifprice = selectedItemsPrice;
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void FormModifier_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

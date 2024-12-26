@@ -17,6 +17,7 @@ namespace POS
         bool isKeyboardActive = false;
         int selected = -1;
         public int orderid { get; private set; }
+        public int method { get; private set; }
         public FormOrders()
         {
             InitializeComponent();
@@ -197,8 +198,36 @@ namespace POS
         private void btnEdit_Click(object sender, EventArgs e)
         {
             orderid = selected;
+            method = 2;
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void btnPay_Click(object sender, EventArgs e)
+        {
+            orderid = selected;
+            method = 1;
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Connection.open();
+                string command = "UPDATE orders SET delete_status = TRUE, deleted_at = NOW() WHERE id = @id";
+                MySqlCommand cmd = new MySqlCommand(command,Connection.conn);
+                cmd.Parameters.AddWithValue("@1", selected);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Connection.close();
+            }
         }
     }
 }

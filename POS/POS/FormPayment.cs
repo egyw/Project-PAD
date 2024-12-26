@@ -23,9 +23,10 @@ namespace POS
         double payCash = 0; 
         public static double grandTotal = 0;
         bool cekTransaction = false;
-        public FormPayment()
+        public FormPayment(ListView ls)
         {
             InitializeComponent();
+            listView1 = ls;
             timer1.Start();
         }
 
@@ -33,8 +34,8 @@ namespace POS
         {
             this.WindowState = FormWindowState.Maximized;
             CenterPanel();
-            loadDataPayment();
-            
+            addToTotal();
+
         }
 
         public void CenterPanel()
@@ -61,7 +62,7 @@ namespace POS
             fcpa.ShowDialog();
             if(entryCard != 0)
             {
-                richTextBox1.Clear();
+                listView1.Items.Clear();
                 grandTotal = 0;
                 label14.Text = "Rp. " + grandTotal.ToString().Replace(',', '.');
                 label1.Text = "Amount ( " + "Rp. " + grandTotal.ToString().Replace(',', '.') + " )";
@@ -82,6 +83,26 @@ namespace POS
                 payCash = int.Parse(formatString.Substring(2));
             }
             
+        }
+
+        public void addToTotal()
+        {
+            decimal subtotal = 0, tax = 0, total = 0;
+
+            foreach (ListViewItem item in listView1.Items)
+            {
+                if (decimal.TryParse(item.SubItems[2].Text.Replace(",", "").Replace(".", ","), out decimal price))
+                {
+                    subtotal += price;
+                }
+            }
+            subtotal = subtotal / 100;
+            tax = subtotal / 10;
+            total = subtotal + tax;
+
+            label14.Text = $"$. {subtotal:N2}".Replace(".", ",");
+            label7.Text = $"$. {tax:N2}".Replace(".", ",");
+            label8.Text = $"$. {total:N2}".Replace(".", ",");
         }
 
         private void buttonShopee_Click(object sender, EventArgs e)
@@ -190,58 +211,11 @@ namespace POS
                 alp.ShowDialog();
                 MessageBox.Show("Anda Berhasil Membayar Sebesar Rp. " + grandTotal, "Information Payment", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 panelButtonCash.Enabled = true;
-                richTextBox1.Clear();
+                listView1.Items.Clear();
                 payCash = 0; grandTotal = 0;
                 label14.Text = "Rp. " + grandTotal.ToString().Replace(',', '.');
                 label1.Text = "Amount ( " + "Rp. " + grandTotal.ToString().Replace(',', '.') + " )";
                 buttonCard.Text = "Rp. " + grandTotal.ToString().Replace(',', '.');
-            }
-        }
-
-        public void loadDataPayment()
-        {
-            try
-            {
-                Connection.open();
-                MySqlCommand cmd = new MySqlCommand("SELECT * FROM orders o " +
-                    "JOIN order_items oi ON o.order_id = oi.order_id " +
-                    "JOIN products p ON p.product_id = oi.product_id " +
-                    "JOIN payments py ON py.order_id = o.order_id " +
-                    "WHERE o.order_status != 'completed'  ", Connection.conn);
-                //MySqlCommand cmd = new MySqlCommand("SELECT * FROM orders o " +
-                //    "jOIN order_items oi ON o.order_id = oi.order_id " +
-                //    "JOIN products p ON p.product_id = oi.product_id " +
-                //    "JOIN payments py ON py.order_id = o.order_id " +
-                //    "WHERE o.order_status != 'completed' and o.customer_name = @customerName ", Connection.conn);
-                //cmd.Parameters.AddWithValue("@customerName", "Bob White");
-
-                MySqlDataReader reader = cmd.ExecuteReader();
-                double qty, price, grandtotal; string namaProduct = "";
-                qty = price = grandtotal = 0;
-                while (reader.Read())
-                {
-                    price = double.Parse(reader["price"].ToString());
-                    qty = double.Parse(reader["quantity"].ToString());
-                    namaProduct = reader["product_name"].ToString();
-                    orderId = int.Parse(reader["order_id"].ToString());
-                    double subtotal = price * qty;
-                    subtotal *= 1000;
-                    grandTotal += subtotal;
-                    string kalimat = namaProduct + " " + qty + "x  = Rp. " + subtotal;
-                    richTextBox1.AppendText(kalimat);
-                }
-                reader.Close();
-                label14.Text = "Rp. " + grandTotal.ToString("N0", new System.Globalization.CultureInfo("id-ID")); ;
-                label1.Text = "Amount ( " + "Rp. " + grandTotal.ToString("N0", new System.Globalization.CultureInfo("id-ID")) + " )";
-                buttonCard.Text = "Rp. " + grandTotal.ToString("N0", new System.Globalization.CultureInfo("id-ID"));
-
-            }catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                Connection.close();
             }
         }
 

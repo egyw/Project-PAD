@@ -68,10 +68,10 @@ namespace POS
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.listView1 = new System.Windows.Forms.ListView();
             this.panel2.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panelButtonCash.SuspendLayout();
@@ -414,6 +414,7 @@ namespace POS
             // 
             // panel_order
             // 
+            this.panel_order.Controls.Add(this.listView1);
             this.panel_order.Controls.Add(this.pictureBox5);
             this.panel_order.Controls.Add(this.label8);
             this.panel_order.Controls.Add(this.label14);
@@ -422,7 +423,6 @@ namespace POS
             this.panel_order.Controls.Add(this.label10);
             this.panel_order.Controls.Add(this.label11);
             this.panel_order.Controls.Add(this.label12);
-            this.panel_order.Controls.Add(this.richTextBox1);
             this.panel_order.Controls.Add(this.label13);
             this.panel_order.Controls.Add(this.pictureBox4);
             this.panel_order.Location = new System.Drawing.Point(4, 143);
@@ -509,16 +509,6 @@ namespace POS
             this.label12.TabIndex = 6;
             this.label12.Text = "Total";
             // 
-            // richTextBox1
-            // 
-            this.richTextBox1.BackColor = System.Drawing.SystemColors.Menu;
-            this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBox1.Location = new System.Drawing.Point(6, 67);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(401, 400);
-            this.richTextBox1.TabIndex = 4;
-            this.richTextBox1.Text = "";
-            // 
             // label13
             // 
             this.label13.AutoSize = true;
@@ -542,6 +532,19 @@ namespace POS
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // listView1
+            // 
+            this.listView1.BackColor = System.Drawing.SystemColors.Menu;
+            this.listView1.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.listView1.FullRowSelect = true;
+            this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.listView1.HideSelection = false;
+            this.listView1.Location = new System.Drawing.Point(8, 76);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(394, 391);
+            this.listView1.TabIndex = 20;
+            this.listView1.UseCompatibleStateImageBehavior = false;
             // 
             // FormPayment
             // 
@@ -606,7 +609,6 @@ namespace POS
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Label label8;
@@ -614,5 +616,6 @@ namespace POS
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Panel panelButtonCash;
         private System.Windows.Forms.PictureBox pictureBox5;
+        private System.Windows.Forms.ListView listView1;
     }
 }

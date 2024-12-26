@@ -430,12 +430,12 @@ namespace POS
 
         private void btnOrders_Click(object sender, EventArgs e)
         {
-            listView1.Items.Clear();
             FormOrders form = new FormOrders();
             form.FormClosed += formOrderClosed;
             this.Hide();
             if (form.ShowDialog() == DialogResult.OK)
             {
+                listView1.Items.Clear();
                 int orderid = form.orderid;
                 try
                 {
@@ -484,6 +484,14 @@ namespace POS
                     Connection.close();
                 }
 
+                if(form.method == 1)
+                {
+                    FormPayment bayar = new FormPayment(listView1);
+                    this.Hide();
+                    bayar.ShowDialog();
+                    this.Close();
+                }
+
             }
         }
 
@@ -499,12 +507,13 @@ namespace POS
         {
             if (e.Button == MouseButtons.Left)
             {
-                ListViewItem clickedItem = listView1.GetItemAt(e.X, e.Y);
+                ListViewHitTestInfo hitTestInfo = listView1.HitTest(e.Location);
+                ListViewItem clickedItem = hitTestInfo.Item;
 
                 if (clickedItem != null)
                 {
-                    string menuName = clickedItem.Text;
-                    string namamenu = $"{menuName} x{clickedItem.SubItems[1].Text}"; 
+                    string menuName = clickedItem.SubItems[0].Text;
+                    string namamenu = $"{menuName} x{clickedItem.SubItems[1].Text}";
                     string tipeproduk = "";
 
                     try
@@ -576,6 +585,7 @@ namespace POS
         }
 
 
+
         public void addToTotal()
         {
             decimal subtotal = 0, tax = 0, total = 0;
@@ -597,6 +607,21 @@ namespace POS
         }
 
         private void buttonPay_Click(object sender, EventArgs e)
+        {
+            if (listView1.Items.Count == 0)
+            {
+                MessageBox.Show("Add Extra Menu!");
+            }
+            else
+            {
+                FormPayment bayar = new FormPayment(listView1);
+                this.Hide();
+                bayar.ShowDialog();
+                this.Close();
+            }
+        }
+
+        private void listView1_DoubleClick(object sender, EventArgs e)
         {
 
         }
