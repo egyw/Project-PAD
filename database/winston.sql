@@ -231,4 +231,82 @@ INSERT INTO product_type_modifiers (product_type, modifier_id) VALUES
 ('general', 33), -- Extra Rice
 ('general', 34); -- Extra Egg
 
+--testing tok
+INSERT INTO modifiers (modifier_name, modifier_price) VALUES
+('Golden Aroma', 0),
+('Spicy Aroma', 0),
+('Extra Cheese', 2000),
+('Extra Sauce', 2000),
+('Double Meat', 5000),
+('No Cheese', 0),
+('No Sauce', 0),
+('No Meat', 0),
+('No Vegetables', 0),
+('Extra Vegetable', 1000),
+('Large Size', 3000),
+('Small Size', 0), -- Burger
+('No Ice', 0),
+('Extra Ice', 1000),
+('No Float', 0),
+('Extra Float', 2000), 
+('Large Size', 2000), 
+('Small Size', 0), -- Minuman
+('Breast', 0),
+('Wing', 0),
+('Drumstick', 0),
+('Extra Rice', 1500), -- Ayam
+('Extra Strawberry Topping', 3000),
+('Extra Chocolate Topping', 3000),
+('No Topping', 0),
+('Large Size', 2000), 
+('Small Size', 1000), -- Ice Cream
+('Large Size', 2000), -- Soup
+('Small Size', 1000),
+('Extra Sauce', 1000), -- Snack
+('Golden Aroma', 0),
+('Spicy Aroma', 0),
+('Extra Rice', 1500),
+('Extra Egg', 2000),
+('Strawberry', 0),
+('Chocolate', 0),
+('Vanilla', 0); -- general
+
+INSERT INTO product_type_modifiers (product_type, modifier_id) VALUES
+(3, 1),  -- Golden Aroma
+(3, 2),  -- Spicy Aroma
+(3, 3),  -- Extra Cheese
+(3, 4),  -- Extra Sauce
+(3, 5),  -- Double Meat
+(3, 6),  -- No Cheese
+(3, 7),  -- No Sauce
+(3, 8),  -- No Meat
+(3, 9),  -- No Vegetables
+(3, 10), -- Extra Vegetable
+(3, 11), -- Large Size
+(3, 12), -- Small Size
+(4, 13),  -- No Ice
+(4, 14),  -- Extra Ice
+(4, 15),  -- No Float
+(4, 16),  -- Extra Float
+(4, 17),  -- Large Size
+(4, 18),  -- Small Size
+(2, 1),   -- Golden Aroma
+(2, 2),   -- Spicy Aroma
+(2, 19),  -- Breast
+(2, 20),  -- Wing
+(2, 21),  -- Drumstick
+(2, 22),  -- Extra Rice
+(7, 23),  -- Extra Strawberry Topping
+(7, 24),  -- Extra Chocolate Topping
+(7, 25),  -- No Topping
+(7, 26),  -- Large Size
+(7, 27),  -- Small Size
+(7, 35),  -- Strawberry
+(7, 36),  -- Chocolate
+(7, 37),  -- Vanilla
+(6, 28),  -- Large Size
+(6, 29),  -- Small Size
+(5, 30);  -- Extra Sauce
+
+
 

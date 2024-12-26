@@ -596,6 +596,11 @@ namespace POS
             labelTotal.Text = $"$. {total:N2}".Replace(".", ",");
         }
 
+        private void buttonPay_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void formOrderClosed(object sender, FormClosedEventArgs e)
         {
             this.Show();
