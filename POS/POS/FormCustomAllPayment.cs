@@ -13,10 +13,11 @@ namespace POS
 {
     public partial class FormCustomAllPayment : Form
     {
-        bool cekTransaction = false;
+        public static bool cekTransaction = false;
         public FormCustomAllPayment()
         {
             InitializeComponent();
+            FormPayment.eMoney = 0;
         }
 
         private void FormCustomAllPayment_Load(object sender, EventArgs e)
@@ -211,26 +212,28 @@ namespace POS
                 double price = FormPayment.grandTotal;
                 int myMoney = int.Parse(textBox1.Text.ToString().Replace(".",""));
                 price = paymentDiscount(price);
-                MessageBox.Show(price + " " + FormPayment.grandTotal + " " + money);
+                //MessageBox.Show(price + " " + FormPayment.grandTotal + " " + money);
 
                 if((myMoney - price) < 0)
                 {
                     MessageBox.Show("Pembayaran Kurang!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                // pengecekan no telepon
 
-                //kalau berhasil masuk kesini yah anggap aja no telepon pasti benar
                 payOrder();
+                double total = myMoney - price;
                 if (cekTransaction)
                 {
+                    FormPayment.eMoney = total;
                     AnimationLoadingPayment alp = new AnimationLoadingPayment();
                     alp.ShowDialog();
-                    MessageBox.Show("Transaction Sucess!", "Information Payment", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                   // MessageBox.Show("Transaction Sucess!", "Information Payment", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    MessageBox.Show("Transaction Fail!", "Information Payment", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    AnimationLoadingPayment alp = new AnimationLoadingPayment();
+                    alp.ShowDialog();
+                    //MessageBox.Show("Transaction Fail!", "Information Payment", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 this.Close();
             }
@@ -247,31 +250,24 @@ namespace POS
                 payOrder();
                 if (cekTransaction)
                 {
+                    FormPayment.eMoney = price;
                     AnimationLoadingPayment alp = new AnimationLoadingPayment();
                     alp.ShowDialog();
-                    MessageBox.Show("Anda Berhasil Membayar Sebesar Rp. " + price, "Information Payment", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //MessageBox.Show("Anda Berhasil Membayar Sebesar Rp. " + price, "Information Payment", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
                     FormPayment.entryCard = 0;
-                    MessageBox.Show("Transaction Fail!", "Information Payment", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    AnimationLoadingPayment alp = new AnimationLoadingPayment();
+                    alp.ShowDialog();
+                    //MessageBox.Show("Transaction Fail!", "Information Payment", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 this.Close();
             }
             else
             {
-                payOrder();
+                //payOrder();
                 double price = FormPayment.grandTotal;
-                if (cekTransaction)
-                {
-                    AnimationLoadingPayment alp = new AnimationLoadingPayment();
-                    alp.ShowDialog();
-                    MessageBox.Show("Anda Berhasil Membayar Sebesar Rp. " + price, "Information Payment", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show("Transaction Fail!", "Information Payment", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
                 this.Close();
             }
  

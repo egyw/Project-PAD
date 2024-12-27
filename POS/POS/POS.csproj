@@ -213,5 +213,11 @@
   <ItemGroup>
     <None Include="Resources\hedge-pay-hpay.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\no-fail.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\x-no.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

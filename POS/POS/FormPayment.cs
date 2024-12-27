@@ -18,6 +18,7 @@ namespace POS
         public static string imgCustom = "";
         public static string otherPayment = "";
         public static int price = 0;
+        public static double eMoney = 0;
         public static long entryCard = 0;
         public static int orderId = 0;
         double payCash = 0; 
@@ -27,8 +28,9 @@ namespace POS
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.None;
-            listView1 = ls;
-            timer1.Start();
+            int id = FormMain.idTransfer;
+            orderId = id;
+            getDataLvw(id);
         }
 
         private void Payment_Load(object sender, EventArgs e)
@@ -36,7 +38,7 @@ namespace POS
             this.FormBorderStyle = FormBorderStyle.Sizable;
             this.WindowState = FormWindowState.Maximized;
             CenterPanel();
-            addToTotal();
+            //addToTotal();
         }
 
         public void CenterPanel()
@@ -58,7 +60,9 @@ namespace POS
 
         private void buttonCashCustom_Click(object sender, EventArgs e)
         {
-            panelButtonCash.Enabled = false; textBox1.Clear();
+            panelButtonCash.Enabled = false; 
+            textBox1.Clear();
+            label11.Text = "Cash";
             imgCustom = "cash";
             FormCustomAllPayment fcpa = new FormCustomAllPayment();
             fcpa.ShowDialog();
@@ -67,6 +71,17 @@ namespace POS
                 buttonCashCustom.Text = textCustom;
                 string formatString = textCustom.Replace(".", "");
                 payCash = int.Parse(formatString.Substring(2));
+                textBox1.Text = payCash.ToString("N0", new System.Globalization.CultureInfo("id-ID"));
+                label7.Text = "Rp. " + textBox1.Text;
+                totalPay();
+
+            }
+            else
+            {
+                payCash = 0;
+                panelButtonCash.Enabled = true;
+                buttonCashCustom.Text = "Custom";
+        
             }
             
         }
@@ -86,9 +101,19 @@ namespace POS
             tax = subtotal / 10;
             total = subtotal + tax;
 
-            label14.Text = $"$. {subtotal:N2}".Replace(".", ",");
-            label7.Text = $"$. {tax:N2}".Replace(".", ",");
-            label8.Text = $"$. {total:N2}".Replace(".", ",");
+            label14.Text = $"Rp.  {subtotal:N2}".Replace(".", ",");
+            label7.Text = $"Rp.  {tax:N2}".Replace(".", ",");
+            label8.Text = $"Rp.  {total:N2}".Replace(".", ",");
+        }
+
+        public void totalPay()
+        {
+           
+            double subT = double.Parse(label14.Text.Substring(4));
+            double allPay = double.Parse(label7.Text.Substring(4));
+            MessageBox.Show("Result : " + subT + " " + allPay);
+            double total = subT - allPay;
+            label8.Text = "Rp. " + total.ToString("N2", new System.Globalization.CultureInfo("id-ID"));
         }
 
         private void buttonShopee_Click(object sender, EventArgs e)
@@ -97,6 +122,9 @@ namespace POS
             imgCustom = "otherPayment";
             FormCustomAllPayment fcpa = new FormCustomAllPayment();
             fcpa.ShowDialog();
+            label11.Text = "E-Money";
+            payCash = eMoney;
+            label7.Text = "Rp. " + payCash.ToString("N0", new System.Globalization.CultureInfo("id-ID"));
         }
 
         private void buttonOvo_Click(object sender, EventArgs e)
@@ -105,6 +133,10 @@ namespace POS
             imgCustom = "otherPayment";
             FormCustomAllPayment fcpa = new FormCustomAllPayment();
             fcpa.ShowDialog();
+            label11.Text = "E-Money";
+            payCash = eMoney;
+            label7.Text = "Rp. " + payCash.ToString("N0", new System.Globalization.CultureInfo("id-ID"));
+            totalPay();
         }
 
         private void buttonDana_Click(object sender, EventArgs e)
@@ -113,6 +145,10 @@ namespace POS
             imgCustom = "otherPayment";
             FormCustomAllPayment fcpa = new FormCustomAllPayment();
             fcpa.ShowDialog();
+            label11.Text = "E-Money";
+            payCash = eMoney;
+            label7.Text = "Rp. " + payCash.ToString("N0", new System.Globalization.CultureInfo("id-ID"));
+            totalPay();
         }
 
         private void buttonGopay_Click(object sender, EventArgs e)
@@ -121,6 +157,10 @@ namespace POS
             imgCustom = "otherPayment";
             FormCustomAllPayment fcpa = new FormCustomAllPayment();
             fcpa.ShowDialog();
+            label11.Text = "E-Money";
+            payCash = eMoney;
+            label7.Text = "Rp. " + payCash.ToString("N0", new System.Globalization.CultureInfo("id-ID"));
+            totalPay();
         }
 
         private void buttonCard_Click(object sender, EventArgs e)
@@ -175,12 +215,6 @@ namespace POS
             payCash += 500;
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            textBox1.Text = payCash.ToString("N0", new System.Globalization.CultureInfo("id-ID"));
-            label7.Text = "Rp. "+ textBox1.Text;
-        }
-
         private void button14_Click(object sender, EventArgs e)
         {
             
@@ -193,9 +227,10 @@ namespace POS
             payOrder();
             if (cekTransaction)
             {
+                label11.Text = "Cash";
                 AnimationLoadingPayment alp = new AnimationLoadingPayment();
                 alp.ShowDialog();
-                MessageBox.Show("Anda Berhasil Membayar Sebesar Rp. " + grandTotal, "Information Payment", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //MessageBox.Show("Anda Berhasil Membayar Sebesar Rp. " + grandTotal, "Information Payment", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 panelButtonCash.Enabled = true;
                 listView1.Items.Clear();
                 payCash = 0; grandTotal = 0;
@@ -229,7 +264,7 @@ namespace POS
 
                 MySqlCommand cmd = new MySqlCommand("UPDATE payments SET payment_status = 'Completed' " +
                     "WHERE order_id = @1", Connection.conn, transaction);
-                cmd.Parameters.AddWithValue("@1", FormPayment.orderId);
+                cmd.Parameters.AddWithValue("@1", orderId);
                 cmd.ExecuteNonQuery();
 
                 transaction.Commit();
@@ -324,6 +359,61 @@ namespace POS
                 label14.Text = "Rp. " + grandTotal.ToString().Replace(',', '.');
                 label1.Text = "Amount ( " + "Rp. " + grandTotal.ToString().Replace(',', '.') + " )";
                 buttonCard.Text = "Rp. " + grandTotal.ToString().Replace(',', '.');
+                label11.Text = "E-Money";
+                label7.Text = eMoney.ToString("N0", new System.Globalization.CultureInfo("id-ID"));
+                totalPay();
+            }
+           
+        }
+
+        public void getDataLvw(int orderid)
+        {
+            listView1.Items.Clear();
+
+            listView1.Columns.Add("Product", 150);
+            listView1.Columns.Add("Quantity", 80);
+            listView1.Columns.Add("Price", 100);
+            listView1.Columns.Add("Modifiers", 200);
+            listView1.View = View.Details;
+            listView1.Font = new Font(listView1.Font.FontFamily, 10, listView1.Font.Style);
+
+            try
+            {
+                Connection.open();
+                MySqlDataAdapter data = new MySqlDataAdapter("SELECT p.product_name, p.price ,oi.quantity FROM products p JOIN order_items oi ON oi.product_id = p.product_id JOIN orders o ON o.order_id = oi.order_id WHERE o.order_id = @id", Connection.conn);
+                data.SelectCommand.Parameters.AddWithValue("@id", orderid);
+
+                DataTable itemordered = new DataTable();
+                data.Fill(itemordered);
+
+                foreach (DataRow row in itemordered.Rows)
+                {
+                    string productName = row["product_name"].ToString();
+                    string quantityText = row["quantity"].ToString();
+                    string priceText = row["price"].ToString();
+
+                    decimal price = decimal.TryParse(priceText, out decimal parsedPrice) ? parsedPrice : 0;
+                    decimal quantity = decimal.TryParse(quantityText, out decimal parsedQuantity) ? parsedQuantity : 0;
+                    decimal totalPrice = price * quantity;
+
+                    ListViewItem newItem = new ListViewItem(productName);
+                    newItem.SubItems.Add(quantityText);
+                    newItem.SubItems.Add(totalPrice.ToString("N2"));
+                    listView1.Items.Add(newItem);
+                }
+                listView1.View = View.Details;
+                listView1.Columns[0].Width = 200;
+                listView1.Columns[1].Width = 50;
+                listView1.Columns[2].Width = 100;
+                addToTotal();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Connection.close();
             }
         }
     }

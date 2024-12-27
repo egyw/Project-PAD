@@ -151,6 +151,9 @@
   <data name="download" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\download.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="hedge-pay-hpay" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\hedge-pay-hpay.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="check-mark-verified" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\check-mark-verified.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -160,7 +163,10 @@
   <data name="verified" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\verified.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="hedge-pay-hpay" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\hedge-pay-hpay.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="no-fail" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\no-fail.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="x-no" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\x-no.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

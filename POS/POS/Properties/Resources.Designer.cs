@@ -10,9 +10,8 @@
 
 namespace POS.Properties {
     using System;
-    using System.Drawing;
-
-
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -24,7 +23,7 @@ namespace POS.Properties {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
-        internal static Image defaultImage;
+        
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
@@ -174,6 +173,16 @@ namespace POS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap no_fail {
+            get {
+                object obj = ResourceManager.GetObject("no-fail", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Ovo {
             get {
                 object obj = ResourceManager.GetObject("Ovo", resourceCulture);
@@ -207,6 +216,16 @@ namespace POS.Properties {
         internal static System.Drawing.Bitmap verified {
             get {
                 object obj = ResourceManager.GetObject("verified", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap x_no {
+            get {
+                object obj = ResourceManager.GetObject("x-no", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

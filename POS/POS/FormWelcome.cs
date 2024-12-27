@@ -47,13 +47,13 @@ namespace POS
             }
             else
             {
+                timerAnimation.Stop();
                 formMain = new FormMain(id);
                 formMain.Opacity = 0;
                 formMain.FormClosed += formClosed;
-                formMain.Show();
-
-                timerAnimation.Stop();
                 timerChangeForm.Start();
+                formMain.Show();
+               
             }
         }
 

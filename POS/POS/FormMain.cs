@@ -21,9 +21,11 @@ namespace POS
         Boolean dine = false, take = false;
         DataTable tableUser;
         public static bool isKeyboardActive = false;
+        public static int idTransfer = 0;
         public FormMain(int id)
         {
             InitializeComponent();
+            idTransfer = id;
             this.idUser = id;
             getCashier();
             labelCashier.Text = tableUser.Rows[0]["firstName"].ToString();
