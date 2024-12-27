@@ -88,7 +88,7 @@ namespace POS
 
                         if (role.Equals("Admin", StringComparison.InvariantCultureIgnoreCase))
                         {
-                            FormAdminEgy form = new FormAdminEgy(name);
+                            FormAdmin form = new FormAdmin(name);
                             form.FormClosed += (s, args) => this.Show();
                             form.Show();
                             this.Hide();

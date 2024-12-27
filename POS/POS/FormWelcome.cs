@@ -13,9 +13,12 @@ namespace POS
     public partial class FormWelcome : Form
     {
         int id;
+        FormMain formMain;
+
         public FormWelcome(int id)
         {
             InitializeComponent();
+            this.UpdateStyles();
             this.id = id;
             this.FormBorderStyle = FormBorderStyle.None;
 
@@ -44,6 +47,11 @@ namespace POS
             }
             else
             {
+                formMain = new FormMain(id);
+                formMain.Opacity = 0;
+                formMain.FormClosed += formClosed;
+                formMain.Show();
+
                 timerAnimation.Stop();
                 timerChangeForm.Start();
             }
@@ -51,9 +59,7 @@ namespace POS
 
         private void timerChangeForm_Tick(object sender, EventArgs e)
         {
-            FormMain form = new FormMain(id);
-            form.FormClosed += formClosed;
-            form.Show();
+            formMain.Opacity = 1;
             timerChangeForm.Stop();
 
             this.Close();

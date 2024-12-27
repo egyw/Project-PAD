@@ -24,7 +24,6 @@ namespace POS
         public FormMain(int id)
         {
             InitializeComponent();
-
             this.idUser = id;
             getCashier();
             labelCashier.Text = tableUser.Rows[0]["firstName"].ToString();

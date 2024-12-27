@@ -26,16 +26,17 @@ namespace POS
         public FormPayment(ListView ls)
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.None;
             listView1 = ls;
             timer1.Start();
         }
 
         private void Payment_Load(object sender, EventArgs e)
         {
+            this.FormBorderStyle = FormBorderStyle.Sizable;
             this.WindowState = FormWindowState.Maximized;
             CenterPanel();
             addToTotal();
-
         }
 
         public void CenterPanel()
@@ -53,21 +54,6 @@ namespace POS
         private void FormPayment_Resize(object sender, EventArgs e)
         {
             CenterPanel();
-        }
-
-        private void label4_DoubleClick(object sender, EventArgs e)
-        {
-            FormCustomAllPayment fcpa = new FormCustomAllPayment();
-            imgCustom = "card";
-            fcpa.ShowDialog();
-            if(entryCard != 0)
-            {
-                listView1.Items.Clear();
-                grandTotal = 0;
-                label14.Text = "Rp. " + grandTotal.ToString().Replace(',', '.');
-                label1.Text = "Amount ( " + "Rp. " + grandTotal.ToString().Replace(',', '.') + " )";
-                buttonCard.Text = "Rp. " + grandTotal.ToString().Replace(',', '.');
-            }
         }
 
         private void buttonCashCustom_Click(object sender, EventArgs e)
@@ -323,6 +309,21 @@ namespace POS
                 PointF location = new PointF(btn.Width - textSize.Width - 5, 5);
 
                 e.Graphics.DrawString(discountText, font, brush, location);
+            }
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+            FormCustomAllPayment fcpa = new FormCustomAllPayment();
+            imgCustom = "card";
+            fcpa.ShowDialog();
+            if (entryCard != 0)
+            {
+                listView1.Items.Clear();
+                grandTotal = 0;
+                label14.Text = "Rp. " + grandTotal.ToString().Replace(',', '.');
+                label1.Text = "Amount ( " + "Rp. " + grandTotal.ToString().Replace(',', '.') + " )";
+                buttonCard.Text = "Rp. " + grandTotal.ToString().Replace(',', '.');
             }
         }
     }
