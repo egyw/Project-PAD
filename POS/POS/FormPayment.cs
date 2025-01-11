@@ -29,8 +29,25 @@ namespace POS
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.None;
             int id = FormMain.idTransfer;
+            CopyListViewData(ls, listView1);
             orderId = id;
-            getDataLvw(id);
+            // getDataLvw(id);
+        }
+
+        private void CopyListViewData(ListView source, ListView target)
+        {
+            foreach (ColumnHeader column in source.Columns)
+            {
+                target.Columns.Add((ColumnHeader)column.Clone());
+            }
+
+            foreach (ListViewItem item in source.Items)
+            {
+                target.Items.Add((ListViewItem)item.Clone());
+            }
+
+            target.View = View.Details;
+            target.FullRowSelect = true;
         }
 
         private void Payment_Load(object sender, EventArgs e)
