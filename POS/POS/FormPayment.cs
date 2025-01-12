@@ -104,22 +104,22 @@ namespace POS
 
         public void addToTotal()
         {
-            decimal subtotal = 0, tax = 0, total = 0;
+            double subtotal = 0, tax = 0, total = 0;
 
             foreach (ListViewItem item in listView1.Items)
             {
-                if (decimal.TryParse(item.SubItems[2].Text.Replace(",", "").Replace(".", ","), out decimal price))
-                {
-                    subtotal += price;
-                }
+ 
+                string priceText = item.SubItems[2].Text;
+                double price = double.Parse(priceText);
+                subtotal += price;
             }
-            subtotal = subtotal / 100;
+            subtotal = subtotal;
             tax = subtotal / 10;
             total = subtotal + tax;
 
-            label14.Text = $"Rp.  {subtotal:N2}".Replace(".", ",");
-            label15.Text = $"Rp.  {tax:N2}".Replace(".", ",");
-            label8.Text = $"Rp.  {total:N2}".Replace(".", ",");
+            label14.Text = $"Rp.  {subtotal:N2}";
+            label15.Text = $"Rp.  {tax:N2}";
+            label8.Text = $"Rp.  {total:N2}";
         }
 
         public void totalPay()

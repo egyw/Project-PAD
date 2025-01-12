@@ -589,22 +589,22 @@ namespace POS
 
         public void addToTotal()
         {
-            decimal subtotal = 0, tax = 0, total = 0;
+            double subtotal = 0, tax = 0, total = 0;
 
             foreach (ListViewItem item in listView1.Items)
             {
-                if (decimal.TryParse(item.SubItems[2].Text.Replace(",", "").Replace(".", ","), out decimal price))
-                {
-                    subtotal += price;
-                }
+
+                string priceText = item.SubItems[2].Text;
+                double price = double.Parse(priceText);
+                subtotal += price;
             }
-            subtotal = subtotal / 100;
-            tax = subtotal / 10; 
+            subtotal = subtotal;
+            tax = subtotal / 10;
             total = subtotal + tax;
 
-            labelSubtotal.Text = $"$. {subtotal:N2}".Replace(".", ",");
-            labelTax.Text = $"$. {tax:N2}".Replace(".", ",");
-            labelTotal.Text = $"$. {total:N2}".Replace(".", ",");
+            labelSubtotal.Text = $"$. {subtotal:N2}";
+            labelTax.Text = $"$. {tax:N2}";
+            labelTotal.Text = $"$. {total:N2}";
         }
 
         private void buttonPay_Click(object sender, EventArgs e)
