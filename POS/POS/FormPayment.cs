@@ -31,7 +31,6 @@ namespace POS
             int id = FormMain.idTransfer;
             CopyListViewData(ls, listView1);
             orderId = id;
-            // getDataLvw(id);
         }
 
         private void CopyListViewData(ListView source, ListView target)
@@ -55,7 +54,7 @@ namespace POS
             this.FormBorderStyle = FormBorderStyle.Sizable;
             this.WindowState = FormWindowState.Maximized;
             CenterPanel();
-            //addToTotal();
+            addToTotal();
         }
 
         public void CenterPanel()
@@ -119,7 +118,7 @@ namespace POS
             total = subtotal + tax;
 
             label14.Text = $"Rp.  {subtotal:N2}".Replace(".", ",");
-            label7.Text = $"Rp.  {tax:N2}".Replace(".", ",");
+            label15.Text = $"Rp.  {tax:N2}".Replace(".", ",");
             label8.Text = $"Rp.  {total:N2}".Replace(".", ",");
         }
 
@@ -194,42 +193,49 @@ namespace POS
 
         private void buttonCash1_Click(object sender, EventArgs e)
         {
-            payCash += 1000;
+            payCash += 1000; totalPay(); 
+            label7.Text = "Rp. " + payCash.ToString("N0", new System.Globalization.CultureInfo("id-ID"));
         }
 
         private void buttonCash2_Click(object sender, EventArgs e)
         {
-            payCash += 10000;
+            payCash += 10000; totalPay(); 
+            label7.Text = "Rp. " + payCash.ToString("N0", new System.Globalization.CultureInfo("id-ID"));
         }
 
         private void buttonCash3_Click(object sender, EventArgs e)
         {
-            payCash += 25000;
+            payCash += 25000; totalPay();
+            label7.Text = "Rp. " + payCash.ToString("N0", new System.Globalization.CultureInfo("id-ID"));
         }
 
         private void buttonCash4_Click(object sender, EventArgs e)
         {
-            payCash += 50000;
+            payCash += 50000; totalPay(); 
+            label7.Text = "Rp. " + payCash.ToString("N0", new System.Globalization.CultureInfo("id-ID"));
         }
 
         private void buttonCash5_Click(object sender, EventArgs e)
         {
-            payCash += 100000;
+            payCash += 100000; totalPay(); 
+            label7.Text = "Rp. " + payCash.ToString("N0", new System.Globalization.CultureInfo("id-ID"));
         }
 
         private void buttonCash6_Click(object sender, EventArgs e)
         {
-            payCash += 100;
+            payCash += 100; totalPay(); 
+            label7.Text = "Rp. " + payCash.ToString("N0", new System.Globalization.CultureInfo("id-ID"));
         }
 
         private void buttonCash7_Click(object sender, EventArgs e)
         {
-            payCash += 250;
+            payCash += 250; totalPay(); 
+            label7.Text = "Rp. " + payCash.ToString("N0", new System.Globalization.CultureInfo("id-ID"));
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            payCash += 500;
+            payCash += 500; totalPay();
         }
 
         private void button14_Click(object sender, EventArgs e)
@@ -381,57 +387,6 @@ namespace POS
                 totalPay();
             }
            
-        }
-
-        public void getDataLvw(int orderid)
-        {
-            listView1.Items.Clear();
-
-            listView1.Columns.Add("Product", 150);
-            listView1.Columns.Add("Quantity", 80);
-            listView1.Columns.Add("Price", 100);
-            listView1.Columns.Add("Modifiers", 200);
-            listView1.View = View.Details;
-            listView1.Font = new Font(listView1.Font.FontFamily, 10, listView1.Font.Style);
-
-            try
-            {
-                Connection.open();
-                MySqlDataAdapter data = new MySqlDataAdapter("SELECT p.product_name, p.price ,oi.quantity FROM products p JOIN order_items oi ON oi.product_id = p.product_id JOIN orders o ON o.order_id = oi.order_id WHERE o.order_id = @id", Connection.conn);
-                data.SelectCommand.Parameters.AddWithValue("@id", orderid);
-
-                DataTable itemordered = new DataTable();
-                data.Fill(itemordered);
-
-                foreach (DataRow row in itemordered.Rows)
-                {
-                    string productName = row["product_name"].ToString();
-                    string quantityText = row["quantity"].ToString();
-                    string priceText = row["price"].ToString();
-
-                    decimal price = decimal.TryParse(priceText, out decimal parsedPrice) ? parsedPrice : 0;
-                    decimal quantity = decimal.TryParse(quantityText, out decimal parsedQuantity) ? parsedQuantity : 0;
-                    decimal totalPrice = price * quantity;
-
-                    ListViewItem newItem = new ListViewItem(productName);
-                    newItem.SubItems.Add(quantityText);
-                    newItem.SubItems.Add(totalPrice.ToString("N2"));
-                    listView1.Items.Add(newItem);
-                }
-                listView1.View = View.Details;
-                listView1.Columns[0].Width = 200;
-                listView1.Columns[1].Width = 50;
-                listView1.Columns[2].Width = 100;
-                addToTotal();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                Connection.close();
-            }
         }
     }
 }

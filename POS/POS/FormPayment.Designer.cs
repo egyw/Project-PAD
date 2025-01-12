@@ -42,16 +42,24 @@ namespace POS
             this.buttonCash4 = new System.Windows.Forms.Button();
             this.buttonCash5 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.buttonGopay = new System.Windows.Forms.Button();
+            this.buttonDana = new System.Windows.Forms.Button();
+            this.buttonOvo = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.buttonShopee = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.buttonCard = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.button14 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.buttonCashCustom = new System.Windows.Forms.Button();
             this.panel_order = new System.Windows.Forms.Panel();
             this.listView1 = new System.Windows.Forms.ListView();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -60,21 +68,15 @@ namespace POS
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.buttonGopay = new System.Windows.Forms.Button();
-            this.buttonDana = new System.Windows.Forms.Button();
-            this.buttonOvo = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.buttonShopee = new System.Windows.Forms.Button();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panelButtonCash.SuspendLayout();
-            this.panel_order.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.panel_order.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             this.SuspendLayout();
             // 
@@ -249,6 +251,59 @@ namespace POS
             this.textBox1.Size = new System.Drawing.Size(604, 47);
             this.textBox1.TabIndex = 30;
             // 
+            // buttonGopay
+            // 
+            this.buttonGopay.BackgroundImage = global::POS.Properties.Resources.Gopay;
+            this.buttonGopay.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.buttonGopay.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonGopay.Location = new System.Drawing.Point(536, 634);
+            this.buttonGopay.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.buttonGopay.Name = "buttonGopay";
+            this.buttonGopay.Size = new System.Drawing.Size(167, 102);
+            this.buttonGopay.TabIndex = 26;
+            this.buttonGopay.UseVisualStyleBackColor = true;
+            this.buttonGopay.Click += new System.EventHandler(this.buttonGopay_Click);
+            this.buttonGopay.Paint += new System.Windows.Forms.PaintEventHandler(this.buttonGopay_Paint);
+            // 
+            // buttonDana
+            // 
+            this.buttonDana.BackgroundImage = global::POS.Properties.Resources.Dana;
+            this.buttonDana.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.buttonDana.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonDana.Location = new System.Drawing.Point(364, 634);
+            this.buttonDana.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.buttonDana.Name = "buttonDana";
+            this.buttonDana.Size = new System.Drawing.Size(167, 102);
+            this.buttonDana.TabIndex = 25;
+            this.buttonDana.UseVisualStyleBackColor = true;
+            this.buttonDana.Click += new System.EventHandler(this.buttonDana_Click);
+            this.buttonDana.Paint += new System.Windows.Forms.PaintEventHandler(this.buttonDana_Paint);
+            // 
+            // buttonOvo
+            // 
+            this.buttonOvo.BackgroundImage = global::POS.Properties.Resources.Ovo;
+            this.buttonOvo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.buttonOvo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonOvo.Location = new System.Drawing.Point(192, 634);
+            this.buttonOvo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.buttonOvo.Name = "buttonOvo";
+            this.buttonOvo.Size = new System.Drawing.Size(167, 102);
+            this.buttonOvo.TabIndex = 24;
+            this.buttonOvo.UseVisualStyleBackColor = true;
+            this.buttonOvo.Click += new System.EventHandler(this.buttonOvo_Click);
+            this.buttonOvo.Paint += new System.Windows.Forms.PaintEventHandler(this.buttonOvo_Paint);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::POS.Properties.Resources.atm_card;
+            this.pictureBox1.Location = new System.Drawing.Point(20, 18);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(65, 58);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 4;
+            this.pictureBox1.TabStop = false;
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -260,6 +315,20 @@ namespace POS
             this.label2.TabIndex = 3;
             this.label2.Text = "Card";
             // 
+            // buttonShopee
+            // 
+            this.buttonShopee.BackgroundImage = global::POS.Properties.Resources.Shopee;
+            this.buttonShopee.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.buttonShopee.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonShopee.Location = new System.Drawing.Point(20, 634);
+            this.buttonShopee.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.buttonShopee.Name = "buttonShopee";
+            this.buttonShopee.Size = new System.Drawing.Size(167, 102);
+            this.buttonShopee.TabIndex = 20;
+            this.buttonShopee.UseVisualStyleBackColor = true;
+            this.buttonShopee.Click += new System.EventHandler(this.buttonShopee_Click);
+            this.buttonShopee.Paint += new System.Windows.Forms.PaintEventHandler(this.buttonShopee_Paint);
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -269,6 +338,17 @@ namespace POS
             this.label3.Size = new System.Drawing.Size(354, 29);
             this.label3.TabIndex = 5;
             this.label3.Text = "Insert or swipe card on the right ";
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = global::POS.Properties.Resources.payment_options;
+            this.pictureBox3.Location = new System.Drawing.Point(23, 571);
+            this.pictureBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(75, 58);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox3.TabIndex = 19;
+            this.pictureBox3.TabStop = false;
             // 
             // buttonCard
             // 
@@ -328,6 +408,17 @@ namespace POS
             this.label5.TabIndex = 10;
             this.label5.Text = "Cash";
             // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::POS.Properties.Resources.money;
+            this.pictureBox2.Location = new System.Drawing.Point(20, 210);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(75, 58);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 11;
+            this.pictureBox2.TabStop = false;
+            // 
             // buttonCashCustom
             // 
             this.buttonCashCustom.BackColor = System.Drawing.SystemColors.ActiveBorder;
@@ -345,6 +436,8 @@ namespace POS
             // panel_order
             // 
             this.panel_order.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_order.Controls.Add(this.label15);
+            this.panel_order.Controls.Add(this.label16);
             this.panel_order.Controls.Add(this.listView1);
             this.panel_order.Controls.Add(this.pictureBox5);
             this.panel_order.Controls.Add(this.label8);
@@ -376,11 +469,22 @@ namespace POS
             this.listView1.TabIndex = 20;
             this.listView1.UseCompatibleStateImageBehavior = false;
             // 
+            // pictureBox5
+            // 
+            this.pictureBox5.Image = global::POS.Properties.Resources.logo;
+            this.pictureBox5.Location = new System.Drawing.Point(8, 7);
+            this.pictureBox5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(81, 57);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox5.TabIndex = 1;
+            this.pictureBox5.TabStop = false;
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(317, 756);
+            this.label8.Location = new System.Drawing.Point(317, 787);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(44, 24);
             this.label8.TabIndex = 13;
@@ -400,11 +504,11 @@ namespace POS
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(317, 722);
+            this.label7.Location = new System.Drawing.Point(317, 753);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(44, 24);
+            this.label7.Size = new System.Drawing.Size(54, 24);
             this.label7.TabIndex = 10;
-            this.label7.Text = "Rp. ";
+            this.label7.Text = "Rp. 0";
             // 
             // label9
             // 
@@ -429,7 +533,7 @@ namespace POS
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(45, 722);
+            this.label11.Location = new System.Drawing.Point(45, 753);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(53, 24);
             this.label11.TabIndex = 7;
@@ -439,7 +543,7 @@ namespace POS
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(45, 756);
+            this.label12.Location = new System.Drawing.Point(45, 787);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(51, 24);
             this.label12.TabIndex = 6;
@@ -455,105 +559,25 @@ namespace POS
             this.label13.TabIndex = 3;
             this.label13.Text = "Payment";
             // 
-            // buttonGopay
+            // label15
             // 
-            this.buttonGopay.BackgroundImage = global::POS.Properties.Resources.Gopay;
-            this.buttonGopay.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.buttonGopay.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonGopay.Location = new System.Drawing.Point(536, 634);
-            this.buttonGopay.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.buttonGopay.Name = "buttonGopay";
-            this.buttonGopay.Size = new System.Drawing.Size(167, 102);
-            this.buttonGopay.TabIndex = 26;
-            this.buttonGopay.UseVisualStyleBackColor = true;
-            this.buttonGopay.Click += new System.EventHandler(this.buttonGopay_Click);
-            this.buttonGopay.Paint += new System.Windows.Forms.PaintEventHandler(this.buttonGopay_Paint);
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(317, 720);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(44, 24);
+            this.label15.TabIndex = 22;
+            this.label15.Text = "Rp. ";
             // 
-            // buttonDana
+            // label16
             // 
-            this.buttonDana.BackgroundImage = global::POS.Properties.Resources.Dana;
-            this.buttonDana.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.buttonDana.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonDana.Location = new System.Drawing.Point(364, 634);
-            this.buttonDana.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.buttonDana.Name = "buttonDana";
-            this.buttonDana.Size = new System.Drawing.Size(167, 102);
-            this.buttonDana.TabIndex = 25;
-            this.buttonDana.UseVisualStyleBackColor = true;
-            this.buttonDana.Click += new System.EventHandler(this.buttonDana_Click);
-            this.buttonDana.Paint += new System.Windows.Forms.PaintEventHandler(this.buttonDana_Paint);
-            // 
-            // buttonOvo
-            // 
-            this.buttonOvo.BackgroundImage = global::POS.Properties.Resources.Ovo;
-            this.buttonOvo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.buttonOvo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonOvo.Location = new System.Drawing.Point(192, 634);
-            this.buttonOvo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.buttonOvo.Name = "buttonOvo";
-            this.buttonOvo.Size = new System.Drawing.Size(167, 102);
-            this.buttonOvo.TabIndex = 24;
-            this.buttonOvo.UseVisualStyleBackColor = true;
-            this.buttonOvo.Click += new System.EventHandler(this.buttonOvo_Click);
-            this.buttonOvo.Paint += new System.Windows.Forms.PaintEventHandler(this.buttonOvo_Paint);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::POS.Properties.Resources.atm_card;
-            this.pictureBox1.Location = new System.Drawing.Point(20, 18);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(65, 58);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 4;
-            this.pictureBox1.TabStop = false;
-            // 
-            // buttonShopee
-            // 
-            this.buttonShopee.BackgroundImage = global::POS.Properties.Resources.Shopee;
-            this.buttonShopee.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.buttonShopee.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonShopee.Location = new System.Drawing.Point(20, 634);
-            this.buttonShopee.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.buttonShopee.Name = "buttonShopee";
-            this.buttonShopee.Size = new System.Drawing.Size(167, 102);
-            this.buttonShopee.TabIndex = 20;
-            this.buttonShopee.UseVisualStyleBackColor = true;
-            this.buttonShopee.Click += new System.EventHandler(this.buttonShopee_Click);
-            this.buttonShopee.Paint += new System.Windows.Forms.PaintEventHandler(this.buttonShopee_Paint);
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Image = global::POS.Properties.Resources.payment_options;
-            this.pictureBox3.Location = new System.Drawing.Point(23, 571);
-            this.pictureBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(75, 58);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox3.TabIndex = 19;
-            this.pictureBox3.TabStop = false;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = global::POS.Properties.Resources.money;
-            this.pictureBox2.Location = new System.Drawing.Point(20, 210);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(75, 58);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox2.TabIndex = 11;
-            this.pictureBox2.TabStop = false;
-            // 
-            // pictureBox5
-            // 
-            this.pictureBox5.Image = global::POS.Properties.Resources.logo;
-            this.pictureBox5.Location = new System.Drawing.Point(8, 7);
-            this.pictureBox5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(81, 57);
-            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox5.TabIndex = 1;
-            this.pictureBox5.TabStop = false;
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(45, 720);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(42, 24);
+            this.label16.TabIndex = 21;
+            this.label16.Text = "Tax";
             // 
             // FormPayment
             // 
@@ -574,11 +598,11 @@ namespace POS
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             this.panelButtonCash.ResumeLayout(false);
-            this.panel_order.ResumeLayout(false);
-            this.panel_order.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.panel_order.ResumeLayout(false);
+            this.panel_order.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.ResumeLayout(false);
 
@@ -624,5 +648,7 @@ namespace POS
         private System.Windows.Forms.Panel panelButtonCash;
         private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
     }
 }
