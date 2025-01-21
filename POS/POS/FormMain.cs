@@ -22,6 +22,7 @@ namespace POS
         DataTable tableUser;
         public static bool isKeyboardActive = false;
         public static int idTransfer = 0;
+        int orderid = -1;
         public FormMain(int id)
         {
             InitializeComponent();
@@ -437,7 +438,7 @@ namespace POS
             if (form.ShowDialog() == DialogResult.OK)
             {
                 listView1.Items.Clear();
-                int orderid = form.orderid;
+                orderid = form.orderid;
                 try
                 {
                     Connection.open();
@@ -487,10 +488,11 @@ namespace POS
 
                 if(form.method == 1)
                 {
-                    FormPayment bayar = new FormPayment(listView1);
+                    FormPayment bayar = new FormPayment(listView1, orderid);
                     this.Hide();
                     bayar.ShowDialog();
                     this.Close();
+                    orderid = -1;
                 }
 
             }
@@ -615,10 +617,11 @@ namespace POS
             }
             else
             {
-                FormPayment bayar = new FormPayment(listView1);
+                FormPayment bayar = new FormPayment(listView1, orderid);
                 this.Hide();
                 bayar.ShowDialog();
                 this.Close();
+                orderid = -1;
             }
         }
 

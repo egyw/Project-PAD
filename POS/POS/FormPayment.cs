@@ -24,13 +24,19 @@ namespace POS
         double payCash = 0; 
         public static double grandTotal = 0;
         bool cekTransaction = false;
-        public FormPayment(ListView ls)
+        public FormPayment(ListView ls, int id)
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.None;
-            int id = FormMain.idTransfer;
             CopyListViewData(ls, listView1);
-            orderId = id;
+            if (id == -1)
+            {
+                // ini kalau yang baru tinggal insert di database
+            }
+            else
+            {
+                orderId = id;
+            }
         }
 
         private void CopyListViewData(ListView source, ListView target)
