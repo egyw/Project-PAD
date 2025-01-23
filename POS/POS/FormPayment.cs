@@ -69,7 +69,7 @@ namespace POS
                         a = "take_away";
                     }
                     cmd.Parameters.AddWithValue("@5", a);
-
+                    cmd.ExecuteNonQuery();
                     MySqlDataAdapter data = new MySqlDataAdapter("SELECT order_id FROM orders ORDER BY order_id DESC", Connection.conn);
 
                     DataTable orderby = new DataTable();
@@ -116,7 +116,6 @@ namespace POS
                     {
                         if (!string.IsNullOrWhiteSpace(item.SubItems[4].Text))
                         {
-
                             string indexmodif = item.SubItems[4].Text;
 
                             string[] pisah = indexmodif.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
