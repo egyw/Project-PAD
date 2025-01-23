@@ -140,7 +140,7 @@ namespace POS
                         rowIndex--;
                     }
 
-                   
+                    transaction.Commit();
                 }
                 catch (Exception ex)
                 {
@@ -581,6 +581,30 @@ namespace POS
                 label11.Text = "E-Money";
                 label7.Text = eMoney.ToString("N0", new System.Globalization.CultureInfo("id-ID"));
                 totalPay();
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Connection.open();
+            MySqlTransaction transaction = Connection.conn.BeginTransaction();
+            try
+            {
+                string query3 = "UPDATE orders SET order_status = @1, deleted_at = NOW() WHERE order_id = @2";
+                MySqlCommand cmd3 = new MySqlCommand(query3, Connection.conn, transaction);
+                cmd3.Parameters.AddWithValue("@1", "cancelled");
+                cmd3.Parameters.AddWithValue("@2", orderId);
+
+                cmd3.ExecuteNonQuery();
+                transaction.Commit();
+            }
+            catch(Exception ex)
+            {
+                transaction.Rollback();
+                MessageBox.Show(ex.Message);
+            }
+            finally{
+                Connection.close();
             }
         }
     }
