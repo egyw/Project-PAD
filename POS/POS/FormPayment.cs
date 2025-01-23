@@ -83,7 +83,9 @@ namespace POS
                         idnya = (int)row["order_id"];
                         break;
                     }
-                    
+
+                    orderId = idnya;
+
                     string query2 = "INSERT INTO order_items (order_id, product_id, quantity, price, total) VALUES (@1,@2,@3,@4,@5)";
 
                     foreach (ListViewItem item in listView1.Items)
@@ -316,6 +318,11 @@ namespace POS
                 double total = allPay - allPay;
                 label8.Text = "Rp. " + total.ToString("N2", new System.Globalization.CultureInfo("id-ID"));
                 cekBayar = true;
+
+                FormReport report = new FormReport(orderId);
+                report.Show();
+                this.Close();
+
             }
             
         }
