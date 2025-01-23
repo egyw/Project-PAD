@@ -481,13 +481,26 @@ namespace POS
                     listView1.Columns[2].Width = 100;
                     addToTotal();
 
-                    take = true;
-                    dine = false;
-                    panel_order.Enabled = true;
-                    panel_order.Visible = true;
-                    label2.Text = "Take Away";
-                    panelPay.Enabled = true;
-                    panelPay.Visible = true;
+
+                    if (form.type == 1)
+                    {
+                        take = false;
+                        dine = true;
+                        panel_order.Enabled = true;
+                        panel_order.Visible = true;
+                        label2.Text = "Dine in";
+                        panelPay.Enabled = true;
+                        panelPay.Visible = true;
+                    }
+                    else {
+                        take = true;
+                        dine = false;
+                        panel_order.Enabled = true;
+                        panel_order.Visible = true;
+                        label2.Text = "Take Away";
+                        panelPay.Enabled = true;
+                        panelPay.Visible = true;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -501,7 +514,7 @@ namespace POS
                 if(form.method == 1)
                 {
                     statusLabel = label2.Text;
-                    FormPayment bayar = new FormPayment(listView1, orderid);
+                    FormPayment bayar = new FormPayment(listView1, orderid, idUser, statusLabel);
                     this.Hide();
                     bayar.ShowDialog();
                     this.Close();
@@ -713,7 +726,7 @@ namespace POS
             else
             {
                 statusLabel = label2.Text;
-                FormPayment bayar = new FormPayment(listView1, orderid);
+                FormPayment bayar = new FormPayment(listView1, orderid, idUser, statusLabel);
                 this.Hide();
                 bayar.ShowDialog();
                 this.Close();

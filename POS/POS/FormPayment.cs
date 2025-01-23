@@ -24,25 +24,164 @@ namespace POS
         double payCash = 0; 
         public static double grandTotal = 0;
         bool cekTransaction = false;
-        public FormPayment(ListView ls, int id)
+        public FormPayment(ListView ls, int id, int iduser, string type)
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.None;
             CopyListViewData(ls, listView1);
             if (id == 0)
             {
-                // ini kalau yang baru tinggal insert di database
+                try
+                {
+                    Connection.open();
+                    string query = "INSERT INTO orders (user_id, grand_total, order_status, customer_name, order_type) VALUES (@1,@2,@3,@4,@5)";
+                    MySqlCommand cmd = new MySqlCommand(query, Connection.conn);
+                    cmd.Parameters.AddWithValue("@1", iduser);
+                    string totalText = label8.Text.Replace("Rp.", "").Trim();
+                    decimal grand_total = decimal.Parse(totalText, System.Globalization.NumberStyles.Currency);
+                    cmd.Parameters.AddWithValue("@2", grand_total);
+                    cmd.Parameters.AddWithValue("@3", "pending");
+                    cmd.Parameters.AddWithValue("@4", "");
+                    string a = "";
+                    if (type == "Dine in")
+                    {
+                        a = "dine_in";
+                    }
+                    else
+                    {
+                        a = "take_away";
+                    }
+                    cmd.Parameters.AddWithValue("@5", a);
+
+                    MySqlDataAdapter data = new MySqlDataAdapter("SELECT order_id FROM orders ORDER BY order_id DESC", Connection.conn);
+
+                    DataTable orderby = new DataTable();
+                    data.Fill(orderby);
+                    int idnya = 0;
+                    foreach (DataRow row in orderby.Rows)
+                    {
+                        idnya = (int)row["order_id"];
+                        break;
+                    }
+
+                    string query2 = "INSERT INTO order_items (order_id, product_id, quantity, price, total) VALUES (@1,@2,@3,@4,@5)";
+
+                    foreach (ListViewItem item in listView1.Items)
+                    {
+                        MySqlCommand cmd2 = new MySqlCommand(query2, Connection.conn);
+                        cmd2.Parameters.AddWithValue("@1", idnya);
+                        cmd2.Parameters.AddWithValue("@2", GetProductId(item.Text));
+                        cmd2.Parameters.AddWithValue("@3", int.Parse(item.SubItems[1].Text));
+                        cmd2.Parameters.AddWithValue("@4", decimal.Parse(item.SubItems[2].Text.Replace(",", "")));
+                        cmd2.Parameters.AddWithValue("@5", decimal.Parse(item.SubItems[2].Text.Replace(",", "")) * int.Parse(item.SubItems[1].Text));
+
+                        cmd2.ExecuteNonQuery();
+                    }
+
+                    int rowIndex = listView1.Items.Count - 1;
+
+                    MySqlDataAdapter data2 = new MySqlDataAdapter("SELECT order_item_id FROM order_items ORDER BY order_item_id DESC", Connection.conn);
+
+                    DataTable orderby2 = new DataTable();
+                    data.Fill(orderby2);
+                    int idnya2 = 0;
+                    foreach (DataRow row in orderby.Rows)
+                    {
+                        idnya2 = (int)row["order_item_id"];
+                        break;
+                    }
+
+                    string query3 = "INSERT INTO order_item_modifiers (order_item_id, modifier_id, price) VALUES (@1,@2,@3)";
 
 
-                // 3 Field
-                //orders , order_item, order_item_modifier ini untuk id == 0
-                // berarti gka da pengecekan dia sudah bayar atau belum langsung
+                    foreach (ListViewItem item in listView1.Items)
+                    {
+                        if (!string.IsNullOrWhiteSpace(item.SubItems[3].Text))
+                        {
+                            string indexmodif = item.SubItems[4].Text;
+                            string[] pisah = indexmodif.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+                            int[] modifid = Array.ConvertAll(pisah, s => int.Parse(s.Trim()));
+
+                            for (int i = 0; i < modifid.Length; i++)
+                            {
+                                MySqlCommand cmd3 = new MySqlCommand(query3, Connection.conn);
+                                cmd3.Parameters.AddWithValue("@1", idnya2 - rowIndex);
+                                int idmod = modifid[i];
+                                cmd3.Parameters.AddWithValue("@2", idmod);
+                                cmd3.Parameters.AddWithValue("@3", GetModifprice(idmod));
+
+                                cmd3.ExecuteNonQuery();
+                            }
+                        }
+                        rowIndex--;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    Connection.close();
+                }
             }
             else
             {
                 orderId = id;
             }
          
+        }
+
+        public int GetProductId(string nama)
+        {
+            int product = 0;
+
+            try
+            {
+                string query = "SELECT product_id FROM products WHERE product_name = @1";
+                MySqlCommand cmd = new MySqlCommand(query, Connection.conn);
+                DataTable products = new DataTable();
+                cmd.Parameters.AddWithValue("@1", nama);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                foreach (DataRow row in products.Rows)
+                {
+                    product = (int)row["product_id"];
+                    break;
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            return product;
+        }
+
+        public decimal GetModifprice(int id)
+        {
+            decimal price = 0;
+
+            try
+            {
+                string query = "SELECT modifier_price FROM modifiers WHERE modifier_id = @1";
+                MySqlCommand cmd = new MySqlCommand(query, Connection.conn);
+                DataTable prices = new DataTable();
+                cmd.Parameters.AddWithValue("@1", id);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                foreach (DataRow row in prices.Rows)
+                {
+                    price = (decimal)row["modifier_price"];
+                    break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            return price;
         }
 
         private void CopyListViewData(ListView source, ListView target)
@@ -59,6 +198,7 @@ namespace POS
 
             target.View = View.Details;
             target.FullRowSelect = true;
+            addToTotal();
         }
 
         private void Payment_Load(object sender, EventArgs e)
@@ -66,7 +206,6 @@ namespace POS
             this.FormBorderStyle = FormBorderStyle.Sizable;
             this.WindowState = FormWindowState.Maximized;
             CenterPanel();
-            addToTotal();
             MessageBox.Show(grandTotal + " " + FormMain.statusLabel);
         }
 

@@ -18,6 +18,8 @@ namespace POS
         int selected = -1;
         public int orderid { get; private set; }
         public int method { get; private set; }
+        public int type { get; private set; }
+
         public FormOrders()
         {
             InitializeComponent();
@@ -179,6 +181,14 @@ namespace POS
         {
             timerAnimateRightPanel.Start();
             selected = (int)dataGridView1.Rows[e.RowIndex].Cells["order_id"].Value;
+            if (dataGridView1.Rows[e.RowIndex].Cells["order_type"].Value.ToString() == "dine_in")
+            {
+                type = 1;
+            }
+            else
+            {
+                type = 2;
+            }
             
         }
 
