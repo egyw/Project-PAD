@@ -167,44 +167,44 @@ INSERT INTO discounts (discount_code, DESCRIPTION, discount_percentage, start_da
 
 
 -- iki bikino ada modifier apa ae yg mungkin cth extra sauce, double meat, strawyberry icecream pokoe kabeh liaten ae di aw gofood apa ae yg mungkin
-INSERT INTO modifiers (modifier_name, modifier_price) VALUES
-('Golden Aroma', 0),
-('Spicy Aroma', 0),
-('Extra Cheese', 2000),
-('Extra Sauce', 2000),
-('Double Meat', 5000),
-('No Cheese', 0),
-('No Sauce', 0),
-('No Meat', 0),
-('No Vegetables', 0),
-('Extra Vegetable', 1000),
-('Large Size', 3000),
-('Small Size', 0), -- Burger
-('No Ice', 0),
-('Extra Ice', 1000),
-('No Float', 0),
-('Extra Float', 2000), 
-('Large Size', 2000), 
-('Small Size', 0), -- Minuman
-('Breast', 0),
-('Wing', 0),
-('Drumstick', 0),
-('Extra Rice', 1500), -- Ayam
-('Extra Strawberry Topping', 3000),
-('Extra Chocolate Topping', 3000),
-('No Topping', 0),
-('Large Size', 2000), 
-('Small Size', 1000), -- Ice Cream
-('Large Size', 2000), -- Soup
-('Small Size', 1000),
-('Extra Sauce', 1000), -- Snack
-('Golden Aroma', 0),
-('Spicy Aroma', 0),
-('Extra Rice', 1500),
-('Extra Egg', 2000),
-('Strawberry', 0),
-('Chocolate', 0),
-('Vanilla', 0); -- general
+insert  into `modifiers`(`modifier_id`,`modifier_name`,`modifier_price`) values 
+(1,'Golden Aroma',0.00),
+(2,'Spicy Aroma',0.00),
+(3,'Extra Cheese',2000.00),
+(4,'Extra Sauce',2000.00),
+(5,'Double Meat',5000.00),
+(6,'No Cheese',0.00),
+(7,'No Sauce',0.00),
+(8,'No Meat',0.00),
+(9,'No Vegetables',0.00),
+(10,'Extra Vegetable',1000.00),
+(11,'Large Size Food',3000.00),
+(12,'Small Size Food',0.00),
+(13,'No Ice',0.00),
+(14,'Extra Ice',1000.00),
+(15,'No Float',0.00),
+(16,'Extra Float',2000.00),
+(17,'Large Size Drink',2000.00),
+(18,'Small Size Drink',0.00),
+(19,'Breast',0.00),
+(20,'Wing',0.00),
+(21,'Drumstick',0.00),
+(22,'Extra Rice',1500.00),
+(23,'Extra Strawberry Topping',3000.00),
+(24,'Extra Chocolate Topping',3000.00),
+(25,'No Topping',0.00),
+(26,'Large Size Desserts',2000.00),
+(27,'Small Size Desserts',1000.00),
+(28,'Large Size ',2000.00),
+(29,'Small Size',1000.00),
+(30,'Extra Sauce',1000.00),
+(31,'Golden Aroma',0.00),
+(32,'Spicy Aroma',0.00),
+(33,'Extra Rice',1500.00),
+(34,'Extra Egg',2000.00),
+(35,'Strawberry',0.00),
+(36,'Chocolate',0.00),
+(37,'Vanilla',0.00);
  
 
 -- jadi iki liaten seng product iku di field paling akhir onok type e jadi misale burger, modifier e apa ae seng cocok cocokin ama yang modifiers e 
@@ -244,3 +244,5 @@ INSERT INTO product_type_modifiers (product_type, modifier_id) VALUES
 (5, 30); -- Extra Sauce
 
 
+INSERT INTO order_item_modifiers (order_item_id, modifier_id, price) VALUES
+(1,13,0.00)
