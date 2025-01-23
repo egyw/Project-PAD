@@ -597,6 +597,7 @@ namespace POS
 
                 cmd3.ExecuteNonQuery();
                 transaction.Commit();
+                this.Close();
             }
             catch(Exception ex)
             {
