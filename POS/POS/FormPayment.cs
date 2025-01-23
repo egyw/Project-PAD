@@ -23,14 +23,17 @@ namespace POS
         public static int orderId = 0;
         double payCash = 0; 
         public static double grandTotal = 0;
+        public static bool cekBayar = false;
         bool cekTransaction = false;
         public FormPayment(ListView ls, int id, int iduser, string type)
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.None;
             CopyListViewData(ls, listView1);
+            MessageBox.Show(id + " ");
             if (id == 0)
             {
+                orderId = 0;
                 Random rand = new Random();
                 string[] customers = {
                         "Taylor Swift",
@@ -114,7 +117,7 @@ namespace POS
                    
                     foreach (ListViewItem item in listView1.Items)
                     {
-                        if (!string.IsNullOrWhiteSpace(item.SubItems[4].Text))
+                        if (item.SubItems.Count > 4 && !string.IsNullOrWhiteSpace(item.SubItems[4].Text))
                         {
                             string indexmodif = item.SubItems[4].Text;
 
@@ -134,8 +137,8 @@ namespace POS
                         }
                         rowIndex--;
                     }
-                    MessageBox.Show("Finish");
-                    transaction.Commit();
+
+                   
                 }
                 catch (Exception ex)
                 {
@@ -230,7 +233,6 @@ namespace POS
             this.FormBorderStyle = FormBorderStyle.Sizable;
             this.WindowState = FormWindowState.Maximized;
             CenterPanel();
-            MessageBox.Show(grandTotal + " " + FormMain.statusLabel);
         }
 
         public void CenterPanel()
@@ -301,13 +303,21 @@ namespace POS
 
         public void totalPay()
         {
-           
-            double subT = double.Parse(label14.Text.Substring(4));
-            double allPay = double.Parse(label7.Text.Substring(4));
-            MessageBox.Show("Result : " + subT + " " + allPay);
-            double total = subT - allPay;
-            label8.Text = "Rp. " + total.ToString("N2", new System.Globalization.CultureInfo("id-ID"));
 
+            if (!cekBayar)
+            {
+                
+            }
+            else
+            {
+                double subT = double.Parse(label14.Text.Substring(4));
+                double allPay = double.Parse(label7.Text.Substring(4));
+                MessageBox.Show("Result : " + subT + " " + allPay);
+                double total = allPay - allPay;
+                label8.Text = "Rp. " + total.ToString("N2", new System.Globalization.CultureInfo("id-ID"));
+                cekBayar = true;
+            }
+            
         }
 
         private void buttonShopee_Click(object sender, EventArgs e)
@@ -319,6 +329,7 @@ namespace POS
             label11.Text = "E-Money";
             payCash = eMoney;
             label7.Text = "Rp. " + payCash.ToString("N0", new System.Globalization.CultureInfo("id-ID"));
+            totalPay();
         }
 
         private void buttonOvo_Click(object sender, EventArgs e)

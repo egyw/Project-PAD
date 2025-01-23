@@ -76,21 +76,19 @@ namespace POS
                 if (string.IsNullOrWhiteSpace(namaCustomer))
                 {
                     data = new MySqlDataAdapter(
-                    "SELECT o.order_id, o.order_date, o.grand_total, o.customer_name, u.firstName " +
+                    "SELECT o.order_id, o.order_date, o.grand_total, o.customer_name, u.firstName, o.order_type " +
                     "FROM orders o " +
-                    "JOIN payments p ON p.order_id = o.order_id " +
                     "JOIN users u ON o.user_id = u.user_id " +
-                    "WHERE p.payment_status = 'pending'", Connection.conn);
+                    "WHERE o.order_status = 'pending'", Connection.conn);
                     tableAllOrders = new DataTable();
                 }
                 else
                 {
                     data = new MySqlDataAdapter(
-                    "SELECT o.order_id, o.order_date, o.grand_total, o.customer_name, u.firstName " +
+                    "SELECT o.order_id, o.order_date, o.grand_total, o.customer_name, u.firstName, o.order_type" +
                     "FROM orders o " +
-                    "JOIN payments p ON p.order_id = o.order_id " +
                     "JOIN users u ON o.user_id = u.user_id " +
-                    "WHERE p.payment_status = 'pending' AND o.customer_name LIKE @name", Connection.conn);
+                    "WHERE o.order_status = 'pending' AND o.customer_name LIKE @name", Connection.conn);
                     data.SelectCommand.Parameters.AddWithValue("@name", namaCustomer + "%");
                     tableAllOrders = new DataTable();
                 }

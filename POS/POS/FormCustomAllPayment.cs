@@ -14,6 +14,8 @@ namespace POS
     public partial class FormCustomAllPayment : Form
     {
         public static bool cekTransaction = false;
+        string method = " ";
+        double totalSementara = 0;
         public FormCustomAllPayment()
         {
             InitializeComponent();
@@ -29,6 +31,7 @@ namespace POS
                 pictureBox1.Height = 180;
                 pictureBox1.Location = new Point(40, 0);
                 pictureBox1.Image = Properties.Resources.money;
+                method = "Cash Payment";
             }
             else if(FormPayment.imgCustom == "card")
             {
@@ -36,33 +39,52 @@ namespace POS
                 pictureBox1.Height = 190;
                 pictureBox1.Location = new Point(40, -20);
                 pictureBox1.Image = Properties.Resources.atm_card;
+                method = "BCA Card";
             }
             else
             {
+                double price = FormPayment.grandTotal;
                 button10.Visible = false;
                 if(FormPayment.otherPayment == "shopee")
                 {
                     pictureBox1.Image = Properties.Resources.Shopee;
                     pictureBox1.Location = new Point(40, pictureBox1.Location.Y);
+                    method = "ShopeePay";
+                    price = paymentDiscount(price);
+                    totalSementara = price;
+                    textBox1.Text = totalSementara.ToString();
                 }
                 else if(FormPayment.otherPayment == "ovo")
                 {
                     pictureBox1.Image = Properties.Resources.Ovo;
                     pictureBox1.Width = 165;
                     pictureBox1.Location = new Point(110,pictureBox1.Location.Y);
+                    method = "OVO";
+                    price = paymentDiscount(price);
+                    totalSementara = price;
+                    textBox1.Text = totalSementara.ToString();
                 }
                 else if (FormPayment.otherPayment == "dana")
                 {
                     pictureBox1.Image = Properties.Resources.Dana;
                     pictureBox1.Width = 165;
                     pictureBox1.Location = new Point(110, pictureBox1.Location.Y);
+                    method = "DANA";
+                    price = paymentDiscount(price);
+                    totalSementara = price;
+                    textBox1.Text = totalSementara.ToString();
                 }
                 else
                 {
                     pictureBox1.Image = Properties.Resources.Gopay;
                     pictureBox1.Width = 165;
                     pictureBox1.Location = new Point(110, pictureBox1.Location.Y);
+                    method = "GoPay";
+                    price = paymentDiscount(price);
+                    totalSementara = price;
+                    textBox1.Text = totalSementara.ToString();
                 }
+                cekLength();
                
             }
             button0.Click += button0_Click;
@@ -210,18 +232,21 @@ namespace POS
             {
                 int money = FormPayment.price;
                 double price = FormPayment.grandTotal;
-                int myMoney = int.Parse(textBox1.Text.ToString().Replace(".",""));
                 price = paymentDiscount(price);
+                totalSementara = price;
+                textBox1.Text = totalSementara.ToString();
+                int myMoney = int.Parse(textBox1.Text.ToString().Replace(".", ""));
                 //MessageBox.Show(price + " " + FormPayment.grandTotal + " " + money);
 
-                if((myMoney - price) < 0)
+                if ((myMoney - price) < 0)
                 {
                     MessageBox.Show("Pembayaran Kurang!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
+
                 payOrder();
-                double total = myMoney - price;
+                double total = myMoney;
                 if (cekTransaction)
                 {
                     FormPayment.eMoney = total;
@@ -307,14 +332,84 @@ namespace POS
             MySqlTransaction transaction = Connection.conn.BeginTransaction();
             try
             {
-                if()
-                MySqlCommand cmd = new MySqlCommand("UPDATE payments SET payment_status = 'Completed' " +
-                    "WHERE order_id = @1", Connection.conn, transaction);
-                cmd.Parameters.AddWithValue("@1", FormPayment.orderId);
-                cmd.ExecuteNonQuery();
+                if(FormPayment.orderId == 0)
+                {
+                    string query2 = "SELECT id from payment_details where NAME = @1";
+                    MySqlCommand cmd2 = new MySqlCommand(query2, Connection.conn, transaction);
+                    cmd2.Parameters.AddWithValue("@1", method);
+                    object result2 = cmd2.ExecuteScalar();
 
-                transaction.Commit();
-                cekTransaction = true;
+                    MySqlCommand getIdCmd = new MySqlCommand("SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1", Connection.conn, transaction);
+                    object result = getIdCmd.ExecuteScalar();
+                    string latestOrderId = result.ToString();
+                    if (result != null && result2 != null)
+                    {
+
+                        string query = "INSERT INTO payments (order_id, amount, payment_detail) VALUES (@1,@2,@3)";
+                        MySqlCommand cmd = new MySqlCommand(query, Connection.conn, transaction);
+                        cmd.Parameters.AddWithValue("@1", latestOrderId);
+                        cmd.Parameters.AddWithValue("@2", totalSementara);
+                        cmd.Parameters.AddWithValue("@3", result2.ToString());
+                        cmd.ExecuteNonQuery();
+
+                        string query3 = "Update orders SET order_status = @1 where order_id = @2";
+                        MySqlCommand cmd3 = new MySqlCommand(query3, Connection.conn, transaction);
+                        cmd3.Parameters.AddWithValue("@1", "completed");
+                        cmd3.Parameters.AddWithValue("@2", latestOrderId);
+                        cmd3.ExecuteNonQuery();
+                        FormPayment.cekBayar = true;
+                        transaction.Commit();
+                        cekTransaction = true;
+                    }
+                    else
+                    {
+                        string query3 = "Update orders SET order_status = @1 where order_id = @2";
+                        MySqlCommand cmd3 = new MySqlCommand(query3, Connection.conn, transaction);
+                        cmd3.Parameters.AddWithValue("@1", "cancelled");
+                        cmd3.Parameters.AddWithValue("@2", latestOrderId);
+                        cmd3.ExecuteNonQuery();
+                        transaction.Commit();
+                        cekTransaction = false;
+                    }
+                  
+                }
+                else{
+                    string query2 = "SELECT id from payment_details where NAME = @1";
+                    MySqlCommand cmd2 = new MySqlCommand(query2, Connection.conn, transaction);
+                    cmd2.Parameters.AddWithValue("@1", method);
+                    object result2 = cmd2.ExecuteScalar();
+                    if (result2 != null)
+                    {
+                        string query = "INSERT INTO payments (order_id, amount, payment_detail) VALUES (@1,@2,@3)";
+                        MySqlCommand cmd = new MySqlCommand(query, Connection.conn, transaction);
+                        cmd.Parameters.AddWithValue("@1", FormPayment.orderId);
+                        cmd.Parameters.AddWithValue("@2", totalSementara);
+                        cmd.Parameters.AddWithValue("@3", result2.ToString());
+                        cmd.ExecuteNonQuery();
+
+                        string query3 = "Update orders SET order_status = @1 where order_id = @2";
+                        MySqlCommand cmd3 = new MySqlCommand(query3, Connection.conn, transaction);
+                        cmd3.Parameters.AddWithValue("@1", "completed");
+                        cmd3.Parameters.AddWithValue("@2", FormPayment.orderId);
+                        cmd3.ExecuteNonQuery();
+
+                        FormPayment.cekBayar = true;
+                        transaction.Commit();
+                        cekTransaction = true;
+                    }
+                    else
+                    {
+                        string query3 = "Update orders SET order_status = @1 where order_id = @2";
+                        MySqlCommand cmd3 = new MySqlCommand(query3, Connection.conn, transaction);
+                        cmd3.Parameters.AddWithValue("@1", "completed");
+                        cmd3.Parameters.AddWithValue("@2", FormPayment.orderId);
+                        cmd3.ExecuteNonQuery();
+
+                        transaction.Commit();
+                        cekTransaction = false;
+                    }
+                    
+                }
             }
             catch (Exception ex)
             {
