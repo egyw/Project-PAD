@@ -135,6 +135,7 @@ namespace POS
                         rowIndex--;
                     }
                     MessageBox.Show("Finish");
+                    transaction.Commit();
                 }
                 catch (Exception ex)
                 {
