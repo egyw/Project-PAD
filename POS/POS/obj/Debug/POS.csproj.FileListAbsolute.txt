@@ -88,19 +88,7 @@ D:\Pelajaran\Semester 3\Project-PAD\POS\POS\bin\Debug\CrystalDecisions.ReportSou
 D:\Pelajaran\Semester 3\Project-PAD\POS\POS\bin\Debug\CrystalDecisions.Shared.dll
 D:\Pelajaran\Semester 3\Project-PAD\POS\POS\bin\Debug\CrystalDecisions.Windows.Forms.dll
 D:\Pelajaran\Semester 3\Project-PAD\POS\POS\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
-D:\Pelajaran\Semester 3\Project-PAD\POS\POS\bin\Debug\CrystalDecisions.ReportAppServer.DataDefModel.dll
-D:\Pelajaran\Semester 3\Project-PAD\POS\POS\bin\Debug\CrystalDecisions.ReportAppServer.ClientDoc.dll
-D:\Pelajaran\Semester 3\Project-PAD\POS\POS\bin\Debug\CrystalDecisions.ReportAppServer.ReportDefModel.dll
-D:\Pelajaran\Semester 3\Project-PAD\POS\POS\bin\Debug\CrystalDecisions.ReportAppServer.Controllers.dll
-D:\Pelajaran\Semester 3\Project-PAD\POS\POS\bin\Debug\CrystalDecisions.ReportAppServer.CommLayer.dll
 D:\Pelajaran\Semester 3\Project-PAD\POS\POS\bin\Debug\CrystalDecisions.ReportAppServer.DataSetConversion.dll
-D:\Pelajaran\Semester 3\Project-PAD\POS\POS\bin\Debug\CrystalDecisions.ReportAppServer.Prompting.dll
-D:\Pelajaran\Semester 3\Project-PAD\POS\POS\bin\Debug\CrystalDecisions.ReportAppServer.XmlSerialize.dll
-D:\Pelajaran\Semester 3\Project-PAD\POS\POS\bin\Debug\CrystalDecisions.ReportAppServer.CubeDefModel.dll
-D:\Pelajaran\Semester 3\Project-PAD\POS\POS\bin\Debug\CrystalDecisions.ReportAppServer.CommonObjectModel.dll
-D:\Pelajaran\Semester 3\Project-PAD\POS\POS\bin\Debug\CrystalDecisions.ReportAppServer.ObjectFactory.dll
-D:\Pelajaran\Semester 3\Project-PAD\POS\POS\bin\Debug\CrystalDecisions.ReportAppServer.CommonControls.dll
-D:\Pelajaran\Semester 3\Project-PAD\POS\POS\bin\Debug\stdole.dll
 D:\Pelajaran\Semester 3\Project-PAD\POS\POS\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 D:\Pelajaran\Semester 3\Project-PAD\POS\POS\obj\Debug\POS.csproj.AssemblyReference.cache
 D:\Pelajaran\Semester 3\Project-PAD\POS\POS\obj\Debug\POS.exe.config
@@ -133,7 +121,6 @@ C:\Users\Acer\Documents\GitHub\Proyek\Project-PAD\POS\POS\obj\Debug\POS.FormOrde
 C:\Users\lenovo\OneDrive\Documents\GitHub\Project-PAD\POS\POS\obj\Debug\POS.FormAdmin.resources
 C:\Users\lenovo\OneDrive\Documents\GitHub\Project-PAD\POS\POS\obj\Debug\POS.FormOrders.resources
 D:\Pelajaran\Semester 3\Project-PAD\POS\POS\obj\Debug\POS.FormAdmin.resources
-D:\Pelajaran\Semester 3\Project-PAD\POS\POS\obj\Debug\POS.FormAdminEgy.resources
 D:\Pelajaran\Semester 3\Project-PAD\POS\POS\obj\Debug\POS.FormOrders.resources
 C:\Users\lenovo\OneDrive\Documents\GitHub\Project-PAD\POS\POS\obj\Debug\POS.FormReport.resources
 C:\Users\lenovo\OneDrive\Documents\GitHub\Project-PAD\POS\POS\bin\Debug\log4net.dll
@@ -141,3 +128,6 @@ C:\Users\lenovo\OneDrive\Documents\GitHub\Project-PAD\POS\POS\bin\Debug\log4net.
 C:\Users\Acer\Documents\GitHub\Proyek\Project-PAD\POS\POS\bin\Debug\log4net.dll
 C:\Users\Acer\Documents\GitHub\Proyek\Project-PAD\POS\POS\bin\Debug\log4net.xml
 C:\Users\Acer\Documents\GitHub\Proyek\Project-PAD\POS\POS\obj\Debug\POS.FormReport.resources
+D:\Pelajaran\Semester 3\Project-PAD\POS\POS\bin\Debug\log4net.dll
+D:\Pelajaran\Semester 3\Project-PAD\POS\POS\bin\Debug\log4net.xml
+D:\Pelajaran\Semester 3\Project-PAD\POS\POS\obj\Debug\POS.FormReport.resources

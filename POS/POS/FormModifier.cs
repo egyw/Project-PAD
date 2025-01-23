@@ -46,6 +46,9 @@ namespace POS
             //pengecekan modifier yang mau di batasi
             menumodifierkhusus["Temperaturenya"] = new List<string> { "No Ice", "Less Ice", "Extra Ice" };
             menumodifierkhusus["Sizenya"] = new List<string> { "Small Size", "Regular Size", "Large Size" };
+            menumodifierkhusus["Sizenya2"] = new List<string> { "Small Size Food", "Regular Size Food", "Large Size Food" };
+            menumodifierkhusus["Sizenya3"] = new List<string> { "Small Size Drink", "Regular Size Drink", "Large Size Drink" };
+            menumodifierkhusus["Sizenya4"] = new List<string> { "Small Size Desserts", "Regular Size Desserts", "Large Size Desserts" };
             menumodifierkhusus["Sugarnya"] = new List<string> { "No Sugar", "Less Sugar", "Extra Sugar" };
             menumodifierkhusus["Floatnya"] = new List<string> { "No Float", "Less Float", "Extra Float" };
             menumodifierkhusus["Aromanya"] = new List<string> { "No Aroma", "Golden Aroma", "Spicy Aroma" };
