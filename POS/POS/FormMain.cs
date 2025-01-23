@@ -649,52 +649,9 @@ namespace POS
                 }
             }
             addToTotal();
-            addToDc();
         }
 
-        public void addToDc()
-        {
-
-            foreach (int row3 in listId) // ID produk
-            {
-                foreach (ListViewItem item in listView1.Items)
-                {
-                    // Ambil teks SubItems[4]
-                    string subItemText = item.SubItems[4].Text;
-
-                    // Cek apakah ID produk (row3) cocok dengan kolom tertentu, misalnya SubItems[0] (kolom ID)
-                    if (int.TryParse(item.SubItems[0].Text, out int itemId) && itemId == row3)
-                    {
-                        MessageBox.Show($"Row3: {row3}, SubItemText: {subItemText}");
-
-                        // Pecah teks berdasarkan koma
-                        string[] splitValues = subItemText.Split(',');
-
-                        foreach (string value in splitValues)
-                        {
-                            string cleanedText = value.Trim(); // Hapus spasi di sekitar nilai
-                            if (int.TryParse(cleanedText, out int subItemValue))
-                            {
-                                listAllId.Add((row3, subItemValue)); // Tambahkan pasangan (row3, nilai)
-                            }
-                            else
-                            {
-                                Console.WriteLine($"Invalid number: {cleanedText}");
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Menampilkan data dalam listAllId
-            foreach (var item in listAllId)
-            {
-                MessageBox.Show($"Item1: {item.Item1}, Item2: {item.Item2}");
-            }
-
-
-
-        }
+       
 
         public void addToTotal()
         {

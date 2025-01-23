@@ -31,17 +31,34 @@ namespace POS
             CopyListViewData(ls, listView1);
             if (id == 0)
             {
+                Random rand = new Random();
+                string[] customers = {
+                        "Taylor Swift",
+                        "Beyoncé",
+                        "BTS",
+                        "Adele",
+                        "Ed Sheeran",
+                        "Ariana Grande",
+                        "Drake",
+                        "Billie Eilish",
+                        "Blackpink",
+                        "Bruno Mars"
+                    };
+
+                string namaArtis = customers[rand.Next(customers.Length)];
+                Connection.open();
+                MySqlTransaction transaction = Connection.conn.BeginTransaction();
                 try
                 {
-                    Connection.open();
+                   
                     string query = "INSERT INTO orders (user_id, grand_total, order_status, customer_name, order_type) VALUES (@1,@2,@3,@4,@5)";
-                    MySqlCommand cmd = new MySqlCommand(query, Connection.conn);
+                    MySqlCommand cmd = new MySqlCommand(query, Connection.conn, transaction);
                     cmd.Parameters.AddWithValue("@1", iduser);
                     string totalText = label8.Text.Replace("Rp.", "").Trim();
                     decimal grand_total = decimal.Parse(totalText, System.Globalization.NumberStyles.Currency);
                     cmd.Parameters.AddWithValue("@2", grand_total);
                     cmd.Parameters.AddWithValue("@3", "pending");
-                    cmd.Parameters.AddWithValue("@4", "");
+                    cmd.Parameters.AddWithValue("@4", namaArtis);
                     string a = "";
                     if (type == "Dine in")
                     {
@@ -63,12 +80,13 @@ namespace POS
                         idnya = (int)row["order_id"];
                         break;
                     }
-
+                    
                     string query2 = "INSERT INTO order_items (order_id, product_id, quantity, price, total) VALUES (@1,@2,@3,@4,@5)";
 
                     foreach (ListViewItem item in listView1.Items)
                     {
-                        MySqlCommand cmd2 = new MySqlCommand(query2, Connection.conn);
+                        MySqlCommand cmd2 = new MySqlCommand(query2, Connection.conn, transaction);
+                        
                         cmd2.Parameters.AddWithValue("@1", idnya);
                         cmd2.Parameters.AddWithValue("@2", GetProductId(item.Text));
                         cmd2.Parameters.AddWithValue("@3", int.Parse(item.SubItems[1].Text));
@@ -79,13 +97,13 @@ namespace POS
                     }
 
                     int rowIndex = listView1.Items.Count - 1;
-
+                   
                     MySqlDataAdapter data2 = new MySqlDataAdapter("SELECT order_item_id FROM order_items ORDER BY order_item_id DESC", Connection.conn);
 
                     DataTable orderby2 = new DataTable();
-                    data.Fill(orderby2);
+                    data2.Fill(orderby2);
                     int idnya2 = 0;
-                    foreach (DataRow row in orderby.Rows)
+                    foreach (DataRow row in orderby2.Rows)
                     {
                         idnya2 = (int)row["order_item_id"];
                         break;
@@ -93,19 +111,20 @@ namespace POS
 
                     string query3 = "INSERT INTO order_item_modifiers (order_item_id, modifier_id, price) VALUES (@1,@2,@3)";
 
-
+                   
                     foreach (ListViewItem item in listView1.Items)
                     {
-                        if (!string.IsNullOrWhiteSpace(item.SubItems[3].Text))
+                        if (!string.IsNullOrWhiteSpace(item.SubItems[4].Text))
                         {
+
                             string indexmodif = item.SubItems[4].Text;
+
                             string[] pisah = indexmodif.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
                             int[] modifid = Array.ConvertAll(pisah, s => int.Parse(s.Trim()));
-
                             for (int i = 0; i < modifid.Length; i++)
                             {
-                                MySqlCommand cmd3 = new MySqlCommand(query3, Connection.conn);
+                                MySqlCommand cmd3 = new MySqlCommand(query3, Connection.conn, transaction);
                                 cmd3.Parameters.AddWithValue("@1", idnya2 - rowIndex);
                                 int idmod = modifid[i];
                                 cmd3.Parameters.AddWithValue("@2", idmod);
@@ -116,10 +135,11 @@ namespace POS
                         }
                         rowIndex--;
                     }
-
+                    MessageBox.Show("Finish");
                 }
                 catch (Exception ex)
                 {
+                    transaction.Rollback();
                     MessageBox.Show(ex.Message);
                 }
                 finally
@@ -145,11 +165,13 @@ namespace POS
                 DataTable products = new DataTable();
                 cmd.Parameters.AddWithValue("@1", nama);
                 MySqlDataReader reader = cmd.ExecuteReader();
+                products.Load(reader);
                 foreach (DataRow row in products.Rows)
                 {
                     product = (int)row["product_id"];
                     break;
                 }
+                reader.Close();
             }
             catch(Exception ex)
             {
@@ -170,11 +192,13 @@ namespace POS
                 DataTable prices = new DataTable();
                 cmd.Parameters.AddWithValue("@1", id);
                 MySqlDataReader reader = cmd.ExecuteReader();
+                prices.Load(reader);
                 foreach (DataRow row in prices.Rows)
                 {
                     price = (decimal)row["modifier_price"];
                     break;
                 }
+                reader.Close();
             }
             catch (Exception ex)
             {
