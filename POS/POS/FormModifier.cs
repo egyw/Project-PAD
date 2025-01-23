@@ -16,6 +16,7 @@ namespace POS
         private string currentProductName;
         private static Dictionary<string, List<string>> appliedModifiers = new Dictionary<string, List<string>>();
         public List<string> modif { get; set; }
+        public List<int> modifierId { get; set; }
         public List<decimal> modifprice { get; set; }
 
         public FormModifier(int id, string namamenu, string productType)

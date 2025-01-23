@@ -29,14 +29,20 @@ namespace POS
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.None;
             CopyListViewData(ls, listView1);
-            if (id == -1)
+            if (id == 0)
             {
                 // ini kalau yang baru tinggal insert di database
+
+
+                // 3 Field
+                //orders , order_item, order_item_modifier ini untuk id == 0
+                // berarti gka da pengecekan dia sudah bayar atau belum langsung
             }
             else
             {
                 orderId = id;
             }
+         
         }
 
         private void CopyListViewData(ListView source, ListView target)
@@ -61,6 +67,7 @@ namespace POS
             this.WindowState = FormWindowState.Maximized;
             CenterPanel();
             addToTotal();
+            MessageBox.Show(grandTotal + " " + FormMain.statusLabel);
         }
 
         public void CenterPanel()
@@ -126,6 +133,7 @@ namespace POS
             label14.Text = $"Rp.  {subtotal:N2}";
             label15.Text = $"Rp.  {tax:N2}";
             label8.Text = $"Rp.  {total:N2}";
+            grandTotal = total;
         }
 
         public void totalPay()
@@ -136,6 +144,7 @@ namespace POS
             MessageBox.Show("Result : " + subT + " " + allPay);
             double total = subT - allPay;
             label8.Text = "Rp. " + total.ToString("N2", new System.Globalization.CultureInfo("id-ID"));
+
         }
 
         private void buttonShopee_Click(object sender, EventArgs e)
@@ -193,7 +202,7 @@ namespace POS
             }
             else
             {
-
+                MessageBox.Show("Done You Have Full Your Card Entry!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -392,7 +401,6 @@ namespace POS
                 label7.Text = eMoney.ToString("N0", new System.Globalization.CultureInfo("id-ID"));
                 totalPay();
             }
-           
         }
     }
 }

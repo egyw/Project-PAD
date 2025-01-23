@@ -241,12 +241,13 @@ namespace POS
             {
                 FormPayment.entryCard = Int64.Parse(textBox1.Text);
                 double price = FormPayment.grandTotal;
-                if (textBox1.Text.Length < 16)
+                if (textBox1.Text.Length != 16)
                 {
                     MessageBox.Show("Card Entry Minimal 16 digit?", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
 
                 }
+
                 payOrder();
                 if (cekTransaction)
                 {
@@ -278,33 +279,6 @@ namespace POS
             CenterPanel();
         }
 
-        public void payOrder()
-        {
-            Connection.open();
-            MySqlTransaction transaction = Connection.conn.BeginTransaction();
-            try
-            {
-    
-                MySqlCommand cmd = new MySqlCommand("UPDATE payments SET payment_status = 'Completed' " +
-                    "WHERE order_id = @1",Connection.conn,transaction);
-                cmd.Parameters.AddWithValue("@1", FormPayment.orderId);
-                cmd.ExecuteNonQuery();
-
-                transaction.Commit();
-                cekTransaction = true;
-            }
-            catch(Exception ex)
-            {
-                transaction.Rollback();
-                cekTransaction = false;
-                Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                Connection.close();
-            }
-        }
-
         public double paymentDiscount(double price)
         {
             if (FormPayment.otherPayment == "shopee")
@@ -325,6 +299,112 @@ namespace POS
             }
             price = Math.Ceiling(price);
             return price;
+        }
+
+        public void insertToDatabase()
+        {
+            Connection.open();
+            MySqlTransaction transaction = Connection.conn.BeginTransaction();
+            try
+            {
+                MessageBox.Show(FormPayment.orderId + " ");
+                if(FormPayment.orderId == 0)
+                {
+                    // order 
+                    Random rand = new Random();
+                 
+                    string[] customers = {
+                        "Taylor Swift",
+                        "Beyoncé",
+                        "BTS",
+                        "Adele",
+                        "Ed Sheeran",
+                        "Ariana Grande",
+                        "Drake",
+                        "Billie Eilish",
+                        "Blackpink",
+                        "Bruno Mars"
+                    };
+                    string namaArtis = customers[rand.Next(customers.Length)];
+
+                    MySqlCommand cmd = new MySqlCommand("INSERT INTO orders (user_id, grand_total, order_status, customer_name, order_type) " +
+                    "VALUES (@user_id, @grand_total, @order_status, @customer_name, @order_type)", Connection.conn, transaction);
+                    cmd.Parameters.AddWithValue("@user_id", FormMain.idTransfer);
+                    cmd.Parameters.AddWithValue("@grand_total", FormPayment.grandTotal);
+                    cmd.Parameters.AddWithValue("@order_status", "completed");
+                    cmd.Parameters.AddWithValue("@customer_name", namaArtis);
+                    cmd.Parameters.AddWithValue("@order_type", FormMain.statusLabel);
+                    cmd.ExecuteNonQuery();
+
+                    // order_item
+                    MySqlCommand cmd2 = new MySqlCommand("INSERT INTO order_items (order_id, product_id, quantity, price, total) " +
+                    "VALUES (@1, @2, @3, @4, @5)", Connection.conn, transaction);
+                    cmd2.Parameters.AddWithValue("@1", cmd.LastInsertedId);
+                    cmd2.Parameters.AddWithValue("@2", 10.50);
+                    cmd2.Parameters.AddWithValue("@3", "completed");
+                    cmd2.Parameters.AddWithValue("@4", "Alice Brown");
+                    cmd2.Parameters.AddWithValue("@5", FormPayment.grandTotal);
+                    cmd2.ExecuteNonQuery();
+
+                    MySqlCommand cmd3 = new MySqlCommand("INSERT INTO order_item_modifiers (order_item_modifier_id, " +
+                        "order_item_id, modifier_id, quantity, price) " +
+                    "VALUES (@1, @grand_total, @order_status, @customer_name, @order_type)", Connection.conn, transaction);
+                    cmd3.Parameters.AddWithValue("@1", FormMain.idTransfer);
+                    cmd3.Parameters.AddWithValue("@2", cmd2.LastInsertedId);
+                    cmd3.Parameters.AddWithValue("@3", "completed");
+                    cmd3.Parameters.AddWithValue("@4", "1");
+                    cmd3.Parameters.AddWithValue("@5", FormPayment.grandTotal);
+                    cmd3.ExecuteNonQuery();
+
+                    transaction.Commit();
+                }
+                else
+                {
+                    MySqlCommand cmd = new MySqlCommand("UPDATE orders SET order_status = 'completed' " +
+                    "WHERE order_id = @1", Connection.conn, transaction);
+                    cmd.Parameters.AddWithValue("@1", FormPayment.orderId);
+                    cmd.ExecuteNonQuery();
+
+                    transaction.Commit();
+
+                }
+            }
+            catch(Exception ex)
+            {
+                transaction.Rollback();
+                MessageBox.Show("Error : " + ex.Message, "Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                Connection.close();
+            }
+        }
+
+        public void payOrder()
+        {
+            Connection.open();
+            MySqlTransaction transaction = Connection.conn.BeginTransaction();
+            try
+            {
+
+                MySqlCommand cmd = new MySqlCommand("UPDATE payments SET payment_status = 'Completed' " +
+                    "WHERE order_id = @1", Connection.conn, transaction);
+                cmd.Parameters.AddWithValue("@1", FormPayment.orderId);
+                cmd.ExecuteNonQuery();
+
+                transaction.Commit();
+                cekTransaction = true;
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                cekTransaction = false;
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                Connection.close();
+            }
         }
     }
 }

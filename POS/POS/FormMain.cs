@@ -22,7 +22,12 @@ namespace POS
         DataTable tableUser;
         public static bool isKeyboardActive = false;
         public static int idTransfer = 0;
-        int orderid = -1;
+        int orderid = 0;
+        public static List<int> listId = new List<int>();
+        public static List<int> modifierId = new List<int>();
+        public static List<(int, int)> listAllId = new List<(int, int)>();
+        public static string statusLabel = "";
+
         public FormMain(int id)
         {
             InitializeComponent();
@@ -69,6 +74,7 @@ namespace POS
             listView1.Columns.Add("Quantity", 80);
             listView1.Columns.Add("Price", 100);
             listView1.Columns.Add("Modifiers", 200);
+            listView1.Columns.Add("idModifier", 100);
             listView1.View = View.Details;
             listView1.Font = new Font(listView1.Font.FontFamily, 10, listView1.Font.Style);
 
@@ -247,6 +253,7 @@ namespace POS
                         }
                     }
                 }
+                
 
             }
             catch (Exception ex)
@@ -312,6 +319,11 @@ namespace POS
                 if (menu == row["product_name"].ToString())
                 {
                     harga = (decimal)row["price"];
+                    int productId = (int)row["product_id"];
+                    if (!listId.Contains(productId))
+                    {
+                        listId.Add(productId);
+                    }
                     break;
                 }
             }
@@ -488,11 +500,12 @@ namespace POS
 
                 if(form.method == 1)
                 {
+                    statusLabel = label2.Text;
                     FormPayment bayar = new FormPayment(listView1, orderid);
                     this.Hide();
                     bayar.ShowDialog();
                     this.Close();
-                    orderid = -1;
+                    orderid = 0;
                 }
 
             }
@@ -548,16 +561,47 @@ namespace POS
                     this.Hide();
                     if (customorder.ShowDialog() == DialogResult.OK)
                     {
+                        List<int> idModif = new List<int>();
                         List<string> modif = customorder.modif;
                         List<decimal> modifprice = customorder.modifprice;
+                        
+                        try
+                        {
+                            Connection.open();
+                            foreach(string row in modif){
+                                MySqlCommand cmd = new MySqlCommand("Select * from modifiers where modifier_name = @1", Connection.conn);
+                                cmd.Parameters.AddWithValue("@1", row);
+                                MySqlDataReader reader = cmd.ExecuteReader();
+                                DataTable dt10 = new DataTable();
+                                dt10.Load(reader);
+                                foreach (DataRow row2 in dt10.Rows)
+                                {
+                                    idModif.Add((int)row2["modifier_id"]);
+                                    modifierId.Add((int)row2["modifier_id"]);
+                                }
+
+                            }
+
+                        }
+                        catch(Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+                        finally
+                        {
+                            Connection.close();
+                        }
 
                         foreach (ListViewItem item in listView1.Items)
                         {
-                            if (item.Text == menuName)
+
+                            if (item.Text == menuName )
                             {
-                                if (item.SubItems.Count < 4)
+                                
+                                if (item.SubItems.Count < 5)
                                 {
                                     item.SubItems.Add(string.Join(", ", modif));
+                                    item.SubItems.Add(string.Join(", ", idModif));
                                 }
                                 else
                                 {
@@ -565,9 +609,16 @@ namespace POS
                                     List<string> combinedMods = new List<string>(existingMods.Split(',').Select(m => m.Trim()));
                                     combinedMods.AddRange(modif);
                                     item.SubItems[3].Text = string.Join(", ", combinedMods.Distinct());
+
+                                    string existingModsid = item.SubItems[4].Text;
+                                    List<int> combinedModsid = new List<int>(existingModsid.Split(',').Select(int.Parse));
+                                    combinedModsid.AddRange(idModif);
+                                    item.SubItems[4].Text = string.Join(", ", combinedModsid.Distinct());
                                 }
 
-                                decimal basePrice = decimal.Parse(item.SubItems[2].Text.Replace(",", ""));
+
+
+                                decimal basePrice = decimal.Parse(item.SubItems[2].Text.Replace(",", "")) / 100;
                                 decimal modifTotalPrice = modifprice.Sum();
                                 modifTotalPrice = modifTotalPrice / 100;
                                 decimal newTotalPrice = basePrice + modifTotalPrice;
@@ -585,9 +636,52 @@ namespace POS
                 }
             }
             addToTotal();
+            addToDc();
         }
 
+        public void addToDc()
+        {
 
+            foreach (int row3 in listId) // ID produk
+            {
+                foreach (ListViewItem item in listView1.Items)
+                {
+                    // Ambil teks SubItems[4]
+                    string subItemText = item.SubItems[4].Text;
+
+                    // Cek apakah ID produk (row3) cocok dengan kolom tertentu, misalnya SubItems[0] (kolom ID)
+                    if (int.TryParse(item.SubItems[0].Text, out int itemId) && itemId == row3)
+                    {
+                        MessageBox.Show($"Row3: {row3}, SubItemText: {subItemText}");
+
+                        // Pecah teks berdasarkan koma
+                        string[] splitValues = subItemText.Split(',');
+
+                        foreach (string value in splitValues)
+                        {
+                            string cleanedText = value.Trim(); // Hapus spasi di sekitar nilai
+                            if (int.TryParse(cleanedText, out int subItemValue))
+                            {
+                                listAllId.Add((row3, subItemValue)); // Tambahkan pasangan (row3, nilai)
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Invalid number: {cleanedText}");
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Menampilkan data dalam listAllId
+            foreach (var item in listAllId)
+            {
+                MessageBox.Show($"Item1: {item.Item1}, Item2: {item.Item2}");
+            }
+
+
+
+        }
 
         public void addToTotal()
         {
@@ -611,17 +705,19 @@ namespace POS
 
         private void buttonPay_Click(object sender, EventArgs e)
         {
+   
             if (listView1.Items.Count == 0)
             {
                 MessageBox.Show("Add Extra Menu!");
             }
             else
             {
+                statusLabel = label2.Text;
                 FormPayment bayar = new FormPayment(listView1, orderid);
                 this.Hide();
                 bayar.ShowDialog();
                 this.Close();
-                orderid = -1;
+                orderid = 0;
             }
         }
 

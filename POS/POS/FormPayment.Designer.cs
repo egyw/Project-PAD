@@ -58,6 +58,8 @@ namespace POS
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.buttonCashCustom = new System.Windows.Forms.Button();
             this.panel_order = new System.Windows.Forms.Panel();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
             this.listView1 = new System.Windows.Forms.ListView();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -68,8 +70,6 @@ namespace POS
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panelButtonCash.SuspendLayout();
@@ -455,6 +455,26 @@ namespace POS
             this.panel_order.Size = new System.Drawing.Size(506, 975);
             this.panel_order.TabIndex = 4;
             // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(317, 720);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(44, 24);
+            this.label15.TabIndex = 22;
+            this.label15.Text = "Rp. ";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(45, 720);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(42, 24);
+            this.label16.TabIndex = 21;
+            this.label16.Text = "Tax";
+            // 
             // listView1
             // 
             this.listView1.BackColor = System.Drawing.SystemColors.Menu;
@@ -558,26 +578,6 @@ namespace POS
             this.label13.Size = new System.Drawing.Size(137, 36);
             this.label13.TabIndex = 3;
             this.label13.Text = "Payment";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(317, 720);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(44, 24);
-            this.label15.TabIndex = 22;
-            this.label15.Text = "Rp. ";
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(45, 720);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(42, 24);
-            this.label16.TabIndex = 21;
-            this.label16.Text = "Tax";
             // 
             // FormPayment
             // 
