@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
 
 namespace POS
 {
@@ -342,7 +336,8 @@ namespace POS
                     MySqlCommand getIdCmd = new MySqlCommand("SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1", Connection.conn, transaction);
                     object result = getIdCmd.ExecuteScalar();
                     string latestOrderId = result.ToString();
-                    if (result != null && result2 != null)
+                    MessageBox.Show("" + latestOrderId);
+                    if (result != null)
                     {
 
                         string query = "INSERT INTO payments (order_id, amount, payment_detail) VALUES (@1,@2,@3)";

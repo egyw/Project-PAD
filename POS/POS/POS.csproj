@@ -208,6 +208,18 @@
       <DependentUpon>FormPayment.cs</DependentUpon>
     </Compile>
     <Compile Include="Keyboard.cs" />
+    <Compile Include="laporanharian.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>laporanharian.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="laporanproduk.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>laporanproduk.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="productpalingdisukai.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -257,6 +269,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormPayment.resx">
       <DependentUpon>FormPayment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="laporanharian.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>laporanharian.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="laporanproduk.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>laporanproduk.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="productpalingdisukai.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

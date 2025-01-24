@@ -21,6 +21,7 @@ namespace POS
         public static double eMoney = 0;
         public static long entryCard = 0;
         public static int orderId = 0;
+        public static int orderId2 = 0;
         double payCash = 0; 
         public static double grandTotal = 0;
         public static bool cekBayar = false;
@@ -58,7 +59,7 @@ namespace POS
                     MySqlCommand cmd = new MySqlCommand(query, Connection.conn, transaction);
                     cmd.Parameters.AddWithValue("@1", iduser);
                     string totalText = label8.Text.Replace("Rp.", "").Trim();
-                    decimal grand_total = decimal.Parse(totalText, System.Globalization.NumberStyles.Currency);
+                    decimal grand_total = decimal.Parse(totalText, System.Globalization.NumberStyles.Currency)/100;
                     cmd.Parameters.AddWithValue("@2", grand_total);
                     cmd.Parameters.AddWithValue("@3", "pending");
                     cmd.Parameters.AddWithValue("@4", namaArtis);
@@ -84,7 +85,7 @@ namespace POS
                         break;
                     }
 
-                    orderId = idnya;
+                    orderId2 = idnya;
 
                     string query2 = "INSERT INTO order_items (order_id, product_id, quantity, price, total) VALUES (@1,@2,@3,@4,@5)";
 
@@ -95,8 +96,8 @@ namespace POS
                         cmd2.Parameters.AddWithValue("@1", idnya);
                         cmd2.Parameters.AddWithValue("@2", GetProductId(item.Text));
                         cmd2.Parameters.AddWithValue("@3", int.Parse(item.SubItems[1].Text));
-                        cmd2.Parameters.AddWithValue("@4", decimal.Parse(item.SubItems[2].Text.Replace(",", "")));
-                        cmd2.Parameters.AddWithValue("@5", decimal.Parse(item.SubItems[2].Text.Replace(",", "")) * int.Parse(item.SubItems[1].Text));
+                        cmd2.Parameters.AddWithValue("@4", decimal.Parse(item.SubItems[2].Text.Replace(",", ""))/100);
+                        cmd2.Parameters.AddWithValue("@5", decimal.Parse(item.SubItems[2].Text.Replace(",", "")) * int.Parse(item.SubItems[1].Text)/100);
 
                         cmd2.ExecuteNonQuery();
                     }
@@ -319,12 +320,10 @@ namespace POS
                 label8.Text = "Rp. " + total.ToString("N2", new System.Globalization.CultureInfo("id-ID"));
                 cekBayar = true;
 
-                FormReport report = new FormReport(orderId);
-                report.Show();
-                this.Close();
-
             }
-            
+            FormReport report = new FormReport(orderId2);
+            report.Show();
+
         }
 
         private void buttonShopee_Click(object sender, EventArgs e)
